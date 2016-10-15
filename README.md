@@ -1,7 +1,7 @@
 SteganographyKit2
 =================
 
-It's a second version of [SteganagraphyKit](https://github.com/picamator/SteganographyKit) application.
+It's a second version of [SteganographyKit](https://github.com/picamator/SteganographyKit) application.
 
 What's new
 ----------
@@ -10,14 +10,14 @@ What's new
 3. Separation API and SPI
 4. Split integration and unit tests
 5. Support PHP 7.0
-6. Backward compatibility to decode images
-7. Adapters v1.x to v2.x
-8. Detailed documentation with more examples and diagrams
-9. Improving modularity
+6. Detailed documentation with more examples and diagrams
+7. Improving modularity
+8. Backward compatibility to decode images
+9. Adapters v1.x to v2.x
 
 What's stay
 ----------
-1. Algorithms pure and secret key steganography
+1. Algorithms: pure and secret key steganography
 2. Scientific approach for implementation
 3. License type
 
