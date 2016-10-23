@@ -10,10 +10,11 @@ What's new
 3. Separation API and SPI
 4. Split integration and unit tests
 5. Support PHP 7.0
-6. Detailed documentation with more examples and diagrams
-7. Improving modularity
-8. Backward compatibility to decode images
+6. Documentation: examples, diagrams, wiki pages
+7. Improving modularity: DI, algorithms in separate repositories
+8. Backward compatibility for decoding stegoTexts
 9. Adapters v1.x to v2.x
+10. Development environment: Docker
 
 What's stay
 ----------
@@ -23,9 +24,19 @@ What's stay
 
 What're the goals
 ------------------
-1. Make possible to easy integrate to moder frameworks
-2. Make possible in future to split steganography algorithms to separate repositories
-3. Make possible to easy build new algorithms
+1. Make possible to easy integrate to modern frameworks
+2. Create API for easy implementation new algorithms
+3. Easy quick start by understandable documentation
+
+Repository per algorithm
+------------------------
+Why it's so important keep each steganography algorithm in different repository:
+
+1. Possibility to set php modules or 3-rd party dependency per algorithm
+2. Client code SHOULD depend only on algorithm that it's using
+3. It helps keep clear API
+4. It makes easy to avoid tight coupling between algorithms
+5. I helps separate contributing per algorithms
 
 Contribution
 ------------
