@@ -1,0 +1,42 @@
+{
+    "name": "picamator/steganographykit2",
+    "description": "Second generation of Steganography Kit",
+    "keywords": ["steganography", "cryptography"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sergii Pryz",
+            "email": "picamator@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/picamator/SteganographyKit2/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "Picamator\\SteganographyKit2\\": "src/"
+        },
+       	"exclude-from-classmap": [
+            "/dev/tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Picamator\\SteganographyKit2\\Tests\\Unit\\": "dev/tests/unit/src",
+            "Picamator\\SteganographyKit2\\Tests\\Integration\\": "dev/tests/integration/src",
+            "Picamator\\SteganographyKit2\\Tests\\Migration\\": "dev/tests/migration/src"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "~7.0",
+        "ext-gd": "*",
+        "ext-zip": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7",
+        "phpdocumentor/phpdocumentor": "~2.0",
+        "satooshi/php-coveralls": "~1.0",
+        "sensiolabs/security-checker": "~4.0"
+   }
+}

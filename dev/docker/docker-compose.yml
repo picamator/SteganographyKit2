@@ -1,0 +1,12 @@
+version: '2'
+services:
+  stego2-php:
+    build:
+        context : ../..
+        dockerfile: dev/docker/php/Dockerfile
+        args:
+          - host_ip
+    volumes:
+      - ../../:/SteganographyKit2
+    ports:
+       - "2232:22"

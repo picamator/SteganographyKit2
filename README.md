@@ -1,7 +1,22 @@
 SteganographyKit2
 =================
 
-It's a second version of [SteganographyKit](https://github.com/picamator/SteganographyKit) application.
+[![PHP 7 ready](http://php7ready.timesplinter.ch/picamator/SteganographyKit2/dev/badge.svg)](https://travis-ci.org/picamator/SteganographyKit2)
+[![Latest Stable Version](https://poser.pugx.org/picamator/steganographykit2/v/stable.svg)](https://packagist.org/packages/picamator/steganographykit2)
+[![License](https://poser.pugx.org/picamator/steganographykit2/license.svg)](https://packagist.org/packages/picamator/steganographykit2)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9325b5d8-dd55-42a8-9d38-ef5f745ad3e8/mini.png)](https://insight.sensiolabs.com/projects/9325b5d8-dd55-42a8-9d38-ef5f745ad3e8)
+
+Master
+------
+[![Build Status](https://travis-ci.org/picamator/SteganographyKit2.svg?branch=master)](https://travis-ci.org/picamator/SteganographyKit2)
+[![Coverage Status](https://coveralls.io/repos/github/picamator/SteganographyKit2/badge.svg?branch=master)](https://coveralls.io/github/picamator/SteganographyKit2?branch=master)
+
+Dev
+---
+[![Build Status](https://travis-ci.org/picamator/SteganographyKit2.svg?branch=dev)](https://travis-ci.org/picamator/SteganographyKit2)
+[![Coverage Status](https://coveralls.io/repos/github/picamator/SteganographyKit2/badge.svg?branch=dev)](https://coveralls.io/github/picamator/SteganographyKit2?branch=dev)
+
+It's the second generation of [Steganography Kit](https://github.com/picamator/SteganographyKit).
 
 What's new
 ----------
@@ -13,30 +28,33 @@ What's new
 6. Documentation: examples, diagrams, wiki pages
 7. Improving modularity: DI, algorithms in separate repositories
 8. Backward compatibility for decoding stegoTexts
-9. Adapters v1.x to v2.x
-10. Development environment: Docker
+9. Development environment: Docker
+10. Changed License from BSD-3-Clause License to MIT
 
 What's stay
-----------
+-----------
 1. Algorithms: pure and secret key steganography
-2. Scientific approach for implementation
-3. License type
+2. All algorithms are based on published articles
+3. Detailed documentation
 
 What're the goals
 ------------------
-1. Make possible to easy integrate to modern frameworks
+1. Make possible easy integrate to modern frameworks
 2. Create API for easy implementation new algorithms
-3. Easy quick start by understandable documentation
+3. Easy quick start by clear documentation
+4. Popularize using hidden watermark instead of visible one for picture protection
 
-Repository per algorithm
-------------------------
-Why it's so important keep each steganography algorithm in different repository:
+Documentation
+-------------
+* UML class diagram: [class.diagram.png](doc/uml/class.diagram.png)
+* Generated documentation: [phpdoc](doc/phpdoc), please build it following [instruction](dev/phpdoc)
 
-1. Possibility to set php modules or 3-rd party dependency per algorithm
-2. Client code SHOULD depend only on algorithm that it's using
-3. It helps keep clear API
-4. It makes easy to avoid tight coupling between algorithms
-5. I helps separate contributing per algorithms
+Developing
+----------
+To configure developing environment please:
+
+1. Follow [Docker installation steps](dev/docker/README.md)
+2. Run inside Docker container `composer install`
 
 Contribution
 ------------
@@ -49,4 +67,4 @@ By participating in this project and its community you agree to abide by those t
 
 License
 -------
-CacheManager is licensed under the BSD-3-Clause License. Please see the [LICENSE](LICENSE.txt) file for details.
+SteganographyKit2 is licensed under the MIT License. Please see the [LICENSE](LICENSE.txt) file for details.
