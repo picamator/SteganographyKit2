@@ -17,14 +17,14 @@
             "Picamator\\SteganographyKit2\\": "src/"
         },
        	"exclude-from-classmap": [
-            "/dev/tests/"
+            "/tests/"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Picamator\\SteganographyKit2\\Tests\\Unit\\": "dev/tests/unit/src",
-            "Picamator\\SteganographyKit2\\Tests\\Integration\\": "dev/tests/integration/src",
-            "Picamator\\SteganographyKit2\\Tests\\Migration\\": "dev/tests/migration/src"
+            "Picamator\\SteganographyKit2\\Tests\\Unit\\": "tests/unit/src",
+            "Picamator\\SteganographyKit2\\Tests\\Integration\\": "tests/integration/src",
+            "Picamator\\SteganographyKit2\\Tests\\Migration\\": "tests/migration/src"
         }
     },
     "minimum-stability": "stable",
