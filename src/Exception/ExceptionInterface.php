@@ -6,5 +6,4 @@ namespace Picamator\SteganographyKit2\Exception;
  */
 interface ExceptionInterface
 {
-
 }
