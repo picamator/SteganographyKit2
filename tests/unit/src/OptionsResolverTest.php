@@ -169,6 +169,21 @@ class OptionsResolverTest extends BaseTest
             ->resolve([$optionName => $optionValue]);
     }
 
+    public function testResolve()
+    {
+        $expected = 1;
+
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver->setDefined('testOption')
+            ->resolve(['testOption' => $expected]);
+
+        // double resolve
+        $optionsResolver->resolve();
+
+        $actual = $optionsResolver->getValue('testOption');
+        $this->assertEquals($expected, $actual);
+    }
+
     public function providerSetAllowedType()
     {
         return [
@@ -196,6 +211,7 @@ class OptionsResolverTest extends BaseTest
             ['nullOption', 'null', 'null'],
             ['objectOption', [], 'object'],
             ['objectDataType', new \stdClass(), '\DateTime'],
+            ['stringOption', 10, 'unknown'],
         ];
     }
 }
