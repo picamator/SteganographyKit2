@@ -2,6 +2,7 @@
 namespace Picamator\SteganographyKit2\Primitive;
 
 use Picamator\SteganographyKit2\Primitive\Api\ByteFactoryInterface;
+use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
 
 /**
