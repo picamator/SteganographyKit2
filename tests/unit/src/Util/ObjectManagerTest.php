@@ -1,7 +1,8 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Unit;
+namespace Picamator\SteganographyKit2\Tests\Unit\Util;
 
-use Picamator\SteganographyKit2\ObjectManager;
+use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
+use Picamator\SteganographyKit2\Util\ObjectManager;
 
 class ObjectManagerTest extends BaseTest
 {

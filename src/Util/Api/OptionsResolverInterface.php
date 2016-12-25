@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Api;
+namespace Picamator\SteganographyKit2\Util\Api;
 
 use Picamator\SteganographyKit2\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Exception\LogicException;

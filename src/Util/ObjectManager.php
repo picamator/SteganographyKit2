@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2;
+namespace Picamator\SteganographyKit2\Util;
 
-use Picamator\SteganographyKit2\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
 use Picamator\SteganographyKit2\Exception\RuntimeException;
 
 /**
