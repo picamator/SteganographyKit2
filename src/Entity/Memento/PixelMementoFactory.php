@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2\Primitive;
+namespace Picamator\SteganographyKit2\Entity\Memento;
 
-use Picamator\SteganographyKit2\Primitive\Api\ByteFactoryInterface;
-use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
+use Picamator\SteganographyKit2\Entity\Api\Memento\PixelMementoFactoryInterface;
+use Picamator\SteganographyKit2\Entity\Api\Memento\PixelMementoInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
 
 /**
- * Create Byte object
+ * Pixel memento
  *
  * @codeCoverageIgnore
  */
-class ByteFactory implements ByteFactoryInterface
+class PixelMementoFactory implements PixelMementoFactoryInterface
 {
     /**
      * @var ObjectManagerInterface
@@ -30,7 +30,7 @@ class ByteFactory implements ByteFactoryInterface
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        $className = 'Picamator\SteganographyKit2\Primitive\Data\Byte'
+        $className = 'Picamator\SteganographyKit2\Entity\Memento\PixelMemento'
     ) {
         $this->objectManager = $objectManager;
         $this->className = $className;
@@ -39,7 +39,7 @@ class ByteFactory implements ByteFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(array $data) : ByteInterface
+    public function create(array $data) : PixelMementoInterface
     {
         return $this->objectManager->create($this->className, [$data]);
     }

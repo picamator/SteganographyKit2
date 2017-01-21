@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Picamator\SteganographyKit2\Image\Data;
 
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
@@ -26,6 +28,11 @@ class Color implements ColorInterface
      * @var ByteInterface
      */
     private $alpha;
+
+    /**
+     * @var string
+     */
+    private $colorString;
 
     /**
      * @param OptionsResolverInterface $optionsResolver
@@ -87,5 +94,17 @@ class Color implements ColorInterface
     public function getAlpha() : ByteInterface
     {
        return $this->alpha;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toString(): string
+    {
+        if (is_null($this->colorString)) {
+            $this->colorString = $this->red->getInt() . $this->green->getInt() . $this->blue->getInt() . $this->alpha->getInt();
+        }
+
+        return $this->colorString;
     }
 }

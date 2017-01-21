@@ -1,8 +1,6 @@
 <?php
 namespace Picamator\SteganographyKit2\Entity\Api\Memento;
 
-use Picamator\SteganographyKit2\Exception\InvalidArgumentException;
-
 /**
  * Pixel care taker
  */
@@ -14,8 +12,6 @@ interface PixelCareTakerInterface
      * @param PixelMementoInterface $memento
      *
      * @return PixelCareTakerInterface
-     *
-     * @throws InvalidArgumentException on attempt trying change bit twice
      */
     public function add(PixelMementoInterface $memento) : PixelCareTakerInterface;
 

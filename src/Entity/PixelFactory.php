@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Picamator\SteganographyKit2\Entity;
 
 use Picamator\SteganographyKit2\Entity\Api\PixelFactoryInterface;

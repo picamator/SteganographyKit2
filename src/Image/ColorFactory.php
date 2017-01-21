@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Picamator\SteganographyKit2\Image;
 
 use Picamator\SteganographyKit2\Image\Api\ColorFactoryInterface;

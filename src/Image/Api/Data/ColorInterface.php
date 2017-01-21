@@ -35,4 +35,11 @@ interface ColorInterface
      * @return ByteInterface
      */
     public function getAlpha() : ByteInterface;
+
+    /**
+     * To string
+     *
+     * @return string
+     */
+    public function toString() : string;
 }
