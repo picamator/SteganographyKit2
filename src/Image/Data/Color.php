@@ -32,7 +32,12 @@ class Color implements ColorInterface
     /**
      * @var string
      */
-    private $colorString;
+    private $exportToString;
+
+    /**
+     * @var array
+     */
+    private $exportToArray;
 
     /**
      * @param OptionsResolverInterface $optionsResolver
@@ -101,10 +106,27 @@ class Color implements ColorInterface
      */
     public function toString(): string
     {
-        if (is_null($this->colorString)) {
-            $this->colorString = $this->red->getInt() . $this->green->getInt() . $this->blue->getInt() . $this->alpha->getInt();
+        if (is_null($this->exportToString)) {
+            $this->exportToString = $this->red->getInt() . $this->green->getInt() . $this->blue->getInt() . $this->alpha->getInt();
         }
 
-        return $this->colorString;
+        return $this->exportToString;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        if (is_null($this->exportToArray)) {
+            $this->exportToArray = [
+                $this->red->getInt(),
+                $this->green->getInt(),
+                $this->blue->getInt(),
+                $this->alpha->getInt(),
+            ];
+        }
+
+        return $this->exportToArray;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Entity;
+namespace Picamator\SteganographyKit2\Entity\Api;
 
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
@@ -7,7 +7,7 @@ use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
 /**
  * Pixel entity
  */
-interface PixelInterface
+interface PixelInterface extends \IteratorAggregate
 {
     /**
      * Gets id
@@ -40,4 +40,11 @@ interface PixelInterface
      * @return PixelInterface
      */
     public function setColor(ColorInterface $color);
+
+    /**
+     * Has pixel changed
+     *
+     * @return bool true if pixel was changed or false otherwise
+     */
+    public function hasChanged() : bool;
 }

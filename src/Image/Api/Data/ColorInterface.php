@@ -42,4 +42,11 @@ interface ColorInterface
      * @return string
      */
     public function toString() : string;
+
+    /**
+     * To array
+     *
+     * @return array
+     */
+    public function toArray() : array;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Entity;
 
 use Picamator\SteganographyKit2\Entity\Api\PixelFactoryInterface;
+use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
 
 /**

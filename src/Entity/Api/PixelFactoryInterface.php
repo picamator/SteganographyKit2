@@ -1,8 +1,6 @@
 <?php
 namespace Picamator\SteganographyKit2\Entity\Api;
 
-use Picamator\SteganographyKit2\Entity\PixelInterface;
-
 /**
  * Create Pixel entity
  */
@@ -13,7 +11,7 @@ interface PixelFactoryInterface
      *
      * @param array $data
      *
-     * @return mixed
+     * @return PixelInterface
      *
      * @throws \Picamator\SteganographyKit2\Exception\InvalidArgumentException
      * @throws \Picamator\SteganographyKit2\Exception\LogicException

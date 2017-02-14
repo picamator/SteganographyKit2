@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Entity;
 
+use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
 use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
@@ -28,6 +29,11 @@ class Pixel implements PixelInterface
      * @var ColorInterface
      */
     private $color;
+
+    /**
+     * @var bool
+     */
+    private $changed = false;
 
     /**
      * @param OptionsResolverInterface $optionsResolver
@@ -83,6 +89,27 @@ class Pixel implements PixelInterface
      */
     public function setColor(ColorInterface $color)
     {
+        if ($color->toString() !== $this->color->toString()) {
+            $this->changed = true;
+        }
+
         $this->color = $color;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasChanged(): bool
+    {
+        return $this->changed;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIterator()
+    {
+        // TODO: Implement getIterator() method.
+        return;
     }
 }
