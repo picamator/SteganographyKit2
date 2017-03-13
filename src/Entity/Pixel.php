@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Entity;
 
+use Picamator\SteganographyKit2\Entity\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
@@ -10,8 +11,6 @@ use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Pixel entity
- *
- * @codeCoverageIgnore
  */
 class Pixel implements PixelInterface
 {
@@ -31,9 +30,19 @@ class Pixel implements PixelInterface
     private $color;
 
     /**
+     * @var IteratorFactoryInterface
+     */
+    private $iteratorFactory;
+
+    /**
      * @var bool
      */
     private $changed = false;
+
+    /**
+     * @var \Iterator
+     */
+    private $iterator;
 
     /**
      * @param OptionsResolverInterface $optionsResolver
@@ -50,10 +59,15 @@ class Pixel implements PixelInterface
             ->setDefault('color', null)
             ->setAllowedType('color', 'Picamator\SteganographyKit2\Image\Api\Data\ColorInterface')
 
+            ->setDefined('iteratorFactory')
+            ->setRequired('iteratorFactory')
+            ->setAllowedType('iteratorFactory', 'Picamator\SteganographyKit2\Entity\Api\Iterator\IteratorFactoryInterface')
+
             ->resolve($options);
 
         $this->point = $optionsResolver->getValue('point');
         $this->color = $optionsResolver->getValue('color');
+        $this->iteratorFactory = $optionsResolver->getValue('iteratorFactory');
     }
 
     /**
@@ -70,6 +84,8 @@ class Pixel implements PixelInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getPoint() : PointInterface
     {
@@ -78,6 +94,8 @@ class Pixel implements PixelInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getColor()
     {
@@ -109,7 +127,10 @@ class Pixel implements PixelInterface
      */
     public function getIterator()
     {
-        // TODO: Implement getIterator() method.
-        return;
+        if (is_null($this->iterator)) {
+            $this->iterator = $this->iteratorFactory->create($this);
+        }
+
+        return $this->iterator;
     }
 }

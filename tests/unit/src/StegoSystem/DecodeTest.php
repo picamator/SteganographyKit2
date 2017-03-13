@@ -3,8 +3,8 @@ namespace Picamator\SteganographyKit2\Tests\Unit\StegoSystem;
 
 use Picamator\SteganographyKit2\StegoSystem\Decode;
 use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
-use Picamator\SteganographyKit2\Tests\Unit\Helper\Entity\PixelHelper;
-use Picamator\SteganographyKit2\Tests\Unit\Helper\RecursiveIteratorHelper;
+use Picamator\SteganographyKit2\Tests\Helper\Entity\PixelHelper;
+use Picamator\SteganographyKit2\Tests\Helper\RecursiveIteratorHelper;
 
 class DecodeTest extends BaseTest
 {

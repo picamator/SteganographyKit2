@@ -43,14 +43,13 @@ class Byte implements ByteInterface
             ->resolve($options);
     }
 
-
     /**
      * @inheritDoc
      */
     public function getBinary() : string
     {
         if (is_null($this->binaryByte)) {
-            $this->binaryByte = sprintf('%08d', $this->getInt());
+            $this->binaryByte = sprintf('%08d', $this->optionsResolver->getValue('byte'));
         }
 
         return $this->binaryByte;
@@ -62,7 +61,7 @@ class Byte implements ByteInterface
     public function getInt() : int
     {
         if (is_null($this->intByte)) {
-            $this->intByte = decbin($this->optionsResolver->getValue('byte'));
+            $this->intByte = bindec($this->optionsResolver->getValue('byte'));
         }
 
         return $this->intByte;

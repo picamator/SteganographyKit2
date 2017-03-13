@@ -1,19 +1,19 @@
 <?php
 namespace Picamator\SteganographyKit2\Image\Api;
 
+use Picamator\SteganographyKit2\Exception\RuntimeException;
+
+/**
+ * Export Image
+ */
 interface ExportInterface
 {
     /**
-     * Gets status
+     * Export
      *
-     * @return bool true for successful export, false otherwise
-     */
-    public function getStatus() : bool;
-
-    /**
-     * Gets data
+     * @return string base64encode or path etc
      *
-     * @return string
+     * @throws RuntimeException
      */
-    public function getData() : string;
+    public function export() : string;
 }

@@ -1,11 +1,12 @@
 <?php
 namespace Picamator\SteganographyKit2\Image\Api;
 
-use Picamator\SteganographyKit2\Entity\PixelInterface;
+use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Image\Api\Data\ExportInterface;
 
 /**
- * Repository
+ * Image Repository
  */
 interface RepositoryInterface
 {
@@ -19,11 +20,4 @@ interface RepositoryInterface
      * @throws RuntimeException
      */
     public function update(PixelInterface $pixel);
-
-    /**
-     * Export
-     *
-     * @return ExportInterface
-     */
-    public function export() : ExportInterface;
 }

@@ -20,19 +20,27 @@ class ColorFactory implements ColorFactoryInterface
     private $objectManager;
 
     /**
+     * @var OptionsResolverInterface
+     */
+    private $optionsResolver;
+
+    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
+     * @param OptionsResolverInterface $optionsResolver
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
+        OptionsResolverInterface $optionsResolver,
         $className = 'Picamator\SteganographyKit2\Image\Data\Color'
     ) {
         $this->objectManager = $objectManager;
+        $this->optionsResolver = $optionsResolver;
         $this->className = $className;
     }
 
@@ -41,6 +49,6 @@ class ColorFactory implements ColorFactoryInterface
      */
     public function create(array $data) : ColorInterface
     {
-        return $this->objectManager->create($this->className, [$data]);
+        return $this->objectManager->create($this->className, [$this->optionsResolver, $data]);
     }
 }

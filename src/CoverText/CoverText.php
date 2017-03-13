@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\CoverText;
 
-use Picamator\SteganographyKit2\Image\Api\Data\ImageInterface;
+use Picamator\SteganographyKit2\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\CoverText\Api\CoverTextInterface;
 
 /**
@@ -24,14 +24,11 @@ class CoverText implements CoverTextInterface
     private $image;
 
     /**
-     * @param \Iterator $iterator
      * @param ImageInterface $image
      */
-    public function __construct(
-        \Iterator $iterator,
-        ImageInterface $image
-    ) {
-       $this->iterator = $iterator;
+    public function __construct(ImageInterface $image)
+    {
+       $this->iterator = $image->getIterator();
        $this->image = $image;
     }
 

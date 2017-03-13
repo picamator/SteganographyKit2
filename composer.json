@@ -1,8 +1,8 @@
 {
     "name": "picamator/steganographykit2",
     "description": "Second generation of Steganography Kit",
-    "keywords": ["steganography", "cryptography"],
-    "license": "BSD-3-Clause",
+    "keywords": ["steganography", "cryptography", "kit"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Sergii Pryz",
@@ -22,9 +22,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Picamator\\SteganographyKit2\\Tests\\Unit\\": "tests/unit/src",
-            "Picamator\\SteganographyKit2\\Tests\\Integration\\": "tests/integration/src",
-            "Picamator\\SteganographyKit2\\Tests\\Migration\\": "tests/migration/src"
+          "Picamator\\SteganographyKit2\\Tests\\Helper\\": "tests/helper/src",
+          "Picamator\\SteganographyKit2\\Tests\\Unit\\": "tests/unit/src",
+          "Picamator\\SteganographyKit2\\Tests\\Integration\\": "tests/integration/src",
+          "Picamator\\SteganographyKit2\\Tests\\Migration\\": "tests/migration/src"
         }
     },
     "minimum-stability": "stable",

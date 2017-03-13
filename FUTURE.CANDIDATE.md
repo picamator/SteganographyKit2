@@ -9,3 +9,4 @@ Id  | Summary                                                   | Description
 3   | Make class doc-block more detailed                        | What does class represent? What is a responsibility?
 4   | Name composer packages                                    | E.g. steganographykit2-kernel, -lsp-text, -lsp-text-random, -lsp-image, -lsp-image-random
 5   | Minify steganographykit2 composer name to sgkit2          | Or s14t2
+6   | Create stream wrapper to simplify encode, decode          | For instance file_get_contents(sgkit2-lsp-encode://path-to-stego-image/image.png)

@@ -6,6 +6,7 @@ namespace Picamator\SteganographyKit2\Primitive;
 use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
 use Picamator\SteganographyKit2\Primitive\Api\PointFactoryInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Point object
@@ -26,13 +27,16 @@ class PointFactory implements PointFactoryInterface
 
     /**
      * @param ObjectManagerInterface $objectManager
+     * @param OptionsResolverInterface $optionsResolver
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        $className = 'Picamator\SteganographyKit2\Primitive\Data\Point'
+        OptionsResolverInterface $optionsResolver,
+        string $className = 'Picamator\SteganographyKit2\Primitive\Data\Point'
     ) {
         $this->objectManager = $objectManager;
+        $this->optionsResolver = $optionsResolver;
         $this->className = $className;
     }
 
@@ -41,6 +45,6 @@ class PointFactory implements PointFactoryInterface
      */
     public function create(array $data) : PointInterface
     {
-        return $this->objectManager->create($this->className, [$data]);
+        return $this->objectManager->create($this->className, [$this->optionsResolver, $data]);
     }
 }

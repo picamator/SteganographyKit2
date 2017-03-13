@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Unit\Helper\Entity;
+namespace Picamator\SteganographyKit2\Tests\Helper\Entity;
 
 use PHPUnit\Framework\TestCase;
 

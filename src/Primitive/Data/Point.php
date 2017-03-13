@@ -33,6 +33,7 @@ class Point implements PointInterface
             ->setDefined('x')
             ->setRequired('x')
             ->setAllowedType('x', 'int')
+
             ->setDefined('y')
             ->setRequired('y')
             ->setAllowedType('y', 'int')

@@ -3,8 +3,8 @@ namespace Picamator\SteganographyKit2\Tests\Unit\StegoSystem;
 
 use Picamator\SteganographyKit2\StegoSystem\Encode;
 use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
-use Picamator\SteganographyKit2\Tests\Unit\Helper\Entity\PixelHelper;
-use Picamator\SteganographyKit2\Tests\Unit\Helper\RecursiveIteratorHelper;
+use Picamator\SteganographyKit2\Tests\Helper\Entity\PixelHelper;
+use Picamator\SteganographyKit2\Tests\Helper\RecursiveIteratorHelper;
 
 class EncodeTest extends BaseTest
 {
@@ -49,7 +49,7 @@ class EncodeTest extends BaseTest
     private $secretTextMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Image\Api\Data\ImageInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Image\Api\ImageInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $imageMock;
 
@@ -76,7 +76,7 @@ class EncodeTest extends BaseTest
         $this->secretTextMock = $this->getMockBuilder('Picamator\SteganographyKit2\SecretText\Api\SecretTextInterface')
             ->getMock();
 
-        $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Image\Api\Data\ImageInterface')
+        $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Image\Api\ImageInterface')
             ->getMock();
 
         $this->encode = new Encode($this->encodeBitMock,  $this->colorFactoryMock, $this->stegoTextFactoryMock);

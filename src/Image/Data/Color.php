@@ -7,6 +7,11 @@ use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
+/**
+ * Color value object
+ *
+ * @codeCoverageIgnore
+ */
 class Color implements ColorInterface
 {
     /**

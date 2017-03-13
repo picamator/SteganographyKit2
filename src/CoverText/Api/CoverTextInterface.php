@@ -1,7 +1,7 @@
 <?php
 namespace Picamator\SteganographyKit2\CoverText\Api;
 
-use Picamator\SteganographyKit2\Image\Api\Data\ImageInterface;
+use Picamator\SteganographyKit2\Image\Api\ImageInterface;
 
 /**
  * CoverText is an image witch serves as a container for SecretText
