@@ -124,4 +124,22 @@ class StegoSystemTest extends BaseTest
         $stegoSystem->detach('b', $observerBMock)
             ->notify('b');
     }
+
+    public function testNullNotify()
+    {
+        // stego system mock
+        $stegoSystemMock = $this->getMockBuilder('Picamator\SteganographyKit2\StegoSystem\StegoSystem')
+            ->setConstructorArgs([$this->encodeMock, $this->decodeMock])
+            ->setMethods(['getObserverList', 'update'])
+            ->getMock();
+
+        // never
+        $stegoSystemMock->expects($this->never())
+            ->method('getObserverList');
+
+        $stegoSystemMock->expects($this->never())
+            ->method('update');
+        
+        $stegoSystemMock->notify('a');
+    }
 }

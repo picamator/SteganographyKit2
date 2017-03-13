@@ -5,7 +5,7 @@ use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
 
 class AbstractResourceTest extends BaseTest
 {
-    public function testExport()
+    public function testGetResource()
     {
         $filePath = 'test';
 
@@ -20,12 +20,13 @@ class AbstractResourceTest extends BaseTest
             ->willReturn(true);
 
         $resourceMock->getResource();
+        $resourceMock->getResource(); // double run to test cache
     }
 
     /**
      * @expectedException \Picamator\SteganographyKit2\Exception\RuntimeException
      */
-    public function testFailExport()
+    public function testFailGetResource()
     {
         $filePath = 'test';
 
@@ -40,6 +41,5 @@ class AbstractResourceTest extends BaseTest
             ->willReturn(false);
 
         $resourceMock->getResource();
-        $resourceMock->getResource(); // double run to test cache
     }
 }

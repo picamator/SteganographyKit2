@@ -66,7 +66,7 @@ abstract class AbstractResource implements ResourceInterface
         $resource = $this->getImage($this->path);
         if ($resource === false) {
             throw new RuntimeException(
-                sprintf('Cannot create image for path "%s".', $this->path)
+                sprintf('Cannot create image for path "%s"', $this->path)
             );
         }
 

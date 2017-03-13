@@ -156,5 +156,6 @@ class SerialIteratorTest extends BaseTest
             $i ++;
         }
         $this->assertEquals($size, $i);
+        $this->assertEquals($size, $serialIterator->key());
     }
 }

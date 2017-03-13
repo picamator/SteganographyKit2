@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Image\Resource;
 
-use Picamator\SteganographyKit2\Exception\RuntimeException;
-use Picamator\SteganographyKit2\Image\Api\ResourceInterface;
-
 /**
  * Resource image implementation for different image types
  *

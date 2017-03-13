@@ -6,6 +6,7 @@ namespace Picamator\SteganographyKit2\Image;
 use Picamator\SteganographyKit2\Image\Api\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Color object

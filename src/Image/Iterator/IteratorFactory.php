@@ -6,6 +6,7 @@ namespace Picamator\SteganographyKit2\Image\Iterator;
 use Picamator\SteganographyKit2\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Image\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Iterator object
