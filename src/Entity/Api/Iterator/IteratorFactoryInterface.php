@@ -13,7 +13,7 @@ interface IteratorFactoryInterface
      *
      * @param PixelInterface $pixel
      *
-     * @return \Iterator
+     * @return \RecursiveIterator
      *
      * @throws \Picamator\SteganographyKit2\Exception\InvalidArgumentException
      * @throws \Picamator\SteganographyKit2\Exception\LogicException

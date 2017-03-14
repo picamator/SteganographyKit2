@@ -7,7 +7,6 @@ use Picamator\SteganographyKit2\Entity\Api\Iterator\SerialIteratorInterface;
 use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
-use RecursiveIterator;
 
 /**
  * Serial iterator

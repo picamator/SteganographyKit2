@@ -27,7 +27,7 @@ class PixelTest extends BaseTest
     private $iteratorFactoryMock;
 
     /**
-     * @var \Iterator | \PHPUnit_Framework_MockObject_MockObject
+     * @var \RecursiveIterator | \PHPUnit_Framework_MockObject_MockObject
      */
     private $iteratorMock;
 
@@ -44,7 +44,7 @@ class PixelTest extends BaseTest
         $this->iteratorFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Entity\Api\Iterator\IteratorFactoryInterface')
             ->getMock();
 
-        $this->iteratorMock = $this->getMockBuilder('Iterator')
+        $this->iteratorMock = $this->getMockBuilder('RecursiveIterator')
             ->getMock();
 
         $this->pixel = new Pixel($this->pointMock, $this->colorMock, $this->iteratorFactoryMock);
