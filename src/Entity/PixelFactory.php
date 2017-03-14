@@ -6,8 +6,9 @@ namespace Picamator\SteganographyKit2\Entity;
 use Picamator\SteganographyKit2\Entity\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Entity\Api\PixelFactoryInterface;
 use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
+use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
+use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Pixel object
@@ -22,11 +23,6 @@ class PixelFactory implements PixelFactoryInterface
     private $objectManager;
 
     /**
-     * @var OptionsResolverInterface
-     */
-    private $optionsResolver;
-
-    /**
      * @var IteratorFactoryInterface
      */
     private $iteratorFactory;
@@ -38,18 +34,15 @@ class PixelFactory implements PixelFactoryInterface
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param OptionsResolverInterface $optionsResolver
      * @param IteratorFactoryInterface $iteratorFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        OptionsResolverInterface $optionsResolver,
         IteratorFactoryInterface $iteratorFactory,
         string $className = 'Picamator\SteganographyKit2\Entity\Pixel'
     ) {
         $this->objectManager = $objectManager;
-        $this->optionsResolver = $optionsResolver;
         $this->iteratorFactory = $iteratorFactory;
         $this->className = $className;
     }
@@ -57,10 +50,14 @@ class PixelFactory implements PixelFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(array $data) : PixelInterface
-    {
-        $data['iteratorFactory'] = $data['iteratorFactory'] ?? $this->iteratorFactory;
+    public function create(
+        PointInterface $point,
+        ColorInterface $color,
+        IteratorFactoryInterface $iteratorFactory = null
+    ) : PixelInterface {
 
-        return $this->objectManager->create($this->className, [$this->optionsResolver, $data]);
+        $iteratorFactory = $iteratorFactory ?? $this->iteratorFactory;
+
+        return $this->objectManager->create($this->className, [$point, $color, $iteratorFactory]);
     }
 }

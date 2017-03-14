@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Primitive\Data;
 
 use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Point value object
+ *
+ * Use factory for building objects to avoid using constructor argument wrong order
  *
  * @codeCoverageIgnore
  */
@@ -24,23 +25,13 @@ class Point implements PointInterface
     private $y;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param array $options
+     * @param int $x
+     * @param int $y
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
+    public function __construct(int $x, int $y)
     {
-        $optionsResolver
-            ->setDefined('x')
-            ->setRequired('x')
-            ->setAllowedType('x', 'int')
-
-            ->setDefined('y')
-            ->setRequired('y')
-            ->setAllowedType('y', 'int')
-            ->resolve($options);
-
-        $this->x = $optionsResolver->getValue('x');
-        $this->y = $optionsResolver->getValue('y');
+        $this->x = $x;
+        $this->y = $y;
     }
 
     /**

@@ -7,7 +7,6 @@ use Picamator\SteganographyKit2\Entity\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Pixel entity
@@ -45,29 +44,18 @@ class Pixel implements PixelInterface
     private $iterator;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param array $options
+     * @param PointInterface $point
+     * @param ColorInterface $color
+     * @param IteratorFactoryInterface $iteratorFactory
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
-    {
-        $optionsResolver
-            ->setDefined('point')
-            ->setRequired('point')
-            ->setAllowedType('point', 'Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface')
-
-            ->setDefined('color')
-            ->setDefault('color', null)
-            ->setAllowedType('color', 'Picamator\SteganographyKit2\Image\Api\Data\ColorInterface')
-
-            ->setDefined('iteratorFactory')
-            ->setRequired('iteratorFactory')
-            ->setAllowedType('iteratorFactory', 'Picamator\SteganographyKit2\Entity\Api\Iterator\IteratorFactoryInterface')
-
-            ->resolve($options);
-
-        $this->point = $optionsResolver->getValue('point');
-        $this->color = $optionsResolver->getValue('color');
-        $this->iteratorFactory = $optionsResolver->getValue('iteratorFactory');
+    public function __construct(
+        PointInterface $point,
+        ColorInterface $color,
+        IteratorFactoryInterface $iteratorFactory
+    ) {
+        $this->point = $point;
+        $this->color = $color;
+        $this->iteratorFactory = $iteratorFactory;
     }
 
     /**

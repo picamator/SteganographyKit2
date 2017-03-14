@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Entity\Iterator;
 
 use Picamator\SteganographyKit2\Entity\Api\Iterator\SerialIteratorInterface;
+use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
+use RecursiveIterator;
 
 /**
  * Serial iterator
@@ -31,20 +32,12 @@ class SerialIterator implements SerialIteratorInterface
     private $index = 0;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param array $options
+     * @param PixelInterface $pixel
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
+    public function __construct(PixelInterface $pixel)
     {
-        $optionsResolver
-            ->setDefined('pixel')
-            ->setRequired('pixel')
-            ->setAllowedType('pixel', 'Picamator\SteganographyKit2\Entity\Api\PixelInterface')
-
-            ->resolve($options);
-
         // some algorithm might need pixel not only a color for iteration
-        $this->color = $optionsResolver->getValue('pixel')->getColor();
+        $this->color = $pixel->getColor();
     }
 
     /**
@@ -89,5 +82,21 @@ class SerialIterator implements SerialIteratorInterface
     public function rewind()
     {
         $this->index = 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasChildren()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getChildren()
+    {
+        return;
     }
 }

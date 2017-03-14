@@ -148,7 +148,12 @@ class SerialIteratorTest extends BaseTest
             ->method('create')
             ->willReturn($this->pixelMock);
 
-        $serialIterator = new SerialIterator($this->optionsResolverMock, $this->options);
+        $serialIterator = new SerialIterator(
+            $this->imageMock,
+            $this->colorIndexMock,
+            $this->pointFactoryMock,
+            $this->pixelFactoryMock
+        );
 
         $i = 0;
         foreach ($serialIterator as $item) {

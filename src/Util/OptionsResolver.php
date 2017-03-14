@@ -31,34 +31,38 @@ class OptionsResolver implements OptionsResolverInterface
     /**
      * @var array
      */
+    private $defaultList;
+
+    /**
+     * @var array
+     */
+    private $requiredList;
+
+    /**
+     * @var array
+     */
+    private $definedList;
+
+    /**
+     * @var array
+     */
+    private $allowedList;
+
+    /**
+     * @var array
+     */
     private $resolvedList;
 
-    /**
-     * @var array
-     */
-    private $defaultList = [];
-
-    /**
-     * @var array
-     */
-    private $requiredList = [];
-
-    /**
-     * @var array
-     */
-    private $definedList = [];
-
-    /**
-     * @var array
-     */
-    private $allowedList = [];
+    public function __construct()
+    {
+        $this->clean();
+    }
 
     /**
      * {@inheritdoc}
      */
     public function setDefault(string $optionName, $value) : OptionsResolverInterface
     {
-        $this->hasResolved();
         $this->defaultList[$optionName] = $value;
 
         return $this;
@@ -69,7 +73,6 @@ class OptionsResolver implements OptionsResolverInterface
      */
     public function setRequired(string $optionName) : OptionsResolverInterface
     {
-        $this->hasResolved();
         $this->requiredList[] = $optionName;
 
         return $this;
@@ -80,7 +83,6 @@ class OptionsResolver implements OptionsResolverInterface
      */
     public function setDefined(string $optionName)
     {
-        $this->hasResolved();
         $this->definedList[] = $optionName;
 
         return $this;
@@ -91,7 +93,6 @@ class OptionsResolver implements OptionsResolverInterface
      */
     public function setAllowedType(string $optionName, string $allowedType) : OptionsResolverInterface
     {
-        $this->hasResolved();
         $this->allowedList[$optionName] = $allowedType;
 
         return $this;
@@ -102,10 +103,6 @@ class OptionsResolver implements OptionsResolverInterface
      */
     public function resolve(array $options = []) : array
     {
-        if (!is_null($this->resolvedList)) {
-            return $this->resolvedList;
-        }
-
         $optionsKeyList = array_keys($options);
 
         // defined
@@ -130,38 +127,14 @@ class OptionsResolver implements OptionsResolverInterface
             $options[$item] = $this->defaultList[$item];
         }
 
-        // simple type
-        $simpleType = array_filter($this->allowedList, function($item) {
-           return  strpos($item, '\\') === false;
-        });
-        foreach ($simpleType as $key => $value) {
-            if (!array_key_exists($value, self::$dataType)) {
-                throw new InvalidArgumentException(
-                    sprintf('Unsupported option type "%s"', $value)
-                );
-            }
-
-            if (!call_user_func(self::$dataType[$value], $options[$key])) {
-                throw new InvalidArgumentException(
-                    sprintf('Invalid option value. It\'s supposed to be "%s".', $value)
-                );
-            }
-        }
-
-        // complex type
-        $complexType = array_diff_assoc($this->allowedList, $simpleType);
-        foreach ($complexType as $key => $value) {
-            if (!is_a($options[$key], $value)) {
-                throw new InvalidArgumentException(
-                    sprintf('Invalid option value. It\'s supposed to be "%s".', $value)
-                );
-            }
-        }
-
         // resolve
-        $this->resolvedList = $options;
+        $this->resolveSimpleType($options);
+        $this->resolveComplexType($options);
 
-        return $this->resolvedList;
+        // clean after
+        $this->clean();
+
+        return $this->resolvedList = $options;
     }
 
     /**
@@ -169,7 +142,7 @@ class OptionsResolver implements OptionsResolverInterface
      */
     public function getValue(string $optionName)
     {
-        if (is_null($this->resolvedList)) {
+        if (empty($this->resolvedList)) {
             throw new LogicException('Option has not been resolved yet');
         }
 
@@ -183,16 +156,63 @@ class OptionsResolver implements OptionsResolverInterface
     }
 
     /**
-     * Has resolved
+     * Resolve simple type
      *
-     * @return void
+     * @param array $options
      *
-     * @throws LogicException
+     * @throws InvalidArgumentException
      */
-    private function hasResolved()
+    private function resolveSimpleType(array $options)
     {
-        if (!is_null($this->resolvedList)) {
-            throw new LogicException('Cannot modify resolved option');
+        $simpleType = array_filter($this->allowedList, function($item) {
+            return  strpos($item, '\\') === false;
+        });
+
+        foreach ($simpleType as $key => $value) {
+            if (!array_key_exists($value, self::$dataType)) {
+                throw new InvalidArgumentException(
+                    sprintf('Unsupported option type "%s"', $value)
+                );
+            }
+
+            if (!call_user_func(self::$dataType[$value], $options[$key])) {
+                throw new InvalidArgumentException(
+                    sprintf('Invalid option value. It\'s supposed to be "%s".', $value)
+                );
+            }
         }
+    }
+
+    /**
+     * Resolve complex type
+     *
+     * @param array $options
+     *
+     * @throws InvalidArgumentException
+     */
+    private function resolveComplexType(array $options)
+    {
+        $complexType = array_filter($this->allowedList, function($item) {
+            return  strpos($item, '\\') !== false;
+        });
+
+        foreach ($complexType as $key => $value) {
+            if (!is_a($options[$key], $value)) {
+                throw new InvalidArgumentException(
+                    sprintf('Invalid option value. It\'s supposed to be "%s".', $value)
+                );
+            }
+        }
+    }
+
+    /**
+     * Clean
+     */
+    private function clean()
+    {
+       $this->defaultList = [];
+       $this->requiredList = [];
+       $this->definedList = [];
+       $this->allowedList = [];
     }
 }

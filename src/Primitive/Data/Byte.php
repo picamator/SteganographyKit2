@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Primitive\Data;
 
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Byte value object
@@ -14,9 +13,9 @@ use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 class Byte implements ByteInterface
 {
     /**
-     * @var OptionsResolverInterface
+     * @var string
      */
-    private $optionsResolver;
+    private $byte;
 
     /**
      * @var string
@@ -29,18 +28,11 @@ class Byte implements ByteInterface
     private $intByte;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param array $options
+     * @param string $byte
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
+    public function __construct(string $byte)
     {
-        $this->optionsResolver = $optionsResolver;
-
-        $this->optionsResolver
-            ->setDefined('byte')
-            ->setRequired('byte')
-            ->setAllowedType('byte', 'string')
-            ->resolve($options);
+        $this->byte = $byte;
     }
 
     /**
@@ -49,7 +41,7 @@ class Byte implements ByteInterface
     public function getBinary() : string
     {
         if (is_null($this->binaryByte)) {
-            $this->binaryByte = sprintf('%08d', $this->optionsResolver->getValue('byte'));
+            $this->binaryByte = sprintf('%08d',  $this->byte);
         }
 
         return $this->binaryByte;
@@ -61,7 +53,7 @@ class Byte implements ByteInterface
     public function getInt() : int
     {
         if (is_null($this->intByte)) {
-            $this->intByte = bindec($this->optionsResolver->getValue('byte'));
+            $this->intByte = bindec($this->byte);
         }
 
         return $this->intByte;

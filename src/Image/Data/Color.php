@@ -5,10 +5,11 @@ namespace Picamator\SteganographyKit2\Image\Data;
 
 use Picamator\SteganographyKit2\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Color value object
+ *
+ * Use factory for building objects to avoid using constructor argument wrong order
  *
  * @codeCoverageIgnore
  */
@@ -45,33 +46,22 @@ class Color implements ColorInterface
     private $exportToArray;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param array $options
+     * @param ByteInterface $red
+     * @param ByteInterface $green
+     * @param ByteInterface $blue
+     * @param ByteInterface $alpha
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
-    {
-        $optionsResolver
-            ->setDefined('red')
-            ->setRequired('red')
-            ->setAllowedType('red', 'Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface')
+    public function __construct(
+        ByteInterface $red,
+        ByteInterface $green,
+        ByteInterface $blue,
+        ByteInterface $alpha
+    ) {
 
-            ->setDefined('green')
-            ->setRequired('green')
-            ->setAllowedType('green', 'Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface')
-
-            ->setDefined('blue')
-            ->setRequired('blue')
-            ->setAllowedType('blue', 'Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface')
-
-            ->setDefined('alpha')
-            ->setRequired('alpha')
-            ->setAllowedType('alpha', 'Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface')
-            ->resolve($options);
-
-        $this->red = $optionsResolver->getValue('red');
-        $this->green = $optionsResolver->getValue('green');
-        $this->blue = $optionsResolver->getValue('blue');
-        $this->alpha = $optionsResolver->getValue('alpha');
+        $this->red = $red;
+        $this->green = $green;
+        $this->blue = $blue;
+        $this->alpha = $alpha;
     }
 
     /**

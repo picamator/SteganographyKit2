@@ -7,7 +7,6 @@ use Picamator\SteganographyKit2\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Image\Api\SizeFactoryInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Size object
@@ -22,27 +21,19 @@ class SizeFactory implements SizeFactoryInterface
     private $objectManager;
 
     /**
-     * @var OptionsResolverInterface
-     */
-    private $optionsResolver;
-
-    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param OptionsResolverInterface $optionsResolver
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        OptionsResolverInterface $optionsResolver,
         string $className = 'Picamator\SteganographyKit2\Image\Data\Size'
     ) {
         $this->objectManager = $objectManager;
-        $this->optionsResolver = $optionsResolver;
         $this->className = $className;
     }
 
@@ -68,6 +59,6 @@ class SizeFactory implements SizeFactoryInterface
             'mime' => $size['mime'],
         ];
 
-        return $this->objectManager->create($this->className, [$this->optionsResolver, $data]);
+        return $this->objectManager->create($this->className, [$data]);
     }
 }

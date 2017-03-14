@@ -2,7 +2,6 @@
 namespace Picamator\SteganographyKit2\Tests\Unit\Entity;
 
 use Picamator\SteganographyKit2\Entity\Iterator\SerialIterator;
-use Picamator\SteganographyKit2\Tests\Helper\Util\OptionsResolverHelper;
 use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
 
 class SerialIteratorTest extends BaseTest
@@ -11,11 +10,6 @@ class SerialIteratorTest extends BaseTest
      * @var SerialIterator
      */
     private $serialIterator;
-
-    /**
-     * @var OptionsResolverHelper
-     */
-    private $optionsResolverHelper;
 
     /**
      * @var \Picamator\SteganographyKit2\Image\Api\Data\ColorInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -35,15 +29,7 @@ class SerialIteratorTest extends BaseTest
         $pixelMock->method('getColor')
             ->willReturn($this->colorMock);
 
-        // stub options resolver
-        $this->optionsResolverHelper = new OptionsResolverHelper($this);
-
-        $options = [
-            'pixel' => $pixelMock,
-        ];
-        $optionsResolverMock = $this->optionsResolverHelper->stubOptionsResolver($options);
-
-        $this->serialIterator = new SerialIterator($optionsResolverMock, $options);
+        $this->serialIterator = new SerialIterator($pixelMock);
     }
 
     public function testIteration()

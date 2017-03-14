@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Image\Data;
 
 use Picamator\SteganographyKit2\Image\Api\Data\SizeInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Size value object
+ *
+ * It's not need to check the options item data type as Size object are creating by Factory.
+ * The Factory get's responsibility for options data typing. This case make creating data object faster.
  *
  * @codeCoverageIgnore
  */
@@ -44,44 +46,16 @@ class Size implements SizeInterface
     private $mime;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
      * @param array $options
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
+    public function __construct(array $options)
     {
-        $optionsResolver
-            ->setDefined('width')
-            ->setRequired('width')
-            ->setAllowedType('width', 'int')
-
-            ->setDefined('height')
-            ->setRequired('height')
-            ->setAllowedType('height', 'int')
-
-            ->setDefined('attr')
-            ->setRequired('attr')
-            ->setAllowedType('attr', 'string')
-
-            ->setDefined('bits')
-            ->setRequired('bits')
-            ->setAllowedType('bits', 'string')
-
-            ->setDefined('channels')
-            ->setDefault('channels', 0)
-            ->setAllowedType('channels', 'int')
-
-            ->setDefined('mime')
-            ->setRequired('mime')
-            ->setAllowedType('mime', 'string')
-
-            ->resolve($options);
-
-        $this->width = $optionsResolver->getValue('width');
-        $this->height = $optionsResolver->getValue('height');
-        $this->attr = $optionsResolver->getValue('attr');
-        $this->bits = $optionsResolver->getValue('bits');
-        $this->channels = $optionsResolver->getValue('channels');
-        $this->mime = $optionsResolver->getValue('mime');
+        $this->width = $options['width'] ?? 0;
+        $this->height = $options['height'] ?? 0;
+        $this->attr = $options['attr'] ?? '';
+        $this->bits = $options['bits'] ?? 0;
+        $this->channels = $options['channels'] ?? 0;
+        $this->mime = $options['mime']?? '';
     }
 
     /**

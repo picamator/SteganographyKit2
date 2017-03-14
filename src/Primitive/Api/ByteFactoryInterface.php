@@ -11,11 +11,11 @@ interface ByteFactoryInterface
     /**
      * Create
      *
-     * @param array $data
+     * @param string $byte
      *
      * @return ByteInterface
      *
      * @throws \Picamator\SteganographyKit2\Exception\InvalidArgumentException
      */
-    public function create(array $data) : ByteInterface;
+    public function create(string $byte) : ByteInterface;
 }

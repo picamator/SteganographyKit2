@@ -6,9 +6,9 @@ namespace Picamator\SteganographyKit2\Image\Iterator;
 use Picamator\SteganographyKit2\Entity\Api\PixelFactoryInterface;
 use Picamator\SteganographyKit2\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Image\Api\ColorIndexInterface;
+use Picamator\SteganographyKit2\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Image\Api\Iterator\SerialIteratorInterface;
 use Picamator\SteganographyKit2\Primitive\Api\PointFactoryInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Serial iterator
@@ -73,36 +73,20 @@ class SerialIterator implements SerialIteratorInterface
     private $index = 0;
 
     /**
-     * @param OptionsResolverInterface $optionsResolver
-     * @param array $options
+     * @param ImageInterface $image
+     * @param ColorIndexInterface $colorIndex
+     * @param PointFactoryInterface $pointFactory
+     * @param PixelFactoryInterface $pixelFactory
      */
-    public function __construct(OptionsResolverInterface $optionsResolver, array $options)
-    {
-        $optionsResolver
-            ->setDefined('image')
-            ->setRequired('image')
-            ->setAllowedType('image', 'Picamator\SteganographyKit2\Image\Api\ImageInterface')
-
-            ->setDefined('colorIndex')
-            ->setRequired('colorIndex')
-            ->setAllowedType('colorIndex', 'Picamator\SteganographyKit2\Image\Api\ColorIndexInterface')
-
-            ->setDefined('pointFactory')
-            ->setRequired('pointFactory')
-            ->setAllowedType('pointFactory', 'Picamator\SteganographyKit2\Primitive\Api\PointFactoryInterface')
-
-            ->setDefined('pixelFactory')
-            ->setRequired('pixelFactory')
-            ->setAllowedType('pixelFactory', 'Picamator\SteganographyKit2\Entity\Api\PixelFactoryInterface')
-
-            ->resolve($options);
-
-        $this->colorIndex = $optionsResolver->getValue('colorIndex');
-        $this->pointFactory = $optionsResolver->getValue('pointFactory');
-        $this->pixelFactory = $optionsResolver->getValue('pixelFactory');
-
-        /** @var \Picamator\SteganographyKit2\Image\Api\ImageInterface $image */
-        $image = $optionsResolver->getValue('image');
+    public function __construct(
+        ImageInterface $image,
+        ColorIndexInterface $colorIndex,
+        PointFactoryInterface $pointFactory,
+        PixelFactoryInterface $pixelFactory
+    ) {
+        $this->colorIndex = $colorIndex;
+        $this->pointFactory = $pointFactory;
+        $this->pixelFactory = $pixelFactory;
 
         $this->resource = $image->getResource();
         $this->xMax = $image->getSize()->getWidth();
@@ -119,16 +103,9 @@ class SerialIterator implements SerialIteratorInterface
         $colorIndex = imagecolorat($this->resource, $this->x, $this->y);
         // strict types will rise exception for false color index
         $color = $this->colorIndex->getColor($colorIndex);
+        $point = $this->pointFactory->create(['x' => $this->x, 'y' => $this->y]);
 
-        $point = $this->pointFactory->create([
-            'x' => $this->x,
-            'y' => $this->y,
-        ]);
-
-        return $this->pixelFactory->create([
-            'point' => $point,
-            'color' => $color,
-        ]);
+        return $this->pixelFactory->create($point, $color);
     }
 
     /**

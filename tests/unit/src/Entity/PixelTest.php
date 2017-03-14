@@ -2,7 +2,6 @@
 namespace Picamator\SteganographyKit2\Tests\Unit\Entity;
 
 use Picamator\SteganographyKit2\Entity\Pixel;
-use Picamator\SteganographyKit2\Tests\Helper\Util\OptionsResolverHelper;
 use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
 
 class PixelTest extends BaseTest
@@ -11,11 +10,6 @@ class PixelTest extends BaseTest
      * @var Pixel
      */
     private $pixel;
-
-    /**
-     * @var OptionsResolverHelper
-     */
-    private $optionsResolverHelper;
 
     /**
      * @var \Picamator\SteganographyKit2\Primitive\Api\Data\PointInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -53,17 +47,7 @@ class PixelTest extends BaseTest
         $this->iteratorMock = $this->getMockBuilder('Iterator')
             ->getMock();
 
-        // stub options resolver
-        $this->optionsResolverHelper = new OptionsResolverHelper($this);
-
-        $options = [
-            'point' => $this->pointMock,
-            'color' => $this->colorMock,
-            'iteratorFactory' => $this->iteratorFactoryMock,
-        ];
-        $optionsResolverMock = $this->optionsResolverHelper->stubOptionsResolver($options);
-
-        $this->pixel = new Pixel($optionsResolverMock, $options);
+        $this->pixel = new Pixel($this->pointMock, $this->colorMock, $this->iteratorFactoryMock);
     }
 
     public function testGetId()

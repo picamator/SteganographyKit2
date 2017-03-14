@@ -73,8 +73,6 @@ class ColorIndex implements ColorIndexInterface
      */
     private function createByteCallback(int $colorItem) : ByteInterface
     {
-        $colorItem = decbin($colorItem);
-
-        return $this->byteFactory->create(['byte' => $colorItem]);
+        return $this->byteFactory->create(decbin($colorItem));
     }
 }

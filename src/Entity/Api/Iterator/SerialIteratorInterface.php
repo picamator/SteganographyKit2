@@ -6,7 +6,7 @@ namespace Picamator\SteganographyKit2\Entity\Api\Iterator;
  *
  * Iterate color channel, red-green-blue
  */
-interface SerialIteratorInterface extends \Iterator
+interface SerialIteratorInterface extends \RecursiveIterator
 {
 
 }

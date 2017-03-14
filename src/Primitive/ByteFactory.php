@@ -6,7 +6,6 @@ namespace Picamator\SteganographyKit2\Primitive;
 use Picamator\SteganographyKit2\Primitive\Api\ByteFactoryInterface;
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Byte object
@@ -21,35 +20,27 @@ class ByteFactory implements ByteFactoryInterface
     private $objectManager;
 
     /**
-     * @var OptionsResolverInterface
-     */
-    private $optionsResolver;
-
-    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param OptionsResolverInterface $optionsResolver
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        OptionsResolverInterface $optionsResolver,
         string $className = 'Picamator\SteganographyKit2\Primitive\Data\Byte'
     ) {
         $this->objectManager = $objectManager;
-        $this->optionsResolver = $optionsResolver;
         $this->className = $className;
     }
 
     /**
      * @inheritDoc
      */
-    public function create(array $data) : ByteInterface
+    public function create(string $byte) : ByteInterface
     {
-        return $this->objectManager->create($this->className, [$this->optionsResolver, $data]);
+        return $this->objectManager->create($this->className, [$byte]);
     }
 }

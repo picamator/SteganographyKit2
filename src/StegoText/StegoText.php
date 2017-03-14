@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\StegoText;
 
 use Picamator\SteganographyKit2\Image\Api\ImageInterface;
+use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\StegoText\Api\StegoTextInterface;
 
 /**
@@ -32,6 +33,8 @@ class StegoText implements StegoTextInterface
 
     /**
      * @inheritDoc
+     *
+     * @return ByteInterface
      */
     public function current()
     {

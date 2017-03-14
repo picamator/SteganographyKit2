@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Image\Iterator;
 
+use Picamator\SteganographyKit2\Entity\Api\PixelFactoryInterface;
+use Picamator\SteganographyKit2\Image\Api\ColorIndexInterface;
 use Picamator\SteganographyKit2\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Image\Api\Iterator\IteratorFactoryInterface;
+use Picamator\SteganographyKit2\Primitive\Api\PointFactoryInterface;
 use Picamator\SteganographyKit2\Util\Api\ObjectManagerInterface;
-use Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface;
 
 /**
  * Create Iterator object
@@ -21,9 +23,19 @@ class IteratorFactory implements IteratorFactoryInterface
     private $objectManager;
 
     /**
-     * @var OptionsResolverInterface
+     * @var ColorIndexInterface
      */
-    private $optionsResolver;
+    private $colorIndex;
+
+    /**
+     * @var PointFactoryInterface
+     */
+    private $pointFactory;
+
+    /**
+     * @var PixelFactoryInterface
+     */
+    private $pixelFactory;
 
     /**
      * @var string
@@ -32,16 +44,22 @@ class IteratorFactory implements IteratorFactoryInterface
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param OptionsResolverInterface $optionsResolver
+     * @param ColorIndexInterface $colorIndex
+     * @param PointFactoryInterface $pointFactory
+     * @param PixelFactoryInterface $pixelFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        OptionsResolverInterface $optionsResolver,
+        ColorIndexInterface $colorIndex,
+        PointFactoryInterface $pointFactory,
+        PixelFactoryInterface $pixelFactory,
         string $className = 'Picamator\SteganographyKit2\Image\Iterator\SerialIterator'
     ) {
         $this->objectManager = $objectManager;
-        $this->optionsResolver = $optionsResolver;
+        $this->colorIndex = $colorIndex;
+        $this->pointFactory = $pointFactory;
+        $this->pixelFactory = $pixelFactory;
         $this->className = $className;
     }
 
@@ -50,8 +68,11 @@ class IteratorFactory implements IteratorFactoryInterface
      */
     public function create(ImageInterface $image) : \Iterator
     {
-        $data = ['image' => $image];
-
-        return $this->objectManager->create($this->className, [$this->optionsResolver, $data]);
+        return $this->objectManager->create($this->className, [
+            $image,
+            $this->colorIndex,
+            $this->pointFactory,
+            $this->pixelFactory,
+        ]);
     }
 }

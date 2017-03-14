@@ -6,16 +6,27 @@ use Picamator\SteganographyKit2\Util\OptionsResolver;
 
 class OptionsResolverTest extends BaseTest
 {
+    /**
+     * @var OptionsResolver
+     */
+    private $optionsResolver;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->optionsResolver = new OptionsResolver();
+    }
+
     public function testSetDefault()
     {
         $expected = 1;
 
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->setDefault('testOption', $expected)
             ->resolve();
 
-        $actual = $optionsResolver->getValue('testOption');
+        $actual = $this->optionsResolver->getValue('testOption');
         $this->assertEquals($expected, $actual);
     }
 
@@ -23,52 +34,24 @@ class OptionsResolverTest extends BaseTest
     {
         $expected = 2;
 
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->setDefault('testOption', 1)
             ->resolve(['testOption' => $expected]);
 
-        $actual = $optionsResolver->getValue('testOption');
+        $actual = $this->optionsResolver->getValue('testOption');
         $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @expectedException \Picamator\SteganographyKit2\Exception\LogicException
-     */
-    public function testFailSetDefault()
-    {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
-            ->setDefault('testOption', 1)
-            ->resolve();
-
-        $optionsResolver->setDefined('testOption');
     }
 
     public function testSetRequired()
     {
         $expected = 1;
 
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->setRequired('testOption')
             ->resolve(['testOption' => $expected]);
 
-        $actual = $optionsResolver->getValue('testOption');
+        $actual = $this->optionsResolver->getValue('testOption');
         $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @expectedException \Picamator\SteganographyKit2\Exception\LogicException
-     */
-    public function testFailSetRequired()
-    {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
-            ->setRequired('testOption')
-            ->resolve(['testOption' => 1]);
-
-        $optionsResolver->setDefined('testOption');
     }
 
     /**
@@ -76,8 +59,7 @@ class OptionsResolverTest extends BaseTest
      */
     public function testUnSetRequired()
     {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->setRequired('testOption')
             ->resolve();
     }
@@ -86,24 +68,11 @@ class OptionsResolverTest extends BaseTest
     {
         $expected = 1;
 
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->resolve(['testOption' => $expected]);
 
-        $actual = $optionsResolver->getValue('testOption');
+        $actual = $this->optionsResolver->getValue('testOption');
         $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @expectedException \Picamator\SteganographyKit2\Exception\LogicException
-     */
-    public function testFailSetDefined()
-    {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
-            ->resolve(['testOption' => 1]);
-
-        $optionsResolver->setDefined('testOption');
     }
 
     /**
@@ -111,8 +80,7 @@ class OptionsResolverTest extends BaseTest
      */
     public function testUnSetDefined()
     {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->resolve(['testOption' => 1]);
+        $this->optionsResolver->resolve(['testOption' => 1]);
     }
 
     /**
@@ -120,8 +88,8 @@ class OptionsResolverTest extends BaseTest
      */
     public function testFailGetValue()
     {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->getValue('testOption');
+        $this->optionsResolver->resolve();
+        $this->optionsResolver->getValue('testOption');
     }
 
     /**
@@ -129,11 +97,10 @@ class OptionsResolverTest extends BaseTest
      */
     public function testNotExistGetValue()
     {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->resolve(['testOption' => 1]);
 
-        $optionsResolver->getValue('anotherTestOption');
+        $this->optionsResolver->getValue('anotherTestOption');
     }
 
     /**
@@ -145,12 +112,11 @@ class OptionsResolverTest extends BaseTest
      */
     public function testSetAllowedType(string $optionName, $optionValue, string $allowedType)
     {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined($optionName)
+        $this->optionsResolver->setDefined($optionName)
             ->setAllowedType($optionName, $allowedType)
             ->resolve([$optionName => $optionValue]);
 
-        $this->assertEquals($optionValue, $optionsResolver->getValue($optionName));
+        $this->assertEquals($optionValue, $this->optionsResolver->getValue($optionName));
     }
 
     /**
@@ -164,8 +130,7 @@ class OptionsResolverTest extends BaseTest
      */
     public function testFailSetAllowedType(string $optionName, $optionValue, string $allowedType)
     {
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined($optionName)
+        $this->optionsResolver->setDefined($optionName)
             ->setAllowedType($optionName, $allowedType)
             ->resolve([$optionName => $optionValue]);
     }
@@ -174,14 +139,10 @@ class OptionsResolverTest extends BaseTest
     {
         $expected = 1;
 
-        $optionsResolver = new OptionsResolver();
-        $optionsResolver->setDefined('testOption')
+        $this->optionsResolver->setDefined('testOption')
             ->resolve(['testOption' => $expected]);
 
-        // double resolve
-        $optionsResolver->resolve();
-
-        $actual = $optionsResolver->getValue('testOption');
+        $actual = $this->optionsResolver->getValue('testOption');
         $this->assertEquals($expected, $actual);
     }
 
