@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Text;
+namespace Picamator\SteganographyKit2\Text\Api;
 
 /**
  * Text
@@ -7,11 +7,11 @@ namespace Picamator\SteganographyKit2\Text;
 interface TextInterface extends \IteratorAggregate
 {
     /**
-     * Gets size
+     * Gets size in bits
      *
      * @return int
      */
-    public function getSize() : int;
+    public function getLengthBits() : int;
 
     /**
      * Gets text

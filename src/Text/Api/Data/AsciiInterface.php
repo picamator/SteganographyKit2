@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Text\Data;
+namespace Picamator\SteganographyKit2\Text\Api\Data;
 
 use Picamator\SteganographyKit2\Primitive\Api\Data\ByteInterface;
 

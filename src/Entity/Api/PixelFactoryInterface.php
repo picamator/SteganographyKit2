@@ -18,6 +18,8 @@ interface PixelFactoryInterface
      * @param IteratorFactoryInterface|null $iteratorFactory
      *
      * @return PixelInterface
+     *
+     * @throws \Picamator\SteganographyKit2\Exception\RuntimeException
      */
     public function create(
         PointInterface $point,

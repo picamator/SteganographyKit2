@@ -15,8 +15,7 @@ interface IteratorFactoryInterface
      *
      * @return \RecursiveIterator
      *
-     * @throws \Picamator\SteganographyKit2\Exception\InvalidArgumentException
-     * @throws \Picamator\SteganographyKit2\Exception\LogicException
+     * @throws \Picamator\SteganographyKit2\Exception\RuntimeException
      */
     public function create(PixelInterface $pixel) : \RecursiveIterator;
 }

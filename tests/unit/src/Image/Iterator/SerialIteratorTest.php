@@ -2,16 +2,10 @@
 namespace Picamator\SteganographyKit2\Tests\Unit\Image\Iterator;
 
 use Picamator\SteganographyKit2\Image\Iterator\SerialIterator;
-use Picamator\SteganographyKit2\Tests\Helper\Util\OptionsResolverHelper;
 use Picamator\SteganographyKit2\Tests\Unit\BaseTest;
 
 class SerialIteratorTest extends BaseTest
 {
-    /**
-     * @var OptionsResolverHelper
-     */
-    private $optionsResolverHelper;
-
     /**
      * @var \Picamator\SteganographyKit2\Image\Api\ImageInterface | \PHPUnit_Framework_MockObject_MockObject
      */
@@ -48,16 +42,6 @@ class SerialIteratorTest extends BaseTest
     private $sizeMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Util\Api\OptionsResolverInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $optionsResolverMock;
-
-    /**
-     * @var array
-     */
-    private $options;
-
-    /**
      * @var resource
      */
     private $resource;
@@ -86,18 +70,6 @@ class SerialIteratorTest extends BaseTest
 
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Image\Api\Data\SizeInterface')
             ->getMock();
-
-        // stub options resolver
-        $this->optionsResolverHelper = new OptionsResolverHelper($this);
-
-        $this->options = [
-            'image' => $this->imageMock,
-            'colorIndex' => $this->colorIndexMock,
-            'pointFactory' => $this->pointFactoryMock,
-            'pixelFactory' => $this->pixelFactoryMock,
-        ];
-
-        $this->optionsResolverMock = $this->optionsResolverHelper->stubOptionsResolver($this->options);
 
         $this->resource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px-alpha.png'));
     }

@@ -1,7 +1,7 @@
 <?php
-namespace Picamator\SteganographyKit2\Text;
+namespace Picamator\SteganographyKit2\Text\Api;
 
-use Picamator\SteganographyKit2\Text\Data\AsciiInterface;
+use Picamator\SteganographyKit2\Text\Api\Data\AsciiInterface;
 
 /**
  * Create ascii value object
@@ -11,12 +11,12 @@ interface AsciiFactoryInterface
     /**
      * Create
      *
-     * @param array $data
+     * @param string $char
      *
      * @return AsciiInterface
      *
+     * @throws \Picamator\SteganographyKit2\Exception\RuntimeException
      * @throws \Picamator\SteganographyKit2\Exception\InvalidArgumentException
-     * @throws \Picamator\SteganographyKit2\Exception\LogicException
      */
-    public function create(array $data) : AsciiInterface;
+    public function create(string $char) : AsciiInterface;
 }

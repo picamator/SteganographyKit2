@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Text;
+namespace Picamator\SteganographyKit2\Text\Api;
 
 /**
  * Filter manager
@@ -13,12 +13,16 @@ interface FilterManagerInterface
      *
      * @return FilterManagerInterface
      */
-    public function addFiler(FilterInterface $filter) : FilterManagerInterface;
+    public function addFilter(FilterInterface $filter) : FilterManagerInterface;
 
     /**
      * Apply all filters
      *
+     * @param string $text
+     *
      * @return string
+     *
+     * @throws \Picamator\SteganographyKit2\Exception\RuntimeException
      */
-    public function apply() : string;
+    public function apply(string $text) : string;
 }

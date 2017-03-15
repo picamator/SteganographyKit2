@@ -1,7 +1,7 @@
 <?php
-namespace Picamator\SteganographyKit2\Image\Api\Iterator;
+namespace Picamator\SteganographyKit2\Text\Api\Iterator;
 
-use Picamator\SteganographyKit2\Image\Api\ImageInterface;
+use Picamator\SteganographyKit2\Text\Api\TextInterface;
 
 /**
  * Create Iterator object
@@ -11,11 +11,11 @@ interface IteratorFactoryInterface
     /**
      * Create
      *
-     * @param ImageInterface $image
+     * @param TextInterface $text
      *
      * @return \Iterator
      *
      * @throws \Picamator\SteganographyKit2\Exception\RuntimeException
      */
-    public function create(ImageInterface $image) : \Iterator;
+    public function create(TextInterface $text) : \Iterator;
 }
