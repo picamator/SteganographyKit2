@@ -3,6 +3,6 @@ Uml
 
 Directory contains:
 
-* [class.diagram.png](class.diagram.png) was drawn by [ArgoUML](http://argouml.tigris.org)
-* [architecture.jpg](architecture.jpg) was drawn by [Google Drawings](https://en.wikipedia.org/wiki/Google_Drawings)
-* [encoding.jpg](encoding.jpg) was drawn by [Google Drawings](https://en.wikipedia.org/wiki/Google_Drawings)
+* [kernel.class.diagram.png](kernel.class.diagram.png) was drawn by [ArgoUML](http://argouml.tigris.org)
+* [architecture-modules.jpg](architecture-modules.jpg) was drawn by [Google Drawings](https://en.wikipedia.org/wiki/Google_Drawings)
+* [encoding-workflow.jpg](encoding-workflow.jpg) was drawn by [Google Drawings](https://en.wikipedia.org/wiki/Google_Drawings)
