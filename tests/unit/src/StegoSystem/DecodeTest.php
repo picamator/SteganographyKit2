@@ -79,7 +79,7 @@ class DecodeTest extends BaseTest
 
         // end mark mock
         $this->endMarkMock->expects($this->once())
-            ->method('toString')
+            ->method('getBinary')
             ->willReturn($endMark);
 
         $this->endMarkMock->expects($this->once())

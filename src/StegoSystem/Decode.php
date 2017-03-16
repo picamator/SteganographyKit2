@@ -55,7 +55,7 @@ class Decode implements DecodeInterface
         $iterator = new \RecursiveIteratorIterator($stegoText); // item is a ByteInterface
         $iterator->rewind();
 
-        $endMark = $this->endMark->toString();
+        $endMark = $this->endMark->getBinary();
         $endMarkPos = -1 * $this->endMark->count();
 
         $secretText = '';

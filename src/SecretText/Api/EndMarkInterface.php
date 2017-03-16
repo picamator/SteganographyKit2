@@ -9,9 +9,9 @@ namespace Picamator\SteganographyKit2\SecretText\Api;
 interface EndMarkInterface extends \IteratorAggregate, \Countable
 {
     /**
-     * To string
+     * Gets binary
      *
-     * @return string
+     * @return string binary string, length should be divided by 8
      */
-    public function toString() : string;
+    public function getBinary() : string;
 }
