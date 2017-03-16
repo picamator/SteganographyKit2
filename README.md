@@ -44,6 +44,14 @@ What're the goals
 3. Easy quick start by clear documentation
 4. Popularize using hidden watermark instead of visible one for picture protection
 
+Modules
+-------
+Name     | Dependencies   | Description
+---      | ---            | ---
+Kernel   | None           | API & abstraction  
+Lsb      | Kernel         | Least Significant Bit  
+LsbText  | Kernel, Lsb    | Least Significant Bit where SecretText is a Text 
+
 Documentation
 -------------
 * UML class diagram: [class.diagram.png](docs/uml/class.diagram.png)
