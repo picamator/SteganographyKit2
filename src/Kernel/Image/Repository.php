@@ -62,10 +62,12 @@ class Repository implements RepositoryInterface
         $point = $pixel->getPoint();
 
         $result = imagesetpixel($this->image->getResource(), $point->getX(), $point->getY(), $color);
+        // @codeCoverageIgnoreStart
         if ($result === false) {
             throw new RuntimeException(
                 sprintf('Failed to modify pixel [%s, %s]', $point->getX(), $point->getY())
             );
         }
+        // @codeCoverageIgnoreEnd
     }
 }
