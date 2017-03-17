@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2\Kernel\SecretText;
+namespace Picamator\SteganographyKit2\LsbText\SecretText;
 
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextFactoryInterface;
@@ -46,7 +46,7 @@ class SecretTextFactory implements SecretTextFactoryInterface
         ObjectManagerInterface $objectManager,
         TextFactoryInterface $textFactory,
         EndMarkInterface $endMark,
-        string $className = 'Picamator\SteganographyKit2\Kernel\SecretText\SecretText'
+        string $className = 'Picamator\SteganographyKit2\LsbText\SecretText\SecretText'
     ) {
         $this->objectManager = $objectManager;
         $this->textFactory = $textFactory;

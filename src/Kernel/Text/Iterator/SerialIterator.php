@@ -63,7 +63,7 @@ class SerialIterator implements SerialIteratorInterface
     public function current()
     {
         if (empty($this->currentContainer)) {
-            $charIndex = $this->index % 8;
+            $charIndex = $this->index / 8;
             $char = substr($this->text->getText(), $charIndex, 1);
             $currentByte = $this->asciiFactory->create($char)
                 ->getByte();
@@ -104,5 +104,6 @@ class SerialIterator implements SerialIteratorInterface
     public function rewind()
     {
         $this->index = 0;
+        $this->currentContainer = null;
     }
 }

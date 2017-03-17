@@ -82,7 +82,7 @@ class DecodeTest extends BaseTest
             ->method('getBinary')
             ->willReturn($endMark);
 
-        $this->endMarkMock->expects($this->once())
+        $this->endMarkMock->expects($this->exactly(2))
             ->method('count')
             ->willReturn(strlen($endMark));
 

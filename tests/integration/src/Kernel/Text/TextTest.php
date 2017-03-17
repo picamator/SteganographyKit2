@@ -2,6 +2,7 @@
 namespace Picamator\SteganographyKit2\Tests\Integration\Kernel\Text;
 
 use Picamator\SteganographyKit2\Kernel\Primitive\ByteFactory;
+use Picamator\SteganographyKit2\Kernel\Text\Filter\BinaryToTextFilter;
 use Picamator\SteganographyKit2\Tests\Integration\Kernel\BaseTest;
 use Picamator\SteganographyKit2\Kernel\Text\AsciiFactory;
 use Picamator\SteganographyKit2\Kernel\Text\Iterator\IteratorFactory;
@@ -26,6 +27,11 @@ class TextTest extends BaseTest
      */
     private $lengthFactory;
 
+    /**
+     * @var BinaryToTextFilter
+     */
+    private $binaryToStringFilter;
+
     protected function setUp()
     {
         parent::setUp();
@@ -39,20 +45,18 @@ class TextTest extends BaseTest
         $this->iteratorFactory = new IteratorFactory($this->objectManager, $asciiFactory);
 
         $this->lengthFactory = new LengthFactory($this->objectManager);
+
+        $this->binaryToStringFilter = new BinaryToTextFilter();
     }
 
     /**
      * @dataProvider providerSerialIterator
      *
-     * @param string $path
+     * @param string $data
      */
-    public function testSerialIterator(string $path)
+    public function testSerialIterator(string $data)
     {
         $expected = ["0", "1"];
-
-        $path = $this->getPath($path);
-        $data = file_get_contents($path);
-
         $text = new Text($this->iteratorFactory, $this->lengthFactory, $data);
 
         // length
@@ -61,18 +65,25 @@ class TextTest extends BaseTest
 
         // iteration
         $i = 0;
+        $binaryText = '';
         foreach($text as $item) {
+            $binaryText .= $item;
+
             $this->assertContains($item, $expected);
             $i++;
         }
-
         $this->assertEquals($lengthBits, $i);
+
+        // filter
+        $actualText = $this->binaryToStringFilter->filter($binaryText);
+        $this->assertEquals($data, $actualText);
     }
 
     public function providerSerialIterator()
     {
         return [
-            ['secret' . DIRECTORY_SEPARATOR . 'ivan-kotliarevsky.txt']
+            ['Hello Steganography!'],
+            [$this->getFileContents('secret' . DIRECTORY_SEPARATOR . 'ivan-kotliarevsky.txt')],
         ];
     }
 }

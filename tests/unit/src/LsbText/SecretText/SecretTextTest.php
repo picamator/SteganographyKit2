@@ -1,7 +1,7 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\SecretText;
+namespace Picamator\SteganographyKit2\Tests\Unit\LsbText\SecretText;
 
-use Picamator\SteganographyKit2\Kernel\SecretText\SecretText;
+use Picamator\SteganographyKit2\LsbText\SecretText\SecretText;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 
 class SecretTextTest extends BaseTest

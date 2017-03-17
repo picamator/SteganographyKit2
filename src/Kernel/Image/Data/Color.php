@@ -115,10 +115,10 @@ class Color implements ColorInterface
     {
         if (is_null($this->exportToArray)) {
             $this->exportToArray = [
-                $this->red->getInt(),
-                $this->green->getInt(),
-                $this->blue->getInt(),
-                $this->alpha->getInt(),
+                'red' => $this->red,
+                'green' => $this->green,
+                'blue' => $this->blue,
+                'alpha' => $this->alpha,
             ];
         }
 

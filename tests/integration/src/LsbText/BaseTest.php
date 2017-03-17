@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Integration\Kernel;
+namespace Picamator\SteganographyKit2\Tests\Integration\LsbText;
 
 use PHPUnit\Framework\TestCase;
 

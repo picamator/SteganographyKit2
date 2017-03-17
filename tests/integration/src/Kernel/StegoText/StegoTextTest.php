@@ -6,7 +6,7 @@ use Picamator\SteganographyKit2\Kernel\Image\ColorFactory;
 use Picamator\SteganographyKit2\Kernel\Image\ColorIndex;
 use Picamator\SteganographyKit2\Kernel\Image\Image;
 use Picamator\SteganographyKit2\Kernel\Image\Iterator\IteratorFactory;
-use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelIteratoryFactory;
+use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelIteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Image\Resource\JpegResource;
 use Picamator\SteganographyKit2\Kernel\Image\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\ByteFactory;
@@ -57,7 +57,7 @@ class StegoTextTest extends BaseTest
         $this->pointFactory = new PointFactory($this->objectManager);
 
         // pixel factory
-        $iteratorFactory = new PixelIteratoryFactory($this->objectManager);
+        $iteratorFactory = new PixelIteratorFactory($this->objectManager);
         $this->pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 
         $this->sizeFactory = new SizeFactory($this->objectManager);

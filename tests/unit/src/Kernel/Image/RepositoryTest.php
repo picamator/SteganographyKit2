@@ -22,6 +22,11 @@ class RepositoryTest extends BaseTest
     private $colorIndexMock;
 
     /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ColorFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $colorFactoryMock;
+
+    /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $colorMock;
@@ -51,6 +56,9 @@ class RepositoryTest extends BaseTest
         $this->colorIndexMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface')
             ->getMock();
 
+        $this->colorFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ColorFactoryInterface')
+            ->getMock();
+
         $this->colorMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface')
             ->getMock();
 
@@ -62,7 +70,7 @@ class RepositoryTest extends BaseTest
 
         $this->resource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel.png'));
 
-        $this->repository = new Repository($this->imageMock, $this->colorIndexMock);
+        $this->repository = new Repository($this->imageMock, $this->colorIndexMock, $this->colorFactoryMock);
     }
 
     protected function tearDown()
@@ -74,10 +82,28 @@ class RepositoryTest extends BaseTest
 
     public function testUpdate()
     {
+        // color mock
+        $this->colorMock->expects($this->once())
+            ->method('toArray')
+            ->willReturn([]);
+
+        // color factory mock
+        $this->colorFactoryMock->expects($this->once())
+            ->method('create')
+            ->willReturn($this->colorMock);
+
         // pixel mock
-        $this->pixelMock->expects($this->once())
+        $this->pixelMock->expects($this->exactly(2))
             ->method('getColor')
             ->willReturn($this->colorMock);
+
+        $this->pixelMock->expects($this->once())
+            ->method('setColor')
+            ->willReturnSelf();
+
+        $this->pixelMock->expects($this->once())
+            ->method('hasChanged')
+            ->willReturn(true);
 
         $this->pixelMock->expects($this->once())
             ->method('getPoint')
@@ -102,6 +128,50 @@ class RepositoryTest extends BaseTest
             ->method('getResource')
             ->willReturn($this->resource);
 
-        $this->repository->update($this->pixelMock);
+        $this->repository->update($this->pixelMock, []);
+    }
+
+    public function testSkipedUpdate()
+    {
+        // color mock
+        $this->colorMock->expects($this->once())
+            ->method('toArray')
+            ->willReturn([]);
+
+        // color factory mock
+        $this->colorFactoryMock->expects($this->once())
+            ->method('create')
+            ->willReturn($this->colorMock);
+
+        // pixel mock
+        $this->pixelMock->expects($this->once())
+            ->method('getColor')
+            ->willReturn($this->colorMock);
+
+        $this->pixelMock->expects($this->once())
+            ->method('setColor')
+            ->willReturnSelf();
+
+        $this->pixelMock->expects($this->once())
+            ->method('hasChanged')
+            ->willReturn(false);
+
+        // never
+        $this->pixelMock->expects($this->never())
+            ->method('getPoint');
+
+        $this->colorIndexMock->expects($this->never())
+            ->method('getColorallocate');
+
+        $this->pointMock->expects($this->never())
+            ->method('getX');
+
+        $this->pointMock->expects($this->never())
+            ->method('getY');
+
+        $this->imageMock->expects($this->never())
+            ->method('getResource');
+
+        $this->repository->update($this->pixelMock, []);
     }
 }

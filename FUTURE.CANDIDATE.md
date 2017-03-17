@@ -10,3 +10,5 @@ Id  | Summary                                                   | Description
 4   | Name composer packages                                    | E.g. steganographykit2-kernel, -lsp-text, -lsp-text-random, -lsp-image, -lsp-image-random
 5   | Minify steganographykit2 composer name to sgkit2          | Or s14t2
 6   | Create stream wrapper to simplify encode, decode          | For instance file_get_contents(sgkit2-lsp-encode://path-to-stego-image/image.png)
+7   | Add more image iterators                                  | LinearReverseIterator, SnakeIterator, SnakeReverseIterator
+8   | Tes application in different png, jpeg formats            | Different color depth, png-8, png-24, etc.           

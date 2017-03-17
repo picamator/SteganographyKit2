@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\StegoSystem;
 
-use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ColorFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Kernel\CoverText\Api\CoverTextInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
@@ -26,9 +24,9 @@ class Encode implements EncodeInterface
     private $encodeBit;
 
     /**
-     * @var ColorFactoryInterface
+     * @var RepositoryFactoryInterface
      */
-    private $colorFactory;
+    private $repositoryFactory;
 
     /**
      * @var StegoTextFactoryInterface
@@ -37,16 +35,16 @@ class Encode implements EncodeInterface
 
     /**
      * @param EncodeBitInterface $encodeBit
-     * @param ColorFactoryInterface $colorFactory
+     * @param RepositoryFactoryInterface $repositoryFactory
      * @param StegoTextFactoryInterface $stegoTextFactory
      */
     public function __construct(
         EncodeBitInterface $encodeBit,
-        ColorFactoryInterface $colorFactory,
+        RepositoryFactoryInterface $repositoryFactory,
         StegoTextFactoryInterface $stegoTextFactory
     ) {
         $this->encodeBit = $encodeBit;
-        $this->colorFactory = $colorFactory;
+        $this->repositoryFactory = $repositoryFactory;
         $this->stegoTextFactory = $stegoTextFactory;
     }
 
@@ -55,51 +53,39 @@ class Encode implements EncodeInterface
      */
     public function encode(SecretTextInterface $secretText, CoverTextInterface $coverText): StegoTextInterface
     {
+        $repository = $this->repositoryFactory->create($coverText->getImage());
         $iterator = new \MultipleIterator(\MultipleIterator::MIT_NEED_ALL | \MultipleIterator::MIT_KEYS_ASSOC);
 
         // secret text iterator
-        $secretKeyIterator = new \CachingIterator($secretText->getIterator());
-        $iterator->attachIterator($secretKeyIterator, 'secretBit');
+        $secretIterator = new \CachingIterator($secretText->getIterator());
+        $iterator->attachIterator($secretIterator, 'secretBit');
 
         // cover text iterator (0) PixelInterface -> (1) ByteInterface
-        $coverTextIterator = new \RecursiveIteratorIterator($coverText);
-        $iterator->attachIterator($coverTextIterator, 'coverByte');
+        $coverIterator = new \RecursiveIteratorIterator($coverText);
+        $iterator->attachIterator($coverIterator, 'coverByte');
 
+        $prevItem = $coverIterator->getSubIterator(0)->current();
         foreach ($iterator as $item) {
             // encode bit
-            $colorKey = $coverTextIterator->getSubIterator(1)->key();
-            $stegoBit = $this->encodeBit->encode($item['secretBit'], $item['coverByte']);
+            $colorKey = $coverIterator->getSubIterator(1)->key();
+            $stegoByte = $this->encodeBit->encode((int)$item['secretBit'], $item['coverByte']);
 
             // update pixel
-            if (isset($colorContainer[$colorKey])) {
-                $this->updatePixel($coverTextIterator->getSubIterator(0)->current(), $colorContainer);
-                $colorContainer = [];
+            if (isset($colorData[$colorKey])) {
+                $repository->update($prevItem, $colorData);
+                $colorData = [];
             }
 
-            $colorContainer[$colorKey] = $stegoBit;
+            $colorData[$colorKey] = $stegoByte;
 
             // last iteration
-            if (!$secretKeyIterator->hasNext()) {
-                $this->updatePixel($coverTextIterator->getSubIterator(0)->current(), $colorContainer);
+            if (!$secretIterator->hasNext()) {
+                $repository->update($coverIterator->getSubIterator(0)->current(), $colorData);
             }
+
+            $prevItem = $coverIterator->getSubIterator(0)->current();
         }
 
         return $this->stegoTextFactory->create($coverText->getImage());
-    }
-
-    /**
-     * Update pixel
-     *
-     * @param PixelInterface $pixel
-     * @param array $data color data
-     *
-     * @return ColorInterface
-     */
-    private function updatePixel(PixelInterface $pixel, array $data)
-    {
-        $data = array_merge($data, $pixel->getColor()->toArray());
-        $color = $this->colorFactory->create($data);
-
-        $pixel->setColor($color);
     }
 }

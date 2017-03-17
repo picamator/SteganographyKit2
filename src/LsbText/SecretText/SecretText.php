@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2\Kernel\SecretText;
+namespace Picamator\SteganographyKit2\LsbText\SecretText;
 
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;

@@ -13,10 +13,11 @@ interface RepositoryInterface
      * Update
      *
      * @param PixelInterface $pixel
+     * @param array $data ['red' => ..., 'green' => ..., 'blue' => ..., 'alpha' => ...]
      *
      * @return void
      *
      * @throws RuntimeException
      */
-    public function update(PixelInterface $pixel);
+    public function update(PixelInterface $pixel, array $data);
 }

@@ -59,10 +59,13 @@ class Decode implements DecodeInterface
         $endMarkPos = -1 * $this->endMark->count();
 
         $secretText = '';
-        do {
+        while (substr($secretText, $endMarkPos) !== $endMark && $iterator->valid()) {
             $secretText .= $this->decodeBit->decode($iterator->current());
             $iterator->next();
-        } while (substr($secretText, $endMarkPos) !== $endMark && $iterator->valid());
+        };
+
+        // remove end text mark
+        $secretText = substr($secretText, 0, strlen($secretText) - $this->endMark->count());
 
         return $this->secretTextFactory->create($secretText);
     }
