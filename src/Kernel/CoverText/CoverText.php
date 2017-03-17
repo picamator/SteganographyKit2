@@ -50,6 +50,8 @@ class CoverText implements CoverTextInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function key()
     {

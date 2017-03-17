@@ -93,6 +93,8 @@ class SerialIterator implements SerialIteratorInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getChildren()
     {

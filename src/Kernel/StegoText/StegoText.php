@@ -51,6 +51,8 @@ class StegoText implements StegoTextInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function key()
     {

@@ -17,11 +17,13 @@ class Base64encodeFilter implements FilterInterface
     public function filter(string $text): string
     {
         $result = base64_encode($text);
+        // @codeCoverageIgnoreStart
         if ($result === false) {
             throw new RuntimeException(
                 sprintf('Failed base64encoding string "%s"', $text)
             );
         }
+        // @codeCoverageIgnoreEnd
 
         return $result;
     }

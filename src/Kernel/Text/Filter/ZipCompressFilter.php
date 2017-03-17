@@ -45,11 +45,13 @@ class ZipCompressFilter implements FilterInterface
     public function filter(string $text): string
     {
         $result = gzcompress($text, $this->compressLevel);
+        // @codeCoverageIgnoreStart
         if ($result === false) {
             throw new RuntimeException(
                 sprintf('Failed compressing string "%s"', $text)
             );
         }
+        // @codeCoverageIgnoreEnd
 
         return $result;
     }

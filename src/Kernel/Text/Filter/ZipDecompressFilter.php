@@ -17,11 +17,13 @@ class ZipDecompressFilter implements FilterInterface
     public function filter(string $text): string
     {
         $result = gzuncompress($text);
+        // @codeCoverageIgnoreStart
         if ($result === false) {
             throw new RuntimeException(
                 sprintf('Failed decompressing string "%s"', $text)
             );
         }
+        // @codeCoverageIgnoreEnd
 
         return $result;
     }

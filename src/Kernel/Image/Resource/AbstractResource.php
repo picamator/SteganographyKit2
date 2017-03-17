@@ -36,6 +36,8 @@ abstract class AbstractResource implements ResourceInterface
 
     /**
      * Free resource
+     *
+     * @codeCoverageIgnore
      */
     public function __destruct()
     {
