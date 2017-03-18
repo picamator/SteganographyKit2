@@ -27,11 +27,6 @@ class ImageTest extends BaseTest
     private $iteratorMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $sizeFactoryMock;
-
-    /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $sizeMock;
@@ -49,52 +44,24 @@ class ImageTest extends BaseTest
         $this->iteratorMock = $this->getMockBuilder('Iterator')
             ->getMock();
 
-        $this->sizeFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface')
-            ->getMock();
-
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
             ->getMock();
 
         $this->image = new Image(
             $this->resourceMock,
-            $this->iteratorFactoryMock,
-            $this->sizeFactoryMock
+            $this->iteratorFactoryMock
         );
-    }
-
-    public function testGetPath()
-    {
-        // resource mock
-        $this->resourceMock->expects($this->once())
-            ->method('getPath');
-
-        $this->image->getPath();
-    }
-
-    public function testGetResource()
-    {
-        // resource mock
-        $this->resourceMock->expects($this->once())
-            ->method('getResource');
-
-        $this->image->getResource();
     }
 
     public function testGetSize()
     {
         // resource mock
         $this->resourceMock->expects($this->once())
-            ->method('getPath');
-
-        // size factory mock
-        $this->sizeFactoryMock->expects($this->once())
-            ->method('create')
+            ->method('getSize')
             ->willReturn($this->sizeMock);
 
         $this->image->getSize();
-        $this->image->getSize(); // double runt to test cache
     }
-
 
     public function testGetIterator()
     {

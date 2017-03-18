@@ -224,7 +224,7 @@ class StegoSystemTest extends BaseTest
 
         // image
         $imagePath = $this->getPath($imagePath);
-        $resource = new JpegResource($imagePath);
+        $resource = new JpegResource($this->sizeFactory, $imagePath);
 
         $image = new Image($resource, $this->imageIteratorFactory, $this->sizeFactory);
 

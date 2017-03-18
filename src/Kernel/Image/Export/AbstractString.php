@@ -6,6 +6,7 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Export;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
  * Export image to base64encode string
@@ -39,7 +40,7 @@ abstract class AbstractString implements ExportInterface
 
         if ($result === false) {
             throw new RuntimeException(
-                sprintf('Failed exporting image "%s"', $this->image->getPath())
+                sprintf('Failed exporting image "%s"', $this->image->getResource()->getPath())
             );
         }
 
@@ -49,9 +50,9 @@ abstract class AbstractString implements ExportInterface
     /**
      * Display image
      *
-     * @param resource $resource
+     * @param ResourceInterface $resource
      *
      * @return bool
      */
-    abstract protected function displayImage($resource) : bool;
+    abstract protected function displayImage(ResourceInterface $resource) : bool;
 }

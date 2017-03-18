@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Export;
 
+use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+
 /**
  * Export to jpeg file
  *
@@ -13,8 +15,8 @@ class JpegFile extends AbstractFile
     /**
      * @inheritDoc
      */
-    final protected function saveImage($resource, string $path): bool
+    final protected function saveImage(ResourceInterface $resource, string $path): bool
     {
-        return imagejpeg($resource, $path);
+        return imagejpeg($resource->getResource(), $path);
     }
 }

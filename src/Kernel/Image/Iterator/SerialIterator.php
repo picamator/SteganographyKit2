@@ -88,7 +88,7 @@ class SerialIterator implements SerialIteratorInterface
         $this->pointFactory = $pointFactory;
         $this->pixelFactory = $pixelFactory;
 
-        $this->resource = $image->getResource();
+        $this->resource = $image->getResource()->getResource();
         $this->xMax = $image->getSize()->getWidth();
         $this->yMax = $image->getSize()->getHeight();
     }

@@ -8,6 +8,7 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
  * Export image to file string
@@ -57,12 +58,13 @@ abstract class AbstractFile implements ExportInterface
      */
     final public function export(): string
     {
-        $path = rtrim($this->savePath, '/\\') . DIRECTORY_SEPARATOR . $this->nameGenerator->generate($this->image->getPath());
+        $resourcePath = $this->image->getResource()->getPath();
+        $path = rtrim($this->savePath, '/\\') . DIRECTORY_SEPARATOR . $this->nameGenerator->generate($resourcePath);
 
         $result = $this->saveImage($this->image->getResource(), $path);
         if ($result === false) {
             throw new RuntimeException(
-                sprintf('Failed to save image "%s" to the destination "%s"', $this->image->getPath(), $path)
+                sprintf('Failed to save image "%s" to the destination "%s"', $resourcePath, $path)
             );
         }
 
@@ -99,10 +101,10 @@ abstract class AbstractFile implements ExportInterface
     /**
      * Save image
      *
-     * @param resource $resource
+     * @param ResourceInterface $resource
      * @param string $path
      *
      * @return bool
      */
-    abstract protected function saveImage($resource, string $path) : bool;
+    abstract protected function saveImage(ResourceInterface $resource, string $path) : bool;
 }

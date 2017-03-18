@@ -42,9 +42,14 @@ class SerialIteratorTest extends BaseTest
     private $sizeMock;
 
     /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resourceMock;
+
+    /**
      * @var resource
      */
-    private $resource;
+    private $pngResource;
 
     protected function setUp()
     {
@@ -71,14 +76,17 @@ class SerialIteratorTest extends BaseTest
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
             ->getMock();
 
-        $this->resource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px-alpha.png'));
+        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
+            ->getMock();
+
+        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px-alpha.png'));
     }
 
     protected function tearDown()
     {
         parent::tearDown();
 
-        imagedestroy($this->resource);
+        imagedestroy($this->pngResource);
     }
 
     public function testIterator()
@@ -97,6 +105,11 @@ class SerialIteratorTest extends BaseTest
             ->method('getHeight')
             ->willReturn($height);
 
+        // resource mock
+        $this->resourceMock->expects($this->once())
+            ->method('getResource')
+            ->willReturn($this->pngResource);
+
         // image mock
         $this->imageMock->expects($this->exactly(2))
             ->method('getSize')
@@ -104,7 +117,7 @@ class SerialIteratorTest extends BaseTest
 
         $this->imageMock->expects($this->once())
             ->method('getResource')
-            ->willReturn($this->resource);
+            ->willReturn($this->resourceMock);
 
         // color index mock
         $this->colorIndexMock->expects($this->exactly($size))

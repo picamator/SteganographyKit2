@@ -72,7 +72,7 @@ class ImageTest extends BaseTest
     public function testSerialIteratorJpeg(string $path)
     {
         $path = $this->getPath($path);
-        $resource = new JpegResource($path);
+        $resource = new JpegResource($this->sizeFactory, $path);
 
         $iteratorFactory = new IteratorFactory(
             $this->objectManager,
@@ -88,7 +88,7 @@ class ImageTest extends BaseTest
         $this->assertGreaterThan(0, $size);
 
         // path
-        $actualPath = $image->getPath();
+        $actualPath = $resource->getPath();
         $this->assertEquals($path, $actualPath);
 
         // iteration
@@ -108,7 +108,7 @@ class ImageTest extends BaseTest
         $this->assertEquals($size, $i);
 
         // resource
-        imagedestroy($image->getResource());
+        imagedestroy($image->getResource()->getResource());
     }
 
     public function providerSerialIteratorJpeg()

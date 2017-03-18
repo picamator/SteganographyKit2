@@ -73,7 +73,7 @@ class StegoTextTest extends BaseTest
     public function testSerialIteratorJpeg(string $path)
     {
         $path = $this->getPath($path);
-        $resource = new JpegResource($path);
+        $resource = new JpegResource($this->sizeFactory, $path);
 
         $iteratorFactory = new IteratorFactory(
             $this->objectManager,
@@ -103,7 +103,7 @@ class StegoTextTest extends BaseTest
         $this->assertEquals($size * 3, $i);
 
         // resource
-        imagedestroy($image->getResource());
+        imagedestroy($image->getResource()->getResource());
     }
 
     public function providerSerialIteratorJpeg()

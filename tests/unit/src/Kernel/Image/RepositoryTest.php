@@ -42,9 +42,14 @@ class RepositoryTest extends BaseTest
     private $pointMock;
 
     /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resourceMock;
+
+    /**
      * @var resource
      */
-    private $resource;
+    private $pngResource;
 
     protected function setUp()
     {
@@ -68,7 +73,10 @@ class RepositoryTest extends BaseTest
         $this->pointMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface')
             ->getMock();
 
-        $this->resource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel.png'));
+        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
+            ->getMock();
+
+        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel.png'));
 
         $this->repository = new Repository($this->imageMock, $this->colorIndexMock, $this->colorFactoryMock);
     }
@@ -77,7 +85,7 @@ class RepositoryTest extends BaseTest
     {
         parent::tearDown();
 
-        imagedestroy($this->resource);
+        imagedestroy($this->pngResource);
     }
 
     public function testUpdate()
@@ -123,10 +131,15 @@ class RepositoryTest extends BaseTest
             ->method('getY')
             ->willReturn(0);
 
+        // resource mock
+        $this->resourceMock->expects($this->once())
+            ->method('getResource')
+            ->willReturn($this->pngResource);
+
         // image mock
         $this->imageMock->expects($this->once())
             ->method('getResource')
-            ->willReturn($this->resource);
+            ->willReturn($this->resourceMock);
 
         $this->repository->update($this->pixelMock, []);
     }
@@ -168,6 +181,9 @@ class RepositoryTest extends BaseTest
 
         $this->pointMock->expects($this->never())
             ->method('getY');
+
+        $this->resourceMock->expects($this->never())
+            ->method('getResource');
 
         $this->imageMock->expects($this->never())
             ->method('getResource');

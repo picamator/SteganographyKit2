@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Image\Resource;
 
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface;
 
 /**
  * Resource image implementation for different image types
@@ -17,6 +19,11 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 abstract class AbstractResource implements ResourceInterface
 {
     /**
+     * @var SizeFactoryInterface
+     */
+    private $sizeFactory;
+
+    /**
      * @var string
      */
     private $path;
@@ -27,10 +34,17 @@ abstract class AbstractResource implements ResourceInterface
     private $resource;
 
     /**
+     * @var SizeInterface
+     */
+    private $size;
+
+    /**
+     * @param SizeFactoryInterface $sizeFactory
      * @param string $path
      */
-    public function __construct(string $path)
+    public function __construct(SizeFactoryInterface $sizeFactory, string $path)
     {
+        $this->sizeFactory = $sizeFactory;
         $this->path = $path;
     }
 
@@ -54,6 +68,18 @@ abstract class AbstractResource implements ResourceInterface
     final public function getPath(): string
     {
         return $this->path;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final public function getSize(): SizeInterface
+    {
+        if (is_null($this->size)) {
+            $this->size = $this->sizeFactory->create($this->getPath());
+        }
+
+        return $this->size;
     }
 
     /**

@@ -9,18 +9,11 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 interface ImageInterface extends \IteratorAggregate
 {
     /**
-     * Gets path
-     *
-     * @return string
-     */
-    public function getPath() : string;
-
-    /**
      * Gets resource
      *
-     * @return resource
+     * @return ResourceInterface
      */
-    public function getResource();
+    public function getResource() : ResourceInterface;
 
     /**
      * Gets size

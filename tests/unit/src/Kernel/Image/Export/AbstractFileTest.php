@@ -15,6 +15,11 @@ class AbstractFileTest extends BaseTest
      */
     private $nameGenertorMock;
 
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resourceMock;
+
     protected function setUp()
     {
         parent::setUp();
@@ -24,16 +29,22 @@ class AbstractFileTest extends BaseTest
 
         $this->nameGenertorMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface')
             ->getMock();
+
+        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
+            ->getMock();
     }
 
     public function testExport()
     {
         // image mock
-        $this->imageMock->expects($this->once())
-            ->method('getResource');
+        $this->imageMock->expects($this->exactly(2))
+            ->method('getResource')
+            ->willReturn($this->resourceMock);
 
-        $this->imageMock->expects($this->once())
-            ->method('getPath');
+        // resource mock
+        $this->resourceMock->expects($this->once())
+            ->method('getPath')
+            ->willReturn('');
 
         // name generator mock
         $this->nameGenertorMock->expects($this->once())
@@ -55,12 +66,15 @@ class AbstractFileTest extends BaseTest
      */
     public function testFailExport()
     {
-        // image mock
-        $this->imageMock->expects($this->once())
-            ->method('getResource');
+        // resource mock
+        $this->resourceMock->expects($this->once())
+            ->method('getPath')
+            ->willReturn('');
 
+        // image mock
         $this->imageMock->expects($this->exactly(2))
-            ->method('getPath');
+            ->method('getResource')
+            ->willReturn($this->resourceMock);
 
         // name generator mock
         $this->nameGenertorMock->expects($this->once())

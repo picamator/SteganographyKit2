@@ -7,7 +7,6 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface;
 
 /**
  * Image
@@ -25,16 +24,6 @@ class Image implements ImageInterface
     private $iteratorFactory;
 
     /**
-     * @var SizeFactoryInterface
-     */
-    private $sizeFactory;
-
-    /**
-     * @var SizeInterface
-     */
-    private $size;
-
-    /**
      * @var \Iterator
      */
     private $iterator;
@@ -42,32 +31,23 @@ class Image implements ImageInterface
     /**
      * @param ResourceInterface $resource
      * @param IteratorFactoryInterface $iteratorFactory
-     * @param SizeFactoryInterface $sizeFactory
      */
     public function __construct(
         ResourceInterface $resource,
-        IteratorFactoryInterface $iteratorFactory,
-        SizeFactoryInterface $sizeFactory
+        IteratorFactoryInterface $iteratorFactory
     ) {
         $this->resource = $resource;
         $this->iteratorFactory = $iteratorFactory;
-        $this->sizeFactory = $sizeFactory;
     }
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
-    public function getPath(): string
+    public function getResource() : ResourceInterface
     {
-        return $this->resource->getPath();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getResource()
-    {
-        return $this->resource->getResource();
+        return $this->resource;
     }
 
     /**
@@ -75,11 +55,7 @@ class Image implements ImageInterface
      */
     public function getSize(): SizeInterface
     {
-        if (is_null($this->size)) {
-            $this->size = $this->sizeFactory->create($this->getPath());
-        }
-
-        return $this->size;
+        return $this->resource->getSize();
     }
 
     /**

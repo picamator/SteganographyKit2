@@ -61,7 +61,7 @@ class Repository implements RepositoryInterface
         $color = $this->colorIndex->getColorallocate($pixel->getColor());
         $point = $pixel->getPoint();
 
-        $result = imagesetpixel($this->image->getResource(), $point->getX(), $point->getY(), $color);
+        $result = imagesetpixel($this->image->getResource()->getResource(), $point->getX(), $point->getY(), $color);
         // @codeCoverageIgnoreStart
         if ($result === false) {
             throw new RuntimeException(
