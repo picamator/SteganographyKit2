@@ -7,11 +7,11 @@ namespace Picamator\SteganographyKit2\Kernel\Text\Api;
 interface TextInterface extends \IteratorAggregate
 {
     /**
-     * Gets size in bits
+     * Gets bit count
      *
      * @return int
      */
-    public function getLengthBits() : int;
+    public function getCountBit() : int;
 
     /**
      * Gets text

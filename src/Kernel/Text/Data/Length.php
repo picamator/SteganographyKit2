@@ -25,7 +25,7 @@ class Length implements LengthInterface
     /**
      * @var int
      */
-    private $lengthBits;
+    private $countBit;
 
     /**
      * @param string $text
@@ -50,12 +50,12 @@ class Length implements LengthInterface
     /**
      * @inheritDoc
      */
-    public function getLengthBits(): int
+    public function getCountBit(): int
     {
-        if (is_null($this->lengthBits)) {
-            $this->lengthBits = $this->getLength() * 8;
+        if (is_null($this->countBit)) {
+            $this->countBit = $this->getLength() * 8;
         }
 
-        return $this->lengthBits;
+        return $this->countBit;
     }
 }

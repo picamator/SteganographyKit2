@@ -50,7 +50,7 @@ class SerialIteratorTest extends BaseTest
 
         // text mock
         $this->textMock->expects($this->once())
-            ->method('getLengthBits')
+            ->method('getCountBit')
             ->willReturn(8);
 
         $this->textMock->expects($this->once())

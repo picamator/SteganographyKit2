@@ -27,7 +27,7 @@ class SerialIterator implements SerialIteratorInterface
     /**
      * @var int
      */
-    private $lengthBits;
+    private $countBit;
 
     /**
      * Current index
@@ -52,7 +52,7 @@ class SerialIterator implements SerialIteratorInterface
         $this->text = $text;
         $this->asciiFactory = $asciiFactory;
 
-        $this->lengthBits = $this->text->getLengthBits();
+        $this->countBit = $this->text->getCountBit();
     }
 
     /**
@@ -95,7 +95,7 @@ class SerialIterator implements SerialIteratorInterface
      */
     public function valid()
     {
-        return $this->index < $this->lengthBits;
+        return $this->index < $this->countBit;
     }
 
     /**

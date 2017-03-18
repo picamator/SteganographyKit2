@@ -51,6 +51,7 @@ Name     | Dependencies   | Description
 Kernel   | None           | API & abstraction  
 Lsb      | Kernel         | Least Significant Bit  
 LsbText  | Kernel, Lsb    | Least Significant Bit where SecretText is a Text 
+LsbImage | Kernel, Lsb    | Least Significant Bit where SecretText is an Image 
 
 Documentation
 -------------

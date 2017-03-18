@@ -43,7 +43,7 @@ class TextTest extends BaseTest
             ->getMock();
     }
 
-    public function testGetLengthBits()
+    public function testGetCountBit()
     {
         $data = 'test';
         $dataLengthBits = strlen($data) * 8;
@@ -57,11 +57,11 @@ class TextTest extends BaseTest
 
         // length mock
         $this->lengthMock->expects($this->once())
-            ->method('getLengthBits')
+            ->method('getCountBit')
             ->willReturn($dataLengthBits);
 
-        $actual = $text->getLengthBits();
-        $text->getLengthBits(); // double run to test cache
+        $actual = $text->getCountBit();
+        $text->getCountBit(); // double run to test cache
 
         $this->assertEquals($dataLengthBits, $actual);
     }

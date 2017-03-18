@@ -38,8 +38,9 @@ class TextTest extends BaseTest
 
         $this->objectManager = new ObjectManager();
 
-        // itarator factory
+        // iterator factory
         $byteFactory = new ByteFactory($this->objectManager);
+
         $asciiFactory = new AsciiFactory($this->objectManager, $byteFactory);
 
         $this->iteratorFactory = new IteratorFactory($this->objectManager, $asciiFactory);
@@ -60,8 +61,8 @@ class TextTest extends BaseTest
         $text = new Text($this->iteratorFactory, $this->lengthFactory, $data);
 
         // length
-        $lengthBits = $text->getLengthBits();
-        $this->assertNotEmpty($lengthBits);
+        $countBit = $text->getCountBit();
+        $this->assertNotEmpty($countBit);
 
         // iteration
         $i = 0;
@@ -72,7 +73,7 @@ class TextTest extends BaseTest
             $this->assertContains($item, $expected);
             $i++;
         }
-        $this->assertEquals($lengthBits, $i);
+        $this->assertEquals($countBit, $i);
 
         // filter
         $actualText = $this->binaryToStringFilter->filter($binaryText);

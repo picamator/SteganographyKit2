@@ -51,14 +51,14 @@ class SecretTextTest extends BaseTest
         $this->secretText->getResource();
     }
 
-    public function testGetLengthBits()
+    public function testGetCountBit()
     {
         // text mock
         $this->textMock->expects($this->once())
-            ->method('getLengthBits')
+            ->method('getCountBit')
             ->willReturn(0);
 
-        $this->secretText->getLengthBits();
+        $this->secretText->getCountBit();
     }
 
     public function testGetIterator()

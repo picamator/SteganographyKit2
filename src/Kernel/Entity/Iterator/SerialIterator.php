@@ -5,13 +5,16 @@ namespace Picamator\SteganographyKit2\Kernel\Entity\Iterator;
 
 use Picamator\SteganographyKit2\Kernel\Entity\Api\Iterator\SerialIteratorInterface;
 use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 
 /**
  * Serial iterator
  *
- * Iterate color channel, red-green-blue
+ * Iterate color channel, red-green-blue-alpha
+ * Channels validation provided by factory for performance reason
+ * The channels order in array important for encode as well as for decode
  */
 class SerialIterator implements SerialIteratorInterface
 {
@@ -21,9 +24,9 @@ class SerialIterator implements SerialIteratorInterface
     private $color;
 
     /**
-     * @var array
+     * @var ChannelInterface
      */
-    private $channelList = ['red', 'green', 'blue'];
+    private $channel;
 
     /**
      * @var int
@@ -32,11 +35,13 @@ class SerialIterator implements SerialIteratorInterface
 
     /**
      * @param PixelInterface $pixel
+     * @param ChannelInterface $channel
      */
-    public function __construct(PixelInterface $pixel)
+    public function __construct(PixelInterface $pixel, ChannelInterface $channel)
     {
         // some algorithm might need pixel not only a color for iteration
         $this->color = $pixel->getColor();
+        $this->channel = $channel;
     }
 
     /**
@@ -64,7 +69,7 @@ class SerialIterator implements SerialIteratorInterface
      */
     public function key()
     {
-        return $this->channelList[$this->index];
+        return $this->channel->getChannels()[$this->index];
     }
 
     /**
@@ -72,7 +77,7 @@ class SerialIterator implements SerialIteratorInterface
      */
     public function valid()
     {
-        return $this->index <= 2;
+        return $this->index < $this->channel->count();
     }
 
     /**

@@ -6,6 +6,7 @@ use Picamator\SteganographyKit2\Kernel\Entity\PixelFactory;
 use Picamator\SteganographyKit2\Kernel\File\NameGenerator\SourceIdentical;
 use Picamator\SteganographyKit2\Kernel\Image\ColorFactory;
 use Picamator\SteganographyKit2\Kernel\Image\ColorIndex;
+use Picamator\SteganographyKit2\Kernel\Image\Data\Channel;
 use Picamator\SteganographyKit2\Kernel\Image\Export\JpegFile;
 use Picamator\SteganographyKit2\Kernel\Image\Image;
 use Picamator\SteganographyKit2\Kernel\Image\RepositoryFactory;
@@ -191,7 +192,9 @@ class StegoSystemTest extends BaseTest
         // encode arguments
         $pointFactory = new PointFactory($this->objectManager);
 
-        $iteratorFactory = new PixelIteratorFactory($this->objectManager);
+        $channel = new Channel();
+
+        $iteratorFactory = new PixelIteratorFactory($this->objectManager, $channel);
 
         $pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 

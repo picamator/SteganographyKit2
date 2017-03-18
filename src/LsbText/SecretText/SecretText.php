@@ -48,9 +48,9 @@ class SecretText implements SecretTextInterface
     /**
      * @inheritDoc
      */
-    public function getLengthBits(): int
+    public function getCountBit(): int
     {
-        return $this->text->getLengthBits();
+        return $this->text->getCountBit();
     }
 
     /**

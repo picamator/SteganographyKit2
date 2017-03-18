@@ -52,12 +52,8 @@ class PixelFactory implements PixelFactoryInterface
      */
     public function create(
         PointInterface $point,
-        ColorInterface $color,
-        IteratorFactoryInterface $iteratorFactory = null
+        ColorInterface $color
     ) : PixelInterface {
-
-        $iteratorFactory = $iteratorFactory ?? $this->iteratorFactory;
-
-        return $this->objectManager->create($this->className, [$point, $color, $iteratorFactory]);
+        return $this->objectManager->create($this->className, [$point, $color, $this->iteratorFactory]);
     }
 }

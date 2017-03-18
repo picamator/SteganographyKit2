@@ -16,9 +16,9 @@ interface LengthInterface
     public function getLength() : int;
 
     /**
-     * Gets length in bits
+     * Gets bit count
      *
      * @return int
      */
-    public function getLengthBits() : int;
+    public function getCountBit() : int;
 }

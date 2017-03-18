@@ -30,7 +30,7 @@ class Text implements TextInterface
     /**
      * @var int
      */
-    private $lengthBits;
+    private $countBit;
 
     /**
      * @var \Iterator
@@ -55,13 +55,13 @@ class Text implements TextInterface
     /**
      * @inheritDoc
      */
-    public function getLengthBits(): int
+    public function getCountBit(): int
     {
-        if (is_null($this->lengthBits)) {
-            $this->lengthBits = $this->lengthFactory->create($this->text)->getLengthBits();
+        if (is_null($this->countBit)) {
+            $this->countBit = $this->lengthFactory->create($this->text)->getCountBit();
         }
 
-        return $this->lengthBits;
+        return $this->countBit;
     }
 
     /**

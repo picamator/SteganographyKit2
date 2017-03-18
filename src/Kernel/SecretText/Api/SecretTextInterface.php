@@ -14,9 +14,9 @@ interface SecretTextInterface extends \IteratorAggregate
     public function getResource();
 
     /**
-     * Gets size in bits
+     * Gets bit count
      *
      * @return int
      */
-    public function getLengthBits() : int;
+    public function getCountBit() : int;
 }

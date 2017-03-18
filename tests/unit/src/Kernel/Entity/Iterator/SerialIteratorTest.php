@@ -12,6 +12,11 @@ class SerialIteratorTest extends BaseTest
     private $serialIterator;
 
     /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $channelMock;
+
+    /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $colorMock;
@@ -19,6 +24,9 @@ class SerialIteratorTest extends BaseTest
     protected function setUp()
     {
         parent::setUp();
+
+        $this->channelMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface')
+            ->getMock();
 
         $this->colorMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface')
             ->getMock();
@@ -29,11 +37,20 @@ class SerialIteratorTest extends BaseTest
         $pixelMock->method('getColor')
             ->willReturn($this->colorMock);
 
-        $this->serialIterator = new SerialIterator($pixelMock);
+        $this->serialIterator = new SerialIterator($pixelMock, $this->channelMock);
     }
 
     public function testIteration()
     {
+        // channel mock
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('count')
+            ->willReturn(3);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('getChannels')
+            ->willReturn(['red', 'green', 'blue']);
+
         // byte mock
         $byteMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface')
             ->getMock();

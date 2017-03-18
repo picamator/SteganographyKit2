@@ -4,6 +4,7 @@ namespace Picamator\SteganographyKit2\Tests\Integration\Kernel\Image;
 use Picamator\SteganographyKit2\Kernel\Entity\PixelFactory;
 use Picamator\SteganographyKit2\Kernel\Image\ColorFactory;
 use Picamator\SteganographyKit2\Kernel\Image\ColorIndex;
+use Picamator\SteganographyKit2\Kernel\Image\Data\Channel;
 use Picamator\SteganographyKit2\Kernel\Image\Image;
 use Picamator\SteganographyKit2\Kernel\Image\Iterator\IteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelIteratoryFactory;
@@ -56,7 +57,8 @@ class ImageTest extends BaseTest
         $this->pointFactory = new PointFactory($this->objectManager);
 
         // pixel factory
-        $iteratorFactory = new PixelIteratoryFactory($this->objectManager);
+        $channel = new Channel();
+        $iteratorFactory = new PixelIteratoryFactory($this->objectManager, $channel);
         $this->pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 
         $this->sizeFactory = new SizeFactory($this->objectManager);
