@@ -51,13 +51,13 @@ class TextTest extends BaseTest
     }
 
     /**
-     * @dataProvider providerSerialIterator
+     * @dataProvider providerSerialBitwiseIterator
      *
      * @param string $data
      */
-    public function testSerialIterator(string $data)
+    public function testSerialBitwiseIterator(string $data)
     {
-        $expected = ["0", "1"];
+        $expected = ['0', '1'];
         $text = new Text($this->iteratorFactory, $this->lengthFactory, $data);
 
         // length
@@ -80,7 +80,7 @@ class TextTest extends BaseTest
         $this->assertEquals($data, $actualText);
     }
 
-    public function providerSerialIterator()
+    public function providerSerialBitwiseIterator()
     {
         return [
             ['Hello Steganography!'],

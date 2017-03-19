@@ -38,9 +38,8 @@ class SecretText implements SecretTextInterface
     public function getCountBit(): int
     {
         $size = $this->image->getSize();
-        $channels = $size->getChannels() === 0 ? 1 : $size->getChannels();
 
-        return $size->getHeight() * $size->getWidth() * $channels * 8;
+        return $size->getHeight() * $size->getWidth() *  $size->getChannels() * 8;
     }
 
     /**

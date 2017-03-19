@@ -17,11 +17,6 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 class IteratorFactory implements IteratorFactoryInterface
 {
     /**
-     * @var array
-     */
-    private static $channels = ['red', 'green', 'blue'];
-
-    /**
      * @var ObjectManagerInterface
      */
     private $objectManager;
@@ -46,7 +41,7 @@ class IteratorFactory implements IteratorFactoryInterface
     public function __construct(
         ObjectManagerInterface $objectManager,
         ChannelInterface $iteratedChannels,
-        string $className = 'Picamator\SteganographyKit2\Kernel\Entity\Iterator\SerialIterator'
+        string $className = 'Picamator\SteganographyKit2\Kernel\Entity\Iterator\SerialBytewiseIterator'
     ) {
         $this->objectManager = $objectManager;
         $this->iteratedChannels = $iteratedChannels;

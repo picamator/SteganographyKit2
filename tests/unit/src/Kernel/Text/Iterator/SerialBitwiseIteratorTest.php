@@ -1,10 +1,10 @@
 <?php
 namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Text\Filter;
 
+use Picamator\SteganographyKit2\Kernel\Text\Iterator\SerialBitwiseIterator;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
-use Picamator\SteganographyKit2\Kernel\Text\Iterator\SerialIterator;
 
-class SerialIteratorTest extends BaseTest
+class SerialBitwiseIteratorTest extends BaseTest
 {
     /**
      * @var \Picamator\SteganographyKit2\Kernel\Text\Api\TextInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -72,7 +72,7 @@ class SerialIteratorTest extends BaseTest
             ->method('getBinary')
             ->willReturn($charBinary);
 
-        $serialIterator = new SerialIterator($this->textMock, $this->asciiFactoryMock, $text);
+        $serialIterator = new SerialBitwiseIterator($this->textMock, $this->asciiFactoryMock, $text);
         $iterator = new \ArrayIterator(str_split($charBinary));
 
         $multipleIterator = new \MultipleIterator(\MultipleIterator::MIT_NEED_ALL|\MultipleIterator::MIT_KEYS_ASSOC);

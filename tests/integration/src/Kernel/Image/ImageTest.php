@@ -33,11 +33,6 @@ class ImageTest extends BaseTest
     private $pointFactory;
 
     /**
-     * @var PixelFactory
-     */
-    private $pixelFactory;
-
-    /**
      * @var SizeFactory
      */
     private $sizeFactory;
@@ -65,11 +60,11 @@ class ImageTest extends BaseTest
     }
 
     /**
-     * @dataProvider providerSerialIteratorJpeg
+     * @dataProvider providerSerialBytewiseIteratorJpeg
      *
      * @param string $path
      */
-    public function testSerialIteratorJpeg(string $path)
+    public function testSerialBytewiseIteratorJpeg(string $path)
     {
         $path = $this->getPath($path);
         $resource = new JpegResource($this->sizeFactory, $path);
@@ -111,7 +106,7 @@ class ImageTest extends BaseTest
         imagedestroy($image->getResource()->getResource());
     }
 
-    public function providerSerialIteratorJpeg()
+    public function providerSerialBytewiseIteratorJpeg()
     {
         return [
             ['secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px.jpeg'],

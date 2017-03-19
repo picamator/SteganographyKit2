@@ -38,7 +38,7 @@ class IteratorFactory implements IteratorFactoryInterface
     public function __construct(
         ObjectManagerInterface $objectManager,
         AsciiFactoryInterface $asciiFactory,
-        string $className = 'Picamator\SteganographyKit2\Kernel\Text\Iterator\SerialIterator'
+        string $className = 'Picamator\SteganographyKit2\Kernel\Text\Iterator\SerialBitwiseIterator'
     ) {
         $this->objectManager = $objectManager;
         $this->asciiFactory = $asciiFactory;

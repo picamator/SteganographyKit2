@@ -9,7 +9,14 @@ interface ChannelInterface extends \Countable
     /**
      * Gets channels
      *
-     * @return array
+     * @return array ['red', 'green', 'blue']
      */
     public function getChannels() : array;
+
+    /**
+     * Gets method names based on channel
+     *
+     * @return array ['getRed', 'getGreen', 'getBlue']
+     */
+    public function getMethodChannels() : array;
 }

@@ -8,11 +8,11 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\TextInterface;
 use Picamator\SteganographyKit2\Kernel\Text\Api\AsciiFactoryInterface;
 
 /**
- * Serial iterator
+ * Serial bitwise iterator
  *
  * Iterate char bits by bits from the beginning to the end
  */
-class SerialIterator implements SerialIteratorInterface
+class SerialBitwiseIterator implements SerialIteratorInterface
 {
     /**
      * @var TextInterface
@@ -65,10 +65,10 @@ class SerialIterator implements SerialIteratorInterface
         if (empty($this->currentContainer)) {
             $charIndex = $this->index / 8;
             $char = substr($this->text->getText(), $charIndex, 1);
-            $currentByte = $this->asciiFactory->create($char)
+            $byte = $this->asciiFactory->create($char)
                 ->getByte();
 
-            $this->currentContainer = str_split($currentByte->getBinary());
+            $this->currentContainer = str_split($byte->getBinary());
         }
 
         return array_shift($this->currentContainer);

@@ -26,7 +26,12 @@ class Channel implements ChannelInterface
     /**
      * @var int
      */
-    private $channelsCount;
+    private $countChannels;
+
+    /**
+     * @var array
+     */
+    private $methodChannels;
 
     /**
      * @param array $channels The channels order in array important for encode as well as for decode
@@ -36,8 +41,9 @@ class Channel implements ChannelInterface
     public function __construct(array $channels = [])
     {
         $this->setChannels($channels);
+        $this->setMethodChannels($this->channels);
 
-        $this->channelsCount = count($this->channels);
+        $this->countChannels = count($this->channels);
     }
 
     /**
@@ -51,9 +57,17 @@ class Channel implements ChannelInterface
     /**
      * @inheritDoc
      */
+    public function getMethodChannels() : array
+    {
+        return $this->methodChannels;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function count()
     {
-        return $this->channelsCount;
+        return $this->countChannels;
     }
 
     /**
@@ -80,5 +94,17 @@ class Channel implements ChannelInterface
         }
 
         $this->channels = $channels;
+    }
+
+    /**
+     * Sets method channels
+     *
+     * @param array $channels
+     */
+    private function setMethodChannels(array $channels)
+    {
+        $this->methodChannels = array_map(function($item) {
+            return 'get' . ucwords($item);
+        }, $channels);
     }
 }

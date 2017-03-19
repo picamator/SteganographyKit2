@@ -10,13 +10,15 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 
 /**
- * Serial iterator
+ * Serial bitwise iterator
  *
- * Iterate color channel, red-green-blue-alpha
+ * Iterate color channel red-green-blue bit by bit
  * Channels validation provided by factory for performance reason
  * The channels order in array important for encode as well as for decode
+ *
+ * *Attention* Channel does not support alpha therefore it might be lost alpha channel in encode-decode process
  */
-class SerialIterator implements SerialIteratorInterface
+class SerialBitwiseIterator implements SerialIteratorInterface
 {
     /**
      * @var ColorInterface
@@ -31,7 +33,22 @@ class SerialIterator implements SerialIteratorInterface
     /**
      * @var int
      */
+    private $maxIndex;
+
+    /**
+     * @var int
+     */
     private $index = 0;
+
+    /**
+     * @var string
+     */
+    private $currentChannel;
+
+    /**
+     * @var array
+     */
+    private $currentContainer;
 
     /**
      * @param PixelInterface $pixel
@@ -42,18 +59,29 @@ class SerialIterator implements SerialIteratorInterface
         // some algorithm might need pixel not only a color for iteration
         $this->color = $pixel->getColor();
         $this->channel = $channel;
+        $this->maxIndex = $this->channel->count() * 8;
     }
 
     /**
      * @inheritDoc
      *
-     * @return ByteInterface
+     * @return string "0" or "1"
      */
     public function current()
     {
-        $method = 'get' . ucwords($this->key());
+        if (empty($this->currentContainer)) {
+            $channelIndex = $this->index / 8;
+            $this->currentChannel = $this->channel->getChannels()[$channelIndex];
 
-        return $this->color->$method();
+            $method = $this->channel->getMethodChannels()[$channelIndex];
+
+            /** @var ByteInterface $byte */
+            $byte = $this->color->$method();
+
+            $this->currentContainer = str_split($byte->getBinary());
+        }
+
+        return array_shift($this->currentContainer);
     }
 
     /**
@@ -69,7 +97,7 @@ class SerialIterator implements SerialIteratorInterface
      */
     public function key()
     {
-        return $this->channel->getChannels()[$this->index];
+        return $this->currentChannel . '-' . $this->index;
     }
 
     /**
@@ -77,7 +105,7 @@ class SerialIterator implements SerialIteratorInterface
      */
     public function valid()
     {
-        return $this->index < $this->channel->count();
+        return $this->index < $this->maxIndex;
     }
 
     /**
@@ -86,6 +114,8 @@ class SerialIterator implements SerialIteratorInterface
     public function rewind()
     {
         $this->index = 0;
+        $this->currentContainer = null;
+        $this->currentChannel = current($this->channel->getChannels());
     }
 
     /**

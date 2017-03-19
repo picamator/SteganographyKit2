@@ -1,13 +1,13 @@
 <?php
 namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Entity;
 
-use Picamator\SteganographyKit2\Kernel\Entity\Iterator\SerialIterator;
+use Picamator\SteganographyKit2\Kernel\Entity\Iterator\SerialBytewiseIterator;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 
-class SerialIteratorTest extends BaseTest
+class SerialBytewiseIteratorTest extends BaseTest
 {
     /**
-     * @var SerialIterator
+     * @var SerialBytewiseIterator
      */
     private $serialIterator;
 
@@ -37,7 +37,7 @@ class SerialIteratorTest extends BaseTest
         $pixelMock->method('getColor')
             ->willReturn($this->colorMock);
 
-        $this->serialIterator = new SerialIterator($pixelMock, $this->channelMock);
+        $this->serialIterator = new SerialBytewiseIterator($pixelMock, $this->channelMock);
     }
 
     public function testIteration()
@@ -50,6 +50,10 @@ class SerialIteratorTest extends BaseTest
         $this->channelMock->expects($this->atLeastOnce())
             ->method('getChannels')
             ->willReturn(['red', 'green', 'blue']);
+
+        $this->channelMock->expects($this->atLeastOnce())
+            ->method('getMethodChannels')
+            ->willReturn(['getRed', 'getGreen', 'getBlue']);
 
         // byte mock
         $byteMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface')

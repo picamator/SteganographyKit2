@@ -30,9 +30,23 @@ class ChannelTest extends BaseTest
 
         $actualChannel = new Channel($channels);
         $actualChannelList = $actualChannel->getChannels();
+        $actualChannelMethodList = $actualChannel->getMethodChannels();
 
-        $this->assertEquals($actualCount, $actualChannel->count());
         $this->assertNotEmpty($actualChannelList);
+        $this->assertNotEmpty($actualChannelMethodList);
+        $this->assertEquals($actualCount, $actualChannel->count());
+        $this->assertEquals(count($actualChannelMethodList), $actualChannel->count());
+    }
+
+
+    public function testGetMethodChannels()
+    {
+        $channel = new Channel();
+        $methodList = $channel->getMethodChannels();
+
+        foreach($methodList as $item) {
+            $this->assertTrue(method_exists('Picamator\SteganographyKit2\Kernel\Image\Data\Color', $item));
+        }
     }
 
     public function providerValidArguments()
