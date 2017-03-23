@@ -1,7 +1,6 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\File\Api;
 
-use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
 
 /**
@@ -16,7 +15,7 @@ interface WritablePathFactoryInterface
      *
      * @return WritablePathInterface
      *
-     * @throws InvalidArgumentException
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException
      */
     public function create(string $path) : WritablePathInterface;
 }

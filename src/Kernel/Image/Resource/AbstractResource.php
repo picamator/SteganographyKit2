@@ -6,7 +6,6 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Resource;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface;
 
 /**
  * Resource image implementation for different image types

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\File;
 
+use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\WritablePathFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
