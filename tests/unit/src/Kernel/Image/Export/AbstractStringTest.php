@@ -24,30 +24,21 @@ class AbstractStringTest extends BaseTest
     {
         parent::setUp();
 
-        $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface')
-            ->getMock();
-
         $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
             ->getMock();
 
         $this->stringMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Export\AbstractString')
-            ->setConstructorArgs([$this->imageMock])
             ->getMockForAbstractClass();
     }
 
     public function testExport()
     {
-        // image mock
-        $this->imageMock->expects($this->once())
-            ->method('getResource')
-            ->willReturn($this->resourceMock);
-
         // string mock
         $this->stringMock ->expects($this->once())
             ->method('displayImage')
             ->willReturn(true);
 
-        $this->stringMock->export();
+        $this->stringMock->export($this->resourceMock);
     }
 
     /**
@@ -55,21 +46,16 @@ class AbstractStringTest extends BaseTest
      */
     public function testFailExport()
     {
-        // image mock
-        $this->imageMock->expects($this->exactly(2))
-            ->method('getResource')
-            ->willReturn($this->resourceMock);
-
         // resource mock
         $this->resourceMock->expects($this->once())
-            ->method('getPath')
+            ->method('getName')
             ->willReturn('');
 
         // string mock
-        $this->stringMock ->expects($this->once())
+        $this->stringMock->expects($this->once())
             ->method('displayImage')
             ->willReturn(false);
 
-        $this->stringMock->export();
+        $this->stringMock->export($this->resourceMock);
     }
 }

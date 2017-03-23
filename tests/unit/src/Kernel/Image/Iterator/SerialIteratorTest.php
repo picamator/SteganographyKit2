@@ -79,7 +79,7 @@ class SerialIteratorTest extends BaseTest
         $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
             ->getMock();
 
-        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px-alpha.png'));
+        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel-1x1px.png'));
     }
 
     protected function tearDown()
@@ -91,8 +91,8 @@ class SerialIteratorTest extends BaseTest
 
     public function testIterator()
     {
-        $width = 2;
-        $height = 2;
+        $width = 1;
+        $height = 1;
 
         $size = $width * $height;
 

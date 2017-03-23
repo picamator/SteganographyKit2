@@ -1,21 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2\Kernel\Image;
+namespace Picamator\SteganographyKit2\Kernel\Entity;
 
+use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
- * Create Repository object
+ * Create Pixel repository object
  *
  * @codeCoverageIgnore
  */
-class RepositoryFactory implements RepositoryFactoryInterface
+class PixelRepositoryFactory implements PixelRepositoryFactoryInterface
 {
     /**
      * @var ObjectManagerInterface
@@ -47,7 +47,7 @@ class RepositoryFactory implements RepositoryFactoryInterface
         ObjectManagerInterface $objectManager,
         ColorIndexInterface $colorIndex,
         ColorFactoryInterface $colorFactory,
-        $className = 'Picamator\SteganographyKit2\Kernel\Image\Repository'
+        $className = 'Picamator\SteganographyKit2\Kernel\Entity\PixelRepository'
     ) {
         $this->objectManager = $objectManager;
         $this->colorIndex = $colorIndex;
@@ -58,8 +58,8 @@ class RepositoryFactory implements RepositoryFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(ImageInterface $image) : RepositoryInterface
+    public function create(ResourceInterface $resource) : PixelRepositoryInterface
     {
-        return $this->objectManager->create($this->className, [$image, $this->colorIndex, $this->colorFactory]);
+        return $this->objectManager->create($this->className, [$resource, $this->colorIndex, $this->colorFactory]);
     }
 }

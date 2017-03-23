@@ -2,10 +2,14 @@
 namespace Picamator\SteganographyKit2\Tests\Integration\Kernel\StegoText;
 
 use Picamator\SteganographyKit2\Kernel\Entity\PixelFactory;
+use Picamator\SteganographyKit2\Kernel\File\Data\WritablePath;
+use Picamator\SteganographyKit2\Kernel\File\NameGenerator\SourceIdentical;
 use Picamator\SteganographyKit2\Kernel\Image\ColorFactory;
 use Picamator\SteganographyKit2\Kernel\Image\ColorIndex;
 use Picamator\SteganographyKit2\Kernel\Image\Data\Channel;
+use Picamator\SteganographyKit2\Kernel\Image\Export\JpegFile;
 use Picamator\SteganographyKit2\Kernel\Image\Image;
+use Picamator\SteganographyKit2\Kernel\Image\InfoFactory;
 use Picamator\SteganographyKit2\Kernel\Image\Iterator\IteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelIteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Image\Resource\JpegResource;
@@ -62,14 +66,18 @@ class StegoTextTest extends BaseTest
      */
     public function testSerialBytewiseIteratorJpeg(string $path)
     {
+        $path = $this->getPath($path);
+        $exportPath = $this->getPath('data' . DIRECTORY_SEPARATOR . 'tmp');
+
         // pixel factory
         $channel = new Channel();
         $iteratorFactory = new PixelIteratorFactory($this->objectManager, $channel);
         $pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 
-        // image
-        $path = $this->getPath($path);
-        $resource = new JpegResource($this->sizeFactory, $path);
+        // resource
+        $infoFactory = new InfoFactory($this->objectManager, $this->sizeFactory);
+        $info = $infoFactory->create($path);
+        $resource = new JpegResource($info->getSize(), $path);
 
         $iteratorFactory = new IteratorFactory(
             $this->objectManager,
@@ -78,7 +86,12 @@ class StegoTextTest extends BaseTest
             $pixelFactory
         );
 
-        $image = new Image($resource, $iteratorFactory, $this->sizeFactory);
+        // export
+        $writablePath = new WritablePath($exportPath);
+        $nameGenerator = new SourceIdentical();
+        $exportStrategy = new JpegFile($writablePath, $nameGenerator);
+
+        $image = new Image($resource, $iteratorFactory, $exportStrategy);
         $size = $image->getSize()->getHeight() * $image->getSize()->getWidth();
 
         $stegoText = new StegoText($image);
@@ -109,6 +122,9 @@ class StegoTextTest extends BaseTest
      */
     public function testSerialBitwiseIteratorJpeg(string $path)
     {
+        $path = $this->getPath($path);
+        $exportPath = $this->getPath('data' . DIRECTORY_SEPARATOR . 'tmp');
+
         $expected = ['0', '1'];
 
         // pixel factory
@@ -120,9 +136,10 @@ class StegoTextTest extends BaseTest
         );
         $pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 
-        // image
-        $path = $this->getPath($path);
-        $resource = new JpegResource($this->sizeFactory, $path);
+        // resource
+        $infoFactory = new InfoFactory($this->objectManager, $this->sizeFactory);
+        $info = $infoFactory->create($path);
+        $resource = new JpegResource($info->getSize(), $path);
 
         $iteratorFactory = new IteratorFactory(
             $this->objectManager,
@@ -131,7 +148,12 @@ class StegoTextTest extends BaseTest
             $pixelFactory
         );
 
-        $image = new Image($resource, $iteratorFactory, $this->sizeFactory);
+        // export
+        $writablePath = new WritablePath($exportPath);
+        $nameGenerator = new SourceIdentical();
+        $exportStrategy = new JpegFile($writablePath, $nameGenerator);
+
+        $image = new Image($resource, $iteratorFactory, $exportStrategy);
         $size = $image->getSize()->getHeight() * $image->getSize()->getWidth();
 
         $stegoText = new StegoText($image);
@@ -152,14 +174,16 @@ class StegoTextTest extends BaseTest
     public function providerSerialBitwiseIteratorJpeg()
     {
         return [
-            ['secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px.jpeg'],
+            ['secret' . DIRECTORY_SEPARATOR . 'black-white-horizontal-stripe-25x1px.jpg'],
+            ['secret' . DIRECTORY_SEPARATOR . 'black-white-vertical-stripe-1x25px.jpg'],
         ];
     }
 
     public function providerSerialBytewiseIteratorJpeg()
     {
         return [
-            ['secret' . DIRECTORY_SEPARATOR . 'parallel-lines-100x100px.jpeg'],
+            ['secret' . DIRECTORY_SEPARATOR . 'black-white-horizontal-stripe-25x1px.jpg'],
+            ['secret' . DIRECTORY_SEPARATOR . 'black-white-vertical-stripe-1x25px.jpg'],
         ];
     }
 }

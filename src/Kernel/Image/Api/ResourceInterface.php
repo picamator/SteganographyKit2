@@ -12,11 +12,11 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 interface ResourceInterface
 {
     /**
-     * Gets path
+     * Gets name
      *
      * @return string
      */
-    public function getPath() : string;
+    public function getName() : string;
 
     /**
      * Gets size

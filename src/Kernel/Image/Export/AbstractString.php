@@ -5,7 +5,6 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Export;
 
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
@@ -16,31 +15,18 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 abstract class AbstractString implements ExportInterface
 {
     /**
-     * @var ImageInterface
-     */
-    private $image;
-
-    /**
-     * @param ImageInterface $image
-     */
-    public function __construct(ImageInterface $image)
-    {
-        $this->image = $image;
-    }
-
-    /**
      * @inheritDoc
      */
-    final public function export(): string
+    final public function export(ResourceInterface $resource): string
     {
         ob_start();
-            $result = $this->displayImage($this->image->getResource());
+            $result = $this->displayImage($resource);
             $contents = ob_get_contents();
         ob_end_clean();
 
         if ($result === false) {
             throw new RuntimeException(
-                sprintf('Failed exporting image "%s"', $this->image->getResource()->getPath())
+                sprintf('Failed exporting image "%s"', $resource->getName())
             );
         }
 

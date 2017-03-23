@@ -1,8 +1,6 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\Util\Api;
 
-use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
-
 /**
  * Creates objects, the main usage inside factories.
  *
@@ -18,7 +16,7 @@ interface ObjectManagerInterface
      *
      * @return mixed
      *
-     * @throws RuntimeException
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
     public function create(string $className, array $arguments = []);
 }

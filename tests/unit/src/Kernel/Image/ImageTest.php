@@ -27,6 +27,11 @@ class ImageTest extends BaseTest
     private $iteratorMock;
 
     /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $exportMock;
+
+    /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $sizeMock;
@@ -44,12 +49,16 @@ class ImageTest extends BaseTest
         $this->iteratorMock = $this->getMockBuilder('Iterator')
             ->getMock();
 
+        $this->exportMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface')
+            ->getMock();
+
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
             ->getMock();
 
         $this->image = new Image(
             $this->resourceMock,
-            $this->iteratorFactoryMock
+            $this->iteratorFactoryMock,
+            $this->exportMock
         );
     }
 
@@ -72,5 +81,17 @@ class ImageTest extends BaseTest
 
         $this->image->getIterator();
         $this->image->getIterator(); // double runt to test cache
+    }
+
+    public function testExport()
+    {
+        // iterator factory mock
+        $this->exportMock->expects($this->once())
+            ->method('export')
+            ->with($this->equalTo($this->resourceMock))
+            ->willReturn('');
+
+        $this->image->export();
+        $this->image->export(); // double run to test cache
     }
 }

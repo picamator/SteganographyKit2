@@ -29,12 +29,12 @@ class EncodeTest extends BaseTest
     private $encodeBitMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $repositoryFactoryMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $repositoryMock;
 
@@ -58,6 +58,11 @@ class EncodeTest extends BaseTest
      */
     private $imageMock;
 
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resourceMock;
+
     protected function setUp()
     {
         parent::setUp();
@@ -69,10 +74,10 @@ class EncodeTest extends BaseTest
         $this->encodeBitMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface')
             ->getMock();
 
-        $this->repositoryFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryFactoryInterface')
+        $this->repositoryFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryFactoryInterface')
             ->getMock();
 
-        $this->repositoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryInterface')
+        $this->repositoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryInterface')
             ->getMock();
 
         $this->stegoTextFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextFactoryInterface')
@@ -85,6 +90,9 @@ class EncodeTest extends BaseTest
             ->getMock();
 
         $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface')
+            ->getMock();
+
+        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
             ->getMock();
 
         $this->encode = new Encode($this->encodeBitMock,  $this->repositoryFactoryMock, $this->stegoTextFactoryMock);
@@ -119,6 +127,11 @@ class EncodeTest extends BaseTest
         $coverTextMock->expects($this->exactly(2))
             ->method('getImage')
             ->willReturn($this->imageMock);
+
+        // image mock
+        $this->imageMock->expects($this->once())
+            ->method('getResource')
+            ->willReturn($this->resourceMock);
 
         // encode bit mock
         $this->encodeBitMock->expects($this->exactly(count($secretText)))

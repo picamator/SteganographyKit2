@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Data;
 
-use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface;
 
 /**
@@ -11,13 +10,6 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface;
  */
 class Channel implements ChannelInterface
 {
-    /**
-     * The channels order in array important for encode as well as for decode
-     *
-     * @var array
-     */
-    private static $defaultChannels = ['red', 'green', 'blue'];
-
     /**
      * @var array
      */
@@ -35,12 +27,10 @@ class Channel implements ChannelInterface
 
     /**
      * @param array $channels The channels order in array important for encode as well as for decode
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct(array $channels = [])
     {
-        $this->setChannels($channels);
+        $this->channels = $channels;
         $this->setMethodChannels($this->channels);
 
         $this->countChannels = count($this->channels);
@@ -68,32 +58,6 @@ class Channel implements ChannelInterface
     public function count()
     {
         return $this->countChannels;
-    }
-
-    /**
-     * Sets channels
-     *
-     * @param array $channels
-     *
-     * @throws InvalidArgumentException
-     */
-    private function setChannels(array $channels)
-    {
-        if (empty($channels)) {
-            $this->channels = self::$defaultChannels;
-            return;
-        }
-
-        if (!empty(array_diff($channels, self::$defaultChannels))) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid channel list [%s]. Please choose ones form the [%s].',
-                    implode(', ' , $channels),
-                    implode(', ' , self::$defaultChannels)
-                )
-            );
-        }
-
-        $this->channels = $channels;
     }
 
     /**

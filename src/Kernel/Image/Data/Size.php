@@ -8,9 +8,6 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 /**
  * Size value object
  *
- * It's not need to check the options item data type as Size object are creating by Factory.
- * The Factory get's responsibility for options data typing. This case make creating data object faster.
- *
  * @codeCoverageIgnore
  */
 class Size implements SizeInterface
@@ -26,36 +23,13 @@ class Size implements SizeInterface
     private $height;
 
     /**
-     * @var string
+     * @param int $width
+     * @param int $height
      */
-    private $attr;
-
-    /**
-     * @var string
-     */
-    private $bits;
-
-    /**
-     * @var int
-     */
-    private $channels;
-
-    /**
-     * @var string
-     */
-    private $mime;
-
-    /**
-     * @param array $options
-     */
-    public function __construct(array $options)
+    public function __construct(int $width, int $height)
     {
-        $this->width = $options['width'] ?? 0;
-        $this->height = $options['height'] ?? 0;
-        $this->attr = $options['attr'] ?? '';
-        $this->bits = $options['bits'] ?? 0;
-        $this->channels = $options['channels'] ?? 0;
-        $this->mime = $options['mime']?? '';
+        $this->width = $width;
+        $this->height = $height;
     }
 
     /**
@@ -72,37 +46,5 @@ class Size implements SizeInterface
     public function getHeight(): int
     {
         return $this->height;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getAttr(): string
-    {
-        return $this->attr;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBits(): string
-    {
-        return $this->bits;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getChannels(): int
-    {
-        return $this->channels;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getMime(): string
-    {
-        return $this->mime;
     }
 }

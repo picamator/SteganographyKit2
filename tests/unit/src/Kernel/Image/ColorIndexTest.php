@@ -52,7 +52,7 @@ class ColorIndexTest extends BaseTest
 
     public function testGetColor()
     {
-        $path = $this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel.png');
+        $path = $this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel-1x1px.png');
         $resource = imagecreatefrompng($path);
 
         $colorIndex = imagecolorat($resource, 0, 0);

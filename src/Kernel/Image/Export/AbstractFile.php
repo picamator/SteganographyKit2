@@ -5,9 +5,9 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Export;
 
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
@@ -18,9 +18,9 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 abstract class AbstractFile implements ExportInterface
 {
     /**
-     * @var ImageInterface
+     * @var WritablePathInterface
      */
-    private $image;
+    private $path;
 
     /**
      * @var NameGeneratorInterface
@@ -28,26 +28,15 @@ abstract class AbstractFile implements ExportInterface
     private $nameGenerator;
 
     /**
-     * @var string
-     */
-    private $savePath;
-
-    /**
-     * @param ImageInterface $image
+     * @param WritablePathInterface $path
      * @param NameGeneratorInterface $nameGenerator
-     * @param $savePath
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct(
-        ImageInterface $image,
-        NameGeneratorInterface $nameGenerator,
-        string $savePath
+        WritablePathInterface $path,
+        NameGeneratorInterface $nameGenerator
     ) {
-        $this->image = $image;
+        $this->path = $path;
         $this->nameGenerator = $nameGenerator;
-
-        $this->setSavePath($savePath);
     }
 
     /**
@@ -56,46 +45,19 @@ abstract class AbstractFile implements ExportInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    final public function export(): string
+    final public function export(ResourceInterface $resource): string
     {
-        $resourcePath = $this->image->getResource()->getPath();
-        $path = rtrim($this->savePath, '/\\') . DIRECTORY_SEPARATOR . $this->nameGenerator->generate($resourcePath);
+        $resourceName = $resource->getName();
+        $savePath = rtrim($this->path->getPath(), '/\\') . DIRECTORY_SEPARATOR . $this->nameGenerator->generate($resourceName);
 
-        $result = $this->saveImage($this->image->getResource(), $path);
+        $result = $this->saveImage($resource, $savePath);
         if ($result === false) {
             throw new RuntimeException(
-                sprintf('Failed to save image "%s" to the destination "%s"', $resourcePath, $path)
+                sprintf('Failed to save image "%s" to the destination "%s"', $resourceName, $savePath)
             );
         }
 
-        return $path;
-    }
-
-    /**
-     * Validate savePath
-     *
-     * @param string $savePath
-     * 
-     * @throws InvalidArgumentException
-     *
-     * @codeCoverageIgnore
-     */
-    private function setSavePath($savePath)
-    {
-        $dirPath = dirname($savePath);
-        if(!file_exists($dirPath) && !mkdir($dirPath, 0755, true)) {
-            throw new InvalidArgumentException(
-                sprintf('Impossible create sub-folders structure for destination "%s"', $savePath)
-            );
-        }
-
-        if(!is_writable($dirPath)) {
-            throw new InvalidArgumentException(
-                sprintf('Destination does not have writable permission "%s"', $dirPath)
-            );
-        }
-        
-        $this->savePath = $savePath;
+        return $savePath;
     }
 
     /**

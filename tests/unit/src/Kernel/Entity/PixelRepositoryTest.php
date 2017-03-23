@@ -1,20 +1,15 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Image;
+namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Entity;
 
-use Picamator\SteganographyKit2\Kernel\Image\Repository;
+use Picamator\SteganographyKit2\Kernel\Entity\PixelRepository;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 
-class RepositoryTest extends BaseTest
+class PixelRepositoryTest extends BaseTest
 {
     /**
-     * @var Repository
+     * @var PixelRepository
      */
-    private $repository;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $imageMock;
+    private $pixelRepository;
 
     /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -55,9 +50,6 @@ class RepositoryTest extends BaseTest
     {
         parent::setUp();
 
-        $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface')
-            ->getMock();
-
         $this->colorIndexMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface')
             ->getMock();
 
@@ -76,9 +68,9 @@ class RepositoryTest extends BaseTest
         $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
             ->getMock();
 
-        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel.png'));
+        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel-1x1px.png'));
 
-        $this->repository = new Repository($this->imageMock, $this->colorIndexMock, $this->colorFactoryMock);
+        $this->pixelRepository = new PixelRepository($this->resourceMock, $this->colorIndexMock, $this->colorFactoryMock);
     }
 
     protected function tearDown()
@@ -136,12 +128,7 @@ class RepositoryTest extends BaseTest
             ->method('getResource')
             ->willReturn($this->pngResource);
 
-        // image mock
-        $this->imageMock->expects($this->once())
-            ->method('getResource')
-            ->willReturn($this->resourceMock);
-
-        $this->repository->update($this->pixelMock, []);
+        $this->pixelRepository->update($this->pixelMock, []);
     }
 
     public function testSkipedUpdate()
@@ -185,9 +172,6 @@ class RepositoryTest extends BaseTest
         $this->resourceMock->expects($this->never())
             ->method('getResource');
 
-        $this->imageMock->expects($this->never())
-            ->method('getResource');
-
-        $this->repository->update($this->pixelMock, []);
+        $this->pixelRepository->update($this->pixelMock, []);
     }
 }

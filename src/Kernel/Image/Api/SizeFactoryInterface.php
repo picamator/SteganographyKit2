@@ -11,11 +11,13 @@ interface SizeFactoryInterface
     /**
      * Create
      *
-     * @param string $path
+     * @param int $width
+     * @param int $height
      *
      * @return SizeInterface
      *
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException
      * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
-    public function create(string $path) : SizeInterface;
+    public function create(int $width, int $height) : SizeInterface;
 }

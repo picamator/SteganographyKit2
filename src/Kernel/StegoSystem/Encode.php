@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\CoverText\Api\CoverTextInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
@@ -24,7 +24,7 @@ class Encode implements EncodeInterface
     private $encodeBit;
 
     /**
-     * @var RepositoryFactoryInterface
+     * @var PixelRepositoryFactoryInterface
      */
     private $repositoryFactory;
 
@@ -35,12 +35,12 @@ class Encode implements EncodeInterface
 
     /**
      * @param EncodeBitInterface $encodeBit
-     * @param RepositoryFactoryInterface $repositoryFactory
+     * @param PixelRepositoryFactoryInterface $repositoryFactory
      * @param StegoTextFactoryInterface $stegoTextFactory
      */
     public function __construct(
         EncodeBitInterface $encodeBit,
-        RepositoryFactoryInterface $repositoryFactory,
+        PixelRepositoryFactoryInterface $repositoryFactory,
         StegoTextFactoryInterface $stegoTextFactory
     ) {
         $this->encodeBit = $encodeBit;
@@ -53,7 +53,7 @@ class Encode implements EncodeInterface
      */
     public function encode(SecretTextInterface $secretText, CoverTextInterface $coverText): StegoTextInterface
     {
-        $repository = $this->repositoryFactory->create($coverText->getImage());
+        $repository = $this->repositoryFactory->create($coverText->getImage()->getResource());
         $iterator = new \MultipleIterator(\MultipleIterator::MIT_NEED_ALL | \MultipleIterator::MIT_KEYS_ASSOC);
 
         // secret text iterator

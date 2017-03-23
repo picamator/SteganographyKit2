@@ -1,16 +1,15 @@
 <?php
-namespace Picamator\SteganographyKit2\Kernel\Image\Api;
+namespace Picamator\SteganographyKit2\Kernel\Entity\Api;
 
-use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 
 /**
- * Image Repository
+ * Pixel Repository
  */
-interface RepositoryInterface
+interface PixelRepositoryInterface
 {
     /**
-     * Update
+     * Update pixel
      *
      * @param PixelInterface $pixel
      * @param array $data ['red' => ..., 'green' => ..., 'blue' => ..., 'alpha' => ...]
@@ -20,4 +19,15 @@ interface RepositoryInterface
      * @throws RuntimeException
      */
     public function update(PixelInterface $pixel, array $data);
+
+    /**
+     * Insert
+     *
+     * @param PixelInterface $pixel
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     */
+    public function insert(PixelInterface $pixel);
 }

@@ -1,24 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2\Kernel\Image;
+namespace Picamator\SteganographyKit2\Kernel\Entity;
 
 use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
+use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryInterface;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\RepositoryInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
- * Image Repository
+ * Pixel Repository
  */
-class Repository implements RepositoryInterface
+class PixelRepository implements PixelRepositoryInterface
 {
     /**
-     * @var ImageInterface
+     * @var ResourceInterface
      */
-    private $image;
+    private $resource;
 
     /**
      * @var ColorIndexInterface
@@ -31,16 +31,16 @@ class Repository implements RepositoryInterface
     private $colorFactory;
 
     /**
-     * @param ImageInterface $image
+     * @param ResourceInterface $resource
      * @param ColorIndexInterface $colorIndex
      * @param ColorFactoryInterface $colorFactory
      */
     public function __construct(
-        ImageInterface $image,
+        ResourceInterface $resource,
         ColorIndexInterface $colorIndex,
         ColorFactoryInterface $colorFactory
     ) {
-        $this->image = $image;
+        $this->resource = $resource;
         $this->colorIndex = $colorIndex;
         $this->colorFactory = $colorFactory;
     }
@@ -58,10 +58,18 @@ class Repository implements RepositoryInterface
             return;
         }
 
+        $this->insert($pixel);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function insert(PixelInterface $pixel)
+    {
         $color = $this->colorIndex->getColorallocate($pixel->getColor());
         $point = $pixel->getPoint();
 
-        $result = imagesetpixel($this->image->getResource()->getResource(), $point->getX(), $point->getY(), $color);
+        $result = imagesetpixel($this->resource->getResource(), $point->getX(), $point->getY(), $color);
         // @codeCoverageIgnoreStart
         if ($result === false) {
             throw new RuntimeException(

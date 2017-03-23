@@ -39,7 +39,7 @@ class SecretText implements SecretTextInterface
     {
         $size = $this->image->getSize();
 
-        return $size->getHeight() * $size->getWidth() *  $size->getChannels() * 8;
+        return $size->getHeight() * $size->getWidth() *  3 * 8;
     }
 
     /**

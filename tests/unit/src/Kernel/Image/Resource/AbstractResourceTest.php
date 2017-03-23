@@ -6,11 +6,6 @@ use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 class AbstractResourceTest extends BaseTest
 {
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $sizeFactoryMock;
-
-    /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $sizeMock;
@@ -19,38 +14,33 @@ class AbstractResourceTest extends BaseTest
     {
         parent::setUp();
 
-        $this->sizeFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface')
-            ->getMock();
-
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
             ->getMock();
     }
 
-    public function testGetSize()
+    public function testGetName()
     {
-        $filePath = 'test';
+        $filePath = 'text/test.txt';
+        $fileName = 'test.txt';
 
         // resource mock
+        /** @var \Picamator\SteganographyKit2\Kernel\Image\Resource\AbstractResource | \PHPUnit_Framework_MockObject_MockObject $resourceMock */
         $resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Resource\AbstractResource')
-            ->setConstructorArgs([$this->sizeFactoryMock, $filePath])
+            ->setConstructorArgs([$this->sizeMock, $filePath])
             ->getMockForAbstractClass();
 
-        // size factory mock
-        $this->sizeFactoryMock->expects($this->once())
-            ->method('create')
-            ->willReturn($this->sizeMock);
-
-        $resourceMock->getSize();
-        $resourceMock->getSize(); // double runt to test cache
+        $actualFileName = $resourceMock->getName();
+        $this->assertEquals($fileName, $actualFileName);
     }
 
     public function testGetResource()
     {
-        $filePath = 'test';
+        $filePath = 'test.txt';
 
         // resource mock
+        /** @var \Picamator\SteganographyKit2\Kernel\Image\Resource\AbstractResource | \PHPUnit_Framework_MockObject_MockObject $resourceMock */
         $resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Resource\AbstractResource')
-                ->setConstructorArgs([$this->sizeFactoryMock, $filePath])
+                ->setConstructorArgs([$this->sizeMock, $filePath])
                 ->getMockForAbstractClass();
 
         $resourceMock->expects($this->once())
@@ -67,11 +57,12 @@ class AbstractResourceTest extends BaseTest
      */
     public function testFailGetResource()
     {
-        $filePath = 'test';
+        $filePath = 'test.txt';
 
         // resource mock
+        /** @var \Picamator\SteganographyKit2\Kernel\Image\Resource\AbstractResource | \PHPUnit_Framework_MockObject_MockObject $resourceMock */
         $resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Resource\AbstractResource')
-            ->setConstructorArgs([$this->sizeFactoryMock, $filePath])
+            ->setConstructorArgs([$this->sizeMock, $filePath])
             ->getMockForAbstractClass();
 
         $resourceMock->expects($this->once())

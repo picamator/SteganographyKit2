@@ -66,10 +66,6 @@ class SecretTextTest extends BaseTest
 
         // size mock
         $this->sizeMock->expects($this->once())
-            ->method('getChannels')
-            ->willReturn($channel);
-
-        $this->sizeMock->expects($this->once())
             ->method('getWidth')
             ->willReturn($width);
 

@@ -11,9 +11,11 @@ interface ExportInterface
     /**
      * Export
      *
+     * @param ResourceInterface $resource
+     *
      * @return string base64encode or path etc
      *
      * @throws RuntimeException
      */
-    public function export() : string;
+    public function export(ResourceInterface $resource) : string;
 }

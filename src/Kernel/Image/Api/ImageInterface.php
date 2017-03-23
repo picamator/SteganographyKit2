@@ -21,4 +21,11 @@ interface ImageInterface extends \IteratorAggregate
      * @return SizeInterface
      */
     public function getSize() : SizeInterface;
+
+    /**
+     * Export
+     *
+     * @return string
+     */
+    public function export() : string;
 }

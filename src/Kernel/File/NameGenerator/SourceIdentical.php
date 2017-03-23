@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\File\NameGenerator;
 
-use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
 
 /**
@@ -18,14 +17,8 @@ class SourceIdentical implements NameGeneratorInterface
     /**
      * @inheritDoc
      */
-    public function generate(string $path) : string
+    public function generate(string $sourceName) : string
     {
-        if (!file_exists($path)) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid path "%s"', $path)
-            );
-        }
-
-        return pathinfo($path, PATHINFO_BASENAME);
+        return pathinfo($sourceName, PATHINFO_BASENAME);
     }
 }

@@ -3,15 +3,13 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image;
 
-use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create Size object
- *
- * @codeCoverageIgnore
  */
 class SizeFactory implements SizeFactoryInterface
 {
@@ -40,25 +38,14 @@ class SizeFactory implements SizeFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(string $path) : SizeInterface
+    public function create(int $width, int $height) : SizeInterface
     {
-        $size = getimagesize($path);
-        if($size === false) {
-            throw new RuntimeException(
-                sprintf('Cannot calculate image size "%s"', $path)
+        if ($width <= 0 || $height <= 0) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid argument width "%s" or height "%s". Dimension data should be positive integers.', $width, $height)
             );
         }
 
-        $data = [
-            'width' => $size[0],
-            'height' => $size[1],
-            'type' => $size[2],
-            'attr' => $size[3],
-            'bits' => $size['bits'],
-            'channels' => $size['channels'] ?? 0,
-            'mime' => $size['mime'],
-        ];
-
-        return $this->objectManager->create($this->className, [$data]);
+        return $this->objectManager->create($this->className, [$width, $height]);
     }
 }

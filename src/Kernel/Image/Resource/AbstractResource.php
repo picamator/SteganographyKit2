@@ -19,11 +19,6 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\SizeFactoryInterface;
 abstract class AbstractResource implements ResourceInterface
 {
     /**
-     * @var SizeFactoryInterface
-     */
-    private $sizeFactory;
-
-    /**
      * @var string
      */
     private $path;
@@ -39,12 +34,17 @@ abstract class AbstractResource implements ResourceInterface
     private $size;
 
     /**
-     * @param SizeFactoryInterface $sizeFactory
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @param SizeInterface $size
      * @param string $path
      */
-    public function __construct(SizeFactoryInterface $sizeFactory, string $path)
+    public function __construct(SizeInterface $size, string $path)
     {
-        $this->sizeFactory = $sizeFactory;
+        $this->size = $size;
         $this->path = $path;
     }
 
@@ -65,20 +65,22 @@ abstract class AbstractResource implements ResourceInterface
      *
      * @codeCoverageIgnore
      */
-    final public function getPath(): string
+    final public function getName(): string
     {
-        return $this->path;
+        if (is_null($this->name)) {
+            $this->name = pathinfo($this->path, PATHINFO_BASENAME);
+        }
+
+        return $this->name;
     }
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     final public function getSize(): SizeInterface
     {
-        if (is_null($this->size)) {
-            $this->size = $this->sizeFactory->create($this->getPath());
-        }
-
         return $this->size;
     }
 

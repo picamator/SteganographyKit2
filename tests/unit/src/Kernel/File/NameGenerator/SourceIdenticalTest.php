@@ -25,12 +25,4 @@ class SourceIdenticalTest extends BaseTest
 
         $this->assertEquals($expected, $actual);
     }
-
-    /**
-     * @expectedException \Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException
-     */
-    public function testFailGenerate()
-    {
-        $this->sourceIdentical->generate('test');
-    }
 }
