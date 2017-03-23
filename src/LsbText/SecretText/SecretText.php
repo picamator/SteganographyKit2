@@ -9,6 +9,36 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\TextInterface;
 
 /**
  * SecretText is an information for hide or protection signature
+ *
+ * Class type
+ * ----------
+ * Non-sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Iterate over ``Text`` with ``EndMark``
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument, because ``SecretText`` depends from user data - ``text``.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package LsbText\SecretText
  */
 class SecretText implements SecretTextInterface
 {

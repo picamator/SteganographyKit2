@@ -7,7 +7,9 @@ use Picamator\SteganographyKit2\Kernel\Exception\LogicException;
 /**
  * Options with default values, data type and required validation
  *
- * It's a short version of `symfony/options-resolver`
+ * It's a short version of `symfony/options-resolver`.
+ *
+ * @package Kernel\Util
  */
 interface OptionsResolverInterface
 {

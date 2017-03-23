@@ -4,7 +4,9 @@ namespace Picamator\SteganographyKit2\Kernel\Text\Api\Data;
 /**
  * Length value object
  *
- * It's moved as a separate object in case for multibyte string
+ * It's moved as a separate object in case for multibyte string.
+ *
+ * @package Kernel\Text
  */
 interface LengthInterface
 {

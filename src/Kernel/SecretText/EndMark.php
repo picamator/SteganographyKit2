@@ -9,7 +9,40 @@ use Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface;
 /**
  * EndMark is an identifier that secret text was ended
  *
- * It prevents to read all cover/stego text
+ * It prevents to read all cover/stego text.
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Iterate over EndMark
+ * * EndMark validation
+ *
+ * State
+ * -----
+ * * EndMark
+ * * EndMark length
+ * * Iterator
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\SecretText
  */
 class EndMark implements EndMarkInterface
 {
@@ -35,19 +68,7 @@ class EndMark implements EndMarkInterface
      */
     public function __construct(string $endMark = '11111111000000001111111100000000')
     {
-        if (strlen($endMark) % 8 !== 0) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid endMark "%s" length. EndMark binary string should be divided by 8.', $endMark)
-            );
-        }
-
-        if (preg_match('/[^01]+/', $endMark) === 1) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid endMark "%s". EndMark should contain 0 or 1.', $endMark)
-            );
-        }
-
-        $this->endMark = $endMark;
+        $this->setEndMark($endMark);
     }
 
     /**
@@ -82,5 +103,29 @@ class EndMark implements EndMarkInterface
         }
 
         return $this->length;
+    }
+
+    /**
+     * Sets EndMark
+     *
+     * @param string $endMark
+     *
+     * @throws InvalidArgumentException
+     */
+    private function setEndMark(string $endMark)
+    {
+        if (strlen($endMark) % 8 !== 0) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid endMark "%s" length. EndMark binary string should be divided by 8.', $endMark)
+            );
+        }
+
+        if (preg_match('/[^01]+/', $endMark) === 1) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid endMark "%s". EndMark should contain 0 or 1.', $endMark)
+            );
+        }
+
+        $this->endMark = $endMark;
     }
 }

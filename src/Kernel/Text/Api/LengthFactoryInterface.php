@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\Data\LengthInterface;
 
 /**
  * Create Length object
+ *
+ * @package Kernel\Text
  */
 interface LengthFactoryInterface
 {

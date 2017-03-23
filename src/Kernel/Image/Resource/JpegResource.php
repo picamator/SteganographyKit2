@@ -6,6 +6,8 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Resource;
 /**
  * Resource jpeg image
  *
+ * @package Kernel\Image\Resource
+ *
  * @codeCoverageIgnore
  */
 class JpegResource extends AbstractResource

@@ -6,6 +6,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface;
 
 /**
  * Pixel entity
+ *
+ * @package Kernel\Entity
  */
 interface PixelInterface extends \IteratorAggregate
 {

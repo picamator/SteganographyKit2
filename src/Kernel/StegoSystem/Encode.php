@@ -15,6 +15,36 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
  * Encode is converting SecretText and CoverText to StegoText
  *
  * Actual algorithm's implementation is concentrated inside CoverText, SecretText, StegoText iterators.
+ *
+ * Class type
+ * ----------
+ * Sharable helper service. The class is an namespace over methods.
+ *
+ * Responsibility
+ * --------------
+ * Encode ``SecretText``.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor method.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``-``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\StegoSystem
  */
 class Encode implements EncodeInterface
 {

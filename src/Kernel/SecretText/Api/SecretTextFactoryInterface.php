@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
 
 /**
  * Create SecretText object
+ *
+ * @package Kernel\SecretText
  */
 interface SecretTextFactoryInterface
 {

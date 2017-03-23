@@ -2,7 +2,9 @@
 namespace Picamator\SteganographyKit2\Kernel\Exception;
 
 /**
- * Invalid argument exception exception.
+ * Invalid argument exception exception
+ *
+ * @package Kernel\Exception
  *
  * @codeCoverageIgnore
  */

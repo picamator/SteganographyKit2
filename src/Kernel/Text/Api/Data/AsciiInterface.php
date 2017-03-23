@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 
 /**
  * Ascii value object
+ *
+ * @package Kernel\Text
  */
 interface AsciiInterface
 {

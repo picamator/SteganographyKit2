@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
  * Create Pixel repository object
+ *
+ * @package Kernel\Entity
  */
 interface PixelRepositoryFactoryInterface
 {

@@ -10,6 +10,28 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Byte object
  *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create ``Byte``.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Primitive
+ *
  * @codeCoverageIgnore
  */
 class ByteFactory implements ByteFactoryInterface

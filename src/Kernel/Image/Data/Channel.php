@@ -7,6 +7,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface;
 
 /**
  * Color channel value object
+ *
+ * @package Kernel\Image
  */
 class Channel implements ChannelInterface
 {

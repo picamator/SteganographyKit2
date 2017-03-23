@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\File\Api;
 
 /**
  * Strategy to generate file name
+ *
+ * @package Kernel\File
  */
 interface NameGeneratorInterface
 {

@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 
 /**
  * Decode one secret bit
+ *
+ * @package Kernel\StegoSystem
  */
 interface DecodeBitInterface
 {

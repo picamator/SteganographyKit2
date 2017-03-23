@@ -10,6 +10,28 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Color object
  *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create ``Color``.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Image
+ *
  * @codeCoverageIgnore
  */
 class ColorFactory implements ColorFactoryInterface

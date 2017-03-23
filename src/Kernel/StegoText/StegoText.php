@@ -9,6 +9,36 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
 
 /**
  * StegoText is a result of combining SecretText into CoverText
+ *
+ * Class type
+ * ----------
+ * Non-sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Implement ``RecursiveIterator`` to make possible iterate over Image->Pixel->Channels
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument, because ``StegoText`` depends from user data - image ``path``.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\StegoText
  */
 class StegoText implements StegoTextInterface
 {

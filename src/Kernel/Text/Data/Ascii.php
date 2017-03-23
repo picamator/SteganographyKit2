@@ -9,6 +9,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
 /**
  * Ascii value object
  *
+ * @package Kernel\Text
+ *
  * @codeCoverageIgnore
  */
 class Ascii implements AsciiInterface

@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\File\Api\Data;
 
 /**
  * Writable path value object
+ *
+ * @package Kernel\File
  */
 interface WritablePathInterface
 {

@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
 
 /**
  * Create Writable path value object
+ *
+ * @package Kernel\File
  */
 interface WritablePathFactoryInterface
 {

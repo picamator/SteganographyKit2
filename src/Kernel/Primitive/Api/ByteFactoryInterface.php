@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 
 /**
  * Create Byte object
+ *
+ * @package Kernel\Primitive
  */
 interface ByteFactoryInterface
 {

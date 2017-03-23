@@ -6,6 +6,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface;
 
 /**
  * Create Pixel entity
+ *
+ * @package Kernel\Entity
  */
 interface PixelFactoryInterface
 {

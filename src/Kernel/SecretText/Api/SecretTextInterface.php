@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
 
 /**
  * SecretText is an information for hide or protection signature
+ *
+ * @package Kernel\SecretText
  */
 interface SecretTextInterface extends \IteratorAggregate
 {

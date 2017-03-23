@@ -13,6 +13,28 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Pixel object
  *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create ``Pixel``.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Entity
+ *
  * @codeCoverageIgnore
  */
 class PixelFactory implements PixelFactoryInterface

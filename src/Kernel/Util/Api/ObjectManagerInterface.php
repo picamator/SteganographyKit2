@@ -4,7 +4,9 @@ namespace Picamator\SteganographyKit2\Kernel\Util\Api;
 /**
  * Creates objects, the main usage inside factories.
  *
- * All objects are unshared, for shared objects please use DI service libraries
+ * All objects are unshared, for shared objects please use DI service libraries.
+ *
+ * @package Kernel\Util
  */
 interface ObjectManagerInterface
 {

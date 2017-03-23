@@ -8,6 +8,17 @@ use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
 
 /**
  * SecretText is an information for hide or protection signature
+ *
+ * Class type
+ * ----------
+ * Non-sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Iterate over ``Image`` with ``EndMark``
+ *
+ * @see \Picamator\SteganographyKit2\LsbText\SecretText\SecretText
+ * @package LsbImage\SecretText
  */
 class SecretText implements SecretTextInterface
 {

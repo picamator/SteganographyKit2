@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface;
 
 /**
  * Create Point object
+ *
+ * @package Kernel\Primitive
  */
 interface PointFactoryInterface
 {

@@ -11,6 +11,34 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Writable path value object
  *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Validate ``$path``
+ * * Create sub directory if needed
+ * * Create ``WritablePath``
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as constructor argument.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\File
+ *
  * @codeCoverageIgnore
  */
 class WritablePathFactory implements WritablePathFactoryInterface

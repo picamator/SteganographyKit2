@@ -11,6 +11,28 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Iterator object
  *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create ``Iterator``.
+ *
+ * State
+ * -----
+ * * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Text\Iterator
+ *
  * @codeCoverageIgnore
  */
 class IteratorFactory implements IteratorFactoryInterface

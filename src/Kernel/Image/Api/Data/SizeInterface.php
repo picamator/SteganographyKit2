@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Api\Data;
 
 /**
  * Size value object
+ *
+ * @package Kernel\Image
  */
 interface SizeInterface
 {

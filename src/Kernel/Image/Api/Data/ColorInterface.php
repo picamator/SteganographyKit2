@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 
 /**
  * Color value object
+ *
+ * @package Kernel\Image
  */
 interface ColorInterface
 {

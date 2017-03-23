@@ -12,11 +12,14 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 /**
  * Serial bitwise iterator
  *
- * Iterate color channel red-green-blue bit by bit
- * Channels validation provided by factory for performance reason
- * The channels order in array important for encode as well as for decode
+ * Iterate color channel red-green-blue bit by bit.
+ * Channels validation provided by factory for performance reason.
+ * The channels order inside array is important for encode as well as for decode.
  *
- * *Attention* Channel does not support alpha therefore it might be lost alpha channel in encode-decode process
+ * *Attention* Channel does not support alpha therefore it might be lost in encode-decode process
+ *
+ * @package Kernel\Entity\Iterator
+ * @see \Picamator\SteganographyKit2\Kernel\Entity\Iterator\SerialBytewiseIterator
  */
 class SerialBitwiseIterator implements SerialIteratorInterface
 {

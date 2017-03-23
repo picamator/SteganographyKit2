@@ -12,6 +12,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
  * It's not need to check the options item data type as Size object are creating by Factory.
  * The Factory get's responsibility for options data typing. This case make creating data object faster.
  *
+ * @package Kernel\Image
+ *
  * @codeCoverageIgnore
  */
 class Info implements InfoInterface

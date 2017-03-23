@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdoc>
-    <title>Second generation of Steganography Kit</title>
+    <title>Steganography Kit 2 - the second generation of Steganography</title>
     <parser>
         <target>../../docs/phpdoc</target>
     </parser>

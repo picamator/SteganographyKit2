@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface;
 
 /**
  * Create Channel object
+ *
+ * @package Kernel\Image
  */
 interface ChannelFactoryInterface
 {

@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
 
 /**
  * Create Color object
+ *
+ * @package Kernel\Image
  */
 interface ColorFactoryInterface
 {

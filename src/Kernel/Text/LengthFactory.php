@@ -10,6 +10,28 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Length object
  *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create ``Length``.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Text
+ *
  * @codeCoverageIgnore
  */
 class LengthFactory implements LengthFactoryInterface

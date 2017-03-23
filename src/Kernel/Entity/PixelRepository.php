@@ -12,6 +12,36 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
  * Pixel Repository
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Change ``Pixel`` color with physically saving into ``Resource``
+ *
+ * State
+ * -----
+ * * Resource
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument. The ``PixelRepository`` is built by ``PixelRepositoryFactory``.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Entity
  */
 class PixelRepository implements PixelRepositoryInterface
 {

@@ -11,6 +11,37 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
  * Image
+ *
+ * Class type
+ * ----------
+ * Non-sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Create image iterator
+ * * Delegate export
+ *
+ * State
+ * -----
+ * * Export result as an internal cache
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument, because ``Image`` depends on ``Resource``.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Image
  */
 class Image implements ImageInterface
 {

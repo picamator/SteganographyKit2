@@ -9,6 +9,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
 
 /**
  * Compress text using Zip
+ *
+ * @package Kernel\Text\Filter
  */
 class ZipCompressFilter implements FilterInterface
 {

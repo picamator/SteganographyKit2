@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\Text\Api;
 
 /**
  * Filter manager
+ *
+ * @package Kernel\Text\Filter
  */
 interface FilterManagerInterface
 {

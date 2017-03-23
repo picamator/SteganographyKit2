@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
 
 /**
  * Decompress text using Zip
+ *
+ * @package Kernel\Text\Filter
  */
 class ZipDecompressFilter implements FilterInterface
 {

@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 /**
  * Export to png file
  *
+ * @package Kernel\Image\Export
+ *
  * @codeCoverageIgnore
  */
 class PngFile extends AbstractFile

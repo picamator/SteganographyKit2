@@ -9,6 +9,37 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\TextInterface;
 
 /**
  * Text
+ *
+ * Class type
+ * ----------
+ * Non-sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Create image iterator
+ * * Delegate length calculation
+ *
+ * State
+ * -----
+ * * Count in bits as an internal cache
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument, because ``Text`` depends on user data.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Text
  */
 class Text implements TextInterface
 {

@@ -10,7 +10,37 @@ use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 /**
  * Encode one secret bit
  *
- * Replace Least Significant Bit by secret one
+ * Replace Least Significant Bit by secret one.
+ *
+ *  * Class type
+ * ----------
+ * Sharable helper service. The class is an namespace over methods.
+ *
+ * Responsibility
+ * --------------
+ * Encode one bit
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor method.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``-``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Lsb\StegoSystem
  */
 class EncodeBit implements EncodeBitInterface
 {

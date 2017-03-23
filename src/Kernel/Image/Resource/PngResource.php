@@ -6,6 +6,8 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Resource;
 /**
  * Resource png image
  *
+ * @package Kernel\Image\Resource
+ *
  * @codeCoverageIgnore
  */
 class PngResource extends AbstractResource

@@ -13,7 +13,29 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 /**
  * Export image to file string
  *
- * It implements template pattern
+ * It implements template pattern.
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Export ``Resource`` to file.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Image\Export
  */
 abstract class AbstractFile implements ExportInterface
 {

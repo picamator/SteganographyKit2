@@ -10,6 +10,37 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create Size object
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Validate width and height data
+ * * Create ``Size``
+ *
+ * State
+ * -----
+ * * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Image
  */
 class SizeFactory implements SizeFactoryInterface
 {

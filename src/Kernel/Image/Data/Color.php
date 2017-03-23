@@ -11,6 +11,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
  *
  * Use factory for building objects to avoid using constructor argument wrong order
  *
+ * @package Kernel\Image
+ *
  * @codeCoverageIgnore
  */
 class Color implements ColorInterface

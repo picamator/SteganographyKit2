@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 
 /**
  * Pixel Repository
+ *
+ * @package Kernel\Entity
  */
 interface PixelRepositoryInterface
 {

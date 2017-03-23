@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 /**
  * Byte value object
  *
+ * @package Kernel\Primitive
+ *
  * @codeCoverageIgnore
  */
 class Byte implements ByteInterface

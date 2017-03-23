@@ -10,7 +10,29 @@ use Picamator\SteganographyKit2\Kernel\Exception\LogicException;
 /**
  * Options with default values, data type and required validation
  *
- * It's a short version of `symfony/options-resolver`
+ * It's a short version of `symfony/options-resolver`.
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Validate object's options.
+ *
+ * State
+ * -----
+ * * Options before resolving or clearing
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Util
  */
 class OptionsResolver implements OptionsResolverInterface
 {

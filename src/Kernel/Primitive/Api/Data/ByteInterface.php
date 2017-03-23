@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\Primitive\Api\Data;
 
 /**
  * Byte value object
+ *
+ * @package Kernel\Primitive
  */
 interface ByteInterface
 {

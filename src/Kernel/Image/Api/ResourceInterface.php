@@ -6,8 +6,10 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 /**
  * Resource image implementation for different image types
  *
- * It's part of Bridge pattern between Abstraction "Image" and "Resource" implementation
- * It helps to extend application with different image type
+ * It's part of Bridge pattern between Abstraction "Image" and "Resource" implementation.
+ * It helps to extend application with different image type.
+ *
+ * @package Kernel\Image
  */
 interface ResourceInterface
 {

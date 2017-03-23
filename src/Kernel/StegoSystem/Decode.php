@@ -14,6 +14,36 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
  * Decode is extracting SecretText from CoverText
  *
  * Actual algorithm's implementation is concentrated inside CoverText, SecretText, StegoText iterators.
+ *
+ * Class type
+ * ----------
+ * Sharable helper service. The class is an namespace over methods.
+ *
+ * Responsibility
+ * --------------
+ * Decode ``SecretText``.
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor method.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``-``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\StegoSystem
  */
 class Decode implements DecodeInterface
 {

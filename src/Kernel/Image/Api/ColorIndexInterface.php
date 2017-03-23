@@ -7,6 +7,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
  * Color index
  *
  * Helps to convert color index to color object and vice versa
+ *
+ * @package Kernel\Image
  */
 interface ColorIndexInterface
 {

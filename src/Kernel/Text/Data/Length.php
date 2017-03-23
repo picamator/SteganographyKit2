@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\Data\LengthInterface;
 /**
  * Length value object
  *
+ * @package Kernel\Text
+ *
  * @codeCoverageIgnore
  */
 class Length implements LengthInterface

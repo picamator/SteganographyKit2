@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Api\Data;
 
 /**
  * Color channel value object
+ *
+ * @package Kernel\Image
  */
 interface ChannelInterface extends \Countable
 {

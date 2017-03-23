@@ -12,7 +12,37 @@ use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\StegoSystemInterface;
 use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
 
 /**
- * StegoSystem is a facade for Encode and Decode
+ * StegoSystem is an observable facade for Encode and Decode
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Provide way to extend ``StegoSystem`` by observers.
+ *
+ * State
+ * -----
+ * * Observer list
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor method.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\StegoSystem
  */
 class StegoSystem implements StegoSystemInterface
 {

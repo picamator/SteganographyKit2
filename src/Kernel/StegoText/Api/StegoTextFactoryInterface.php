@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 
 /**
  * Create StegoText object
+ *
+ * @package Kernel\StegoText
  */
 interface StegoTextFactoryInterface
 {

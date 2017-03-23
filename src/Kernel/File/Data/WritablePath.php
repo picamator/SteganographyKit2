@@ -7,6 +7,10 @@ use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
 
 /**
  * Writable path value object
+ *
+ * @package Kernel\File
+ *
+ * @codeCoverageIgnore
  */
 class WritablePath implements WritablePathInterface
 {

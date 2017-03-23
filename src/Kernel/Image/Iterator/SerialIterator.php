@@ -13,7 +13,29 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
 /**
  * Serial iterator
  *
- * Iterate pixel-by-pixel, row-by-row form to the left top corner to the bottom right
+ * Iterate pixel-by-pixel, row-by-row form to the left top corner to the bottom right.
+ *
+ * Class type
+ * ----------
+ * Non-sharable. Each ``Image`` owns it's own iterator.
+ *
+ * Responsibility
+ * --------------
+ * Iterate over ``Image``
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Cannot be injected in any class. Iterator owns only by ``Image``.
+ *
+ * @package Kernel\Image\Iterator
  */
 class SerialIterator implements SerialIteratorInterface
 {

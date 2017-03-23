@@ -4,9 +4,9 @@ namespace Picamator\SteganographyKit2\Kernel\CoverText\Api;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 
 /**
- * CoverText is an image witch serves as a container for SecretText
+ * CoverText is an image container for SecretText, when CoverText holds SecretText it becomes StegoText
  *
- * When CoverText holds SecretText it becomes StegoText in fashion to keep SecretText exposed
+ * @package Kernel\CoverText
  */
 interface CoverTextInterface extends \RecursiveIterator
 {

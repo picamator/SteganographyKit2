@@ -3,6 +3,8 @@ namespace Picamator\SteganographyKit2\Kernel\Primitive\Api\Data;
 
 /**
  * Point value object
+ *
+ * @package Kernel\Primitive
  */
 interface PointInterface
 {

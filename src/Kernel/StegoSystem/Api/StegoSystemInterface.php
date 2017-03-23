@@ -6,7 +6,9 @@ use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
 use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
 
 /**
- * StegoSystem is an observer facade over Encode & Decode
+ * StegoSystem is an observable facade over Encode & Decode
+ *
+ * @package Kernel\StegoSystem
  */
 interface StegoSystemInterface
 {

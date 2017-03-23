@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 
 /**
  * Export Image
+ *
+ * @package Kernel\Image\Export
  */
 interface ExportInterface
 {

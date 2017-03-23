@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 
 /**
  * Create Iterator object
+ *
+ * @package Kernel\Image\Iterator
  */
 interface IteratorFactoryInterface
 {

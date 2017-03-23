@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
 
 /**
  * Decode text using base64encode
+ *
+ * @package Kernel\Text\Filter
  */
 class Base64decodeFilter implements FilterInterface
 {

@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 /**
  * Export to png base64encode string
  *
+ * @package Kernel\Image\Export
+ *
  * @codeCoverageIgnore
  */
 class PngString extends AbstractString

@@ -10,10 +10,32 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 /**
  * Resource image implementation for different image types
  *
- * It's part of Bridge pattern between Abstraction "Image" and "Resource" implementation
- * It helps to extend application with different image type
+ * It's part of Bridge pattern between Abstraction ``Image`` and ``Resource`` implementation.
+ * It helps to extend application with different image type.
  *
- * It implements template pattern
+ * It implements template pattern.
+ *
+ * Class type
+ * ----------
+ * Non-sharable service. The ``Resource`` depends on users data - image ``$path``.
+ *
+ * Responsibility
+ * --------------
+ * Generate file name based on ``$sourceName``
+ *
+ * State
+ * -----
+ * * Resource
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as method argument.
+ *
+ * @package Kernel\Image\Resource
  */
 abstract class AbstractResource implements ResourceInterface
 {

@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\InfoInterface;
 
 /**
  * Create Info object
+ *
+ * @package Kernel\Image
  */
 interface InfoFactoryInterface
 {

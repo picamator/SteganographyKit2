@@ -10,7 +10,29 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\AsciiFactoryInterface;
 /**
  * Serial bitwise iterator
  *
- * Iterate char bits by bits from the beginning to the end
+ * Iterate char bits by bits from the beginning to the end.
+ *
+ * Class type
+ * ----------
+ * Non-sharable. Each ``Text`` owns it's own iterator.
+ *
+ * Responsibility
+ * --------------
+ * Iterate over ``Text``
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Cannot be injected in any class. Iterator owns only by ``Text``.
+ *
+ * @package Kernel\Text\Iterator
  */
 class SerialBitwiseIterator implements SerialIteratorInterface
 {

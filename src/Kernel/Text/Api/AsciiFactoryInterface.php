@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
 
 /**
  * Create ascii value object
+ *
+ * @package Kernel\Text
  */
 interface AsciiFactoryInterface
 {

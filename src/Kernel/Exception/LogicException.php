@@ -2,7 +2,9 @@
 namespace Picamator\SteganographyKit2\Kernel\Exception;
 
 /**
- * Logic exception.
+ * Logic exception
+ *
+ * @package Kernel\Exception
  *
  * @codeCoverageIgnore
  */

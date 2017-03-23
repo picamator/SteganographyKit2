@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 
 /**
  * Create Size object
+ *
+ * @package Kernel\Image
  */
 interface SizeFactoryInterface
 {

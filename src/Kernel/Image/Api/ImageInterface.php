@@ -5,6 +5,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 
 /**
  * Image
+ *
+ * @package Kernel\Image
  */
 interface ImageInterface extends \IteratorAggregate
 {

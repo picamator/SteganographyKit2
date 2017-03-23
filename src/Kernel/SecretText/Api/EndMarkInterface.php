@@ -5,6 +5,8 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
  * EndMark is an identifier that secret text was ended
  *
  * It prevents to read all cover/stego text
+ *
+ * @package Kernel\SecretText
  */
 interface EndMarkInterface extends \IteratorAggregate, \Countable
 {

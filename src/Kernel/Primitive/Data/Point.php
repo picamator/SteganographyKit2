@@ -10,6 +10,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface;
  *
  * Use factory for building objects to avoid using constructor argument wrong order
  *
+ * @package Kernel\Primitive
+ *
  * @codeCoverageIgnore
  */
 class Point implements PointInterface

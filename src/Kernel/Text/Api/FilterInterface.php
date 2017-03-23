@@ -5,6 +5,8 @@ namespace Picamator\SteganographyKit2\Kernel\Text\Api;
  * Filter text
  *
  * It's convert original text to base64encode, zip, encrypt etc.
+ *
+ * @package Kernel\Text\Filter
  */
 interface FilterInterface
 {

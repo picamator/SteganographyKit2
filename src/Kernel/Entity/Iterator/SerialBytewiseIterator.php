@@ -12,9 +12,31 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 /**
  * Serial bytewise iterator
  *
- * Iterate color channel, red-green-blue-alpha
- * Channels validation provided by factory for performance reason
- * The channels order in array important for encode as well as for decode
+ * Iterate color channel, red-green-blue.
+ * Channels validation provided by factory for performance reason.
+ * The channels order in array important for encode as well as for decode.
+ *
+ * Class type
+ * ----------
+ * Non-sharable entity. Each ``Pixel`` owns it's own iterator.
+ *
+ * Responsibility
+ * --------------
+ * Iterate over ``Color`` channels
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Cannot be injected in any class. Iterator owns only by ``Pixel``.
+ *
+ * @package Kernel\Entity\Iterator
  */
 class SerialBytewiseIterator implements SerialIteratorInterface
 {

@@ -13,6 +13,31 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 /**
  * Create Iterator object
  *
+ * Iterator factory makes possible to substitute iterator.
+ * The ``Image`` depends on ``IteratorFactory`` and create iterator on first running ``Image->getIterator()``.
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create ``Iterator``.
+ *
+ * State
+ * -----
+ * * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Image\Iterator
+ *
  * @codeCoverageIgnore
  */
 class IteratorFactory implements IteratorFactoryInterface

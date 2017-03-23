@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 /**
  * Size value object
  *
+ * @package Kernel\Image
+ *
  * @codeCoverageIgnore
  */
 class Size implements SizeInterface

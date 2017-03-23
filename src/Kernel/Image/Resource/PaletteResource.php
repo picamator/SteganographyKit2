@@ -8,7 +8,9 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 
 /**
- * Resource palette image
+ * Resource Palette image
+ *
+ * @package Kernel\Image\Resource
  */
 class PaletteResource implements ResourceInterface
 {

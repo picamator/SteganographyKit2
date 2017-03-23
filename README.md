@@ -58,6 +58,8 @@ Documentation
 * UML class diagram: [class.diagram.png](docs/uml/class.diagram.png)
 * Generated documentation: [phpdoc](docs/phpdoc), please build it following [instruction](bin/phpdoc)
 * Ideas: [FUTURE.CANDIDATE.md](FUTURE.CANDIDATE.md)
+* Doc block for interfaces: summary
+* Doc block for classes: interface summary plus description
 
 Developing
 ----------

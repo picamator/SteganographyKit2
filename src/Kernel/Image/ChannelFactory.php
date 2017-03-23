@@ -10,6 +10,38 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create Channel object
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Validate channel's data
+ * * Create ``Channel`` null object for empty data
+ * * Create ``Channel``
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Image
  */
 class ChannelFactory implements ChannelFactoryInterface
 {

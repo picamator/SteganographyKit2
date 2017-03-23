@@ -8,6 +8,28 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterManagerInterface;
 
 /**
  * Create ascii value object
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Manage to apply ``Filter`` chain
+ *
+ * State
+ * -----
+ * * Filter container
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Text\Filter
  */
 class FilterManager implements FilterManagerInterface
 {

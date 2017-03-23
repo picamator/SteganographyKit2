@@ -9,7 +9,29 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 /**
  * Creates objects, the main usage inside factories.
  *
- * All objects are unshared, for shared objects please use DI service libraries
+ * All objects are unshared, for shared objects please use DI service libraries.
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Create objects.
+ *
+ * State
+ * -----
+ * * Class reflections
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * @package Kernel\Util
  */
 class ObjectManager implements ObjectManagerInterface
 {

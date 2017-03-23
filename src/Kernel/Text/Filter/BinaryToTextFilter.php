@@ -7,6 +7,8 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
 
 /**
  * Covert binary string to a ascii text
+ *
+ * @package Kernel\Text\Filter
  */
 class BinaryToTextFilter implements FilterInterface
 {

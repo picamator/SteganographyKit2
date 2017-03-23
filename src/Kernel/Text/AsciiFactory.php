@@ -11,6 +11,37 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create ascii value object
+ *
+ * Class type
+ * ----------
+ * Sharable service.
+ *
+ * Responsibility
+ * --------------
+ * * Validate ``char``
+ * * Create ``Ascii``
+ *
+ * State
+ * -----
+ * * Ascii code container
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Text
  */
 class AsciiFactory implements AsciiFactoryInterface
 {

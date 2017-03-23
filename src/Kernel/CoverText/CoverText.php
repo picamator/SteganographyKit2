@@ -7,9 +7,38 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\CoverText\Api\CoverTextInterface;
 
 /**
- * CoverText is an image witch serves as a container for SecretText
+ * CoverText is an image container for SecretText, when CoverText holds SecretText it becomes StegoText
  *
- * When CoverText holds SecretText it becomes StegoText in fashion to keep SecretText exposed
+ * Class type
+ * ----------
+ * Non-sharable service.
+ *
+ * Responsibility
+ * --------------
+ * Implement ``RecursiveIterator`` to make possible iterate over Image->Pixel->Channels
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument, because ``CoverText`` depends from user data - image ``path``.
+ * That make possible initiate once basic objects and reuse them inside loop over container with ``path``.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\CoverText
  */
 class CoverText implements CoverTextInterface
 {

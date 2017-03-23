@@ -8,6 +8,8 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
  * Decode is extracting SecretText from CoverText
  *
  * Actual algorithm's implementation is concentrated inside CoverText, SecretText, StegoText iterators.
+ *
+ * @package Kernel\StegoSystem
  */
 interface DecodeInterface
 {

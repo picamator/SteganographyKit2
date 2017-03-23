@@ -12,7 +12,38 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 /**
  * Color index
  *
- * Helps to convert color index to color object and vice versa
+ * Helps to convert color index to color object and vice versa.
+ *
+ * Class type
+ * ----------
+ * Sharable helper service. The class is an namespace over methods.
+ *
+ * Responsibility
+ * --------------
+ * * Create ``Color`` object by it's index
+ * * Calculate color index by ``Color``
+ *
+ * State
+ * -----
+ * No state
+ *
+ * Immutability
+ * ------------
+ * Object is immutable.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a constructor argument.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``-``
+ * * Tell don't ask ``-``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Image
  */
 class ColorIndex implements ColorIndexInterface
 {

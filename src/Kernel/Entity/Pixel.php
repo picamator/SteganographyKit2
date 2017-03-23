@@ -10,6 +10,40 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface;
 
 /**
  * Pixel entity
+ *
+ * Class type
+ * ----------
+ * Non-sharable entity. Each ``Pixel`` represent physical image pixel.
+ * The entity identifier is an composition of XY coordinates.
+ *
+ * Responsibility
+ * --------------
+ * Iterate over ``Color`` channels
+ *
+ * State
+ * -----
+ * * Iteration state: current, key, etc.
+ * * Pixel's value object components
+ *
+ * Immutability
+ * ------------
+ * Object is mutable.
+ * Only the ``PixelRepository`` is responsible for changing ``Pixel``.
+ *
+ * Dependency injection
+ * --------------------
+ * Only as a method argument. The ``Pixel`` object generates by ``Image`` iterator using ``PixelFactory``.
+ * Therefore ``Pixel`` is a result of iteration over ``Image``.
+ *
+ * Check list
+ * ----------
+ * * Single responsibility ``+``
+ * * Tell don't ask ``+``
+ * * No logic leak ``+``
+ * * Object is ready after creation ``+``
+ * * Constructor depends on less then 5 classes ``+``
+ *
+ * @package Kernel\Entity
  */
 class Pixel implements PixelInterface
 {
