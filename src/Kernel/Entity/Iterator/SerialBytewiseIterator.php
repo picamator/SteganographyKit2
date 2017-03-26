@@ -18,7 +18,7 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
  *
  * Class type
  * ----------
- * Non-sharable entity. Each ``Pixel`` owns it's own iterator.
+ * Non-sharable
  *
  * Responsibility
  * --------------

@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Image\Iterator;
 
 use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
- * Create Iterator object
+ * Create Serial null iterator object
  *
  * Iterator factory makes possible to substitute iterator.
  * The ``Image`` depends on ``IteratorFactory`` and create iterator on first running ``Image->getIterator()``.
@@ -40,7 +40,7 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
  *
  * @codeCoverageIgnore
  */
-class IteratorFactory implements IteratorFactoryInterface
+class SerialNullIteratorFactory implements IteratorFactoryInterface
 {
     /**
      * @var ObjectManagerInterface
@@ -48,9 +48,9 @@ class IteratorFactory implements IteratorFactoryInterface
     private $objectManager;
 
     /**
-     * @var ColorIndexInterface
+     * @var ColorInterface
      */
-    private $colorIndex;
+    private $color;
 
     /**
      * @var PointFactoryInterface
@@ -69,20 +69,20 @@ class IteratorFactory implements IteratorFactoryInterface
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param ColorIndexInterface $colorIndex
+     * @param ColorInterface $color
      * @param PointFactoryInterface $pointFactory
      * @param PixelFactoryInterface $pixelFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        ColorIndexInterface $colorIndex,
+        ColorInterface $color,
         PointFactoryInterface $pointFactory,
         PixelFactoryInterface $pixelFactory,
-        string $className = 'Picamator\SteganographyKit2\Kernel\Image\Iterator\SerialIterator'
+        string $className = 'Picamator\SteganographyKit2\Kernel\Image\Iterator\SerialNullIterator'
     ) {
         $this->objectManager = $objectManager;
-        $this->colorIndex = $colorIndex;
+        $this->color = $color;
         $this->pointFactory = $pointFactory;
         $this->pixelFactory = $pixelFactory;
         $this->className = $className;
@@ -94,8 +94,8 @@ class IteratorFactory implements IteratorFactoryInterface
     public function create(ResourceInterface $resource) : \Iterator
     {
         return $this->objectManager->create($this->className, [
-            $resource,
-            $this->colorIndex,
+            $resource->getSize(),
+            $this->color,
             $this->pointFactory,
             $this->pixelFactory,
         ]);

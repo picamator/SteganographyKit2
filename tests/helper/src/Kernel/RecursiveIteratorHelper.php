@@ -109,7 +109,7 @@ class RecursiveIteratorHelper
 
             public function valid()
             {
-                return !is_null(key($this->data)) && $this->hasChildren();
+                return !is_null(key($this->data));
             }
 
             public function rewind()

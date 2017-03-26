@@ -5,6 +5,7 @@ namespace Picamator\SteganographyKit2\Kernel\Image;
 
 use Picamator\SteganographyKit2\Kernel\Image\Api\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
@@ -42,19 +43,27 @@ class ColorFactory implements ColorFactoryInterface
     private $objectManager;
 
     /**
+     * @var ByteInterface
+     */
+    private $byte;
+
+    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
+     * @param ByteInterface $byte
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
+        ByteInterface $byte,
         $className = 'Picamator\SteganographyKit2\Kernel\Image\Data\Color'
     ) {
         $this->objectManager = $objectManager;
+        $this->byte = $byte;
         $this->className = $className;
     }
 
@@ -63,10 +72,10 @@ class ColorFactory implements ColorFactoryInterface
      */
     public function create(array $data) : ColorInterface
     {
-        $red = $data['red'] ?? null;
-        $green = $data['green'] ?? null;
-        $blue = $data['blue'] ?? null;
-        $alpha = $data['alpha'] ?? null;
+        $red = $data['red'] ?? $this->byte;
+        $green = $data['green'] ?? $this->byte;
+        $blue = $data['blue'] ?? $this->byte;
+        $alpha = $data['alpha'] ?? $this->byte;
 
         return $this->objectManager->create($this->className, [$red, $green, $blue, $alpha]);
     }

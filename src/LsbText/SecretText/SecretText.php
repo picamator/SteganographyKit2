@@ -58,6 +58,11 @@ class SecretText implements SecretTextInterface
     private $text;
 
     /**
+     * @var int
+     */
+    private $countBit;
+
+    /**
      * @param TextInterface $text
      * @param EndMarkInterface $endMark
      */
@@ -65,6 +70,8 @@ class SecretText implements SecretTextInterface
     {
         $this->text = $text;
         $this->endMark = $endMark;
+
+        $this->setIterator();
     }
 
     /**
@@ -80,20 +87,78 @@ class SecretText implements SecretTextInterface
      */
     public function getCountBit(): int
     {
-        return $this->text->getCountBit();
+        if (is_null($this->countBit)) {
+            $this->countBit = $this->text->getCountBit() + $this->endMark->count();
+        }
+
+        return $this->countBit;
     }
 
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function current()
     {
-        if (is_null($this->iterator)) {
-            $this->iterator = new \AppendIterator();
-            $this->iterator->append($this->text->getIterator());
-            $this->iterator->append($this->endMark->getIterator());
-        }
+        return $this->iterator->current();
+    }
 
-        return $this->iterator;
+    /**
+     * @inheritDoc
+     */
+    public function next()
+    {
+        return $this->iterator->next();
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @codeCoverageIgnore
+     */
+    public function key()
+    {
+        return $this->iterator->key();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function valid()
+    {
+        return $this->iterator->valid();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function rewind()
+    {
+        $this->iterator->rewind();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasChildren()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getChildren()
+    {
+        return;
+    }
+
+    /**
+     * Sets iterator
+     */
+    private function setIterator()
+    {
+        $this->iterator = new \AppendIterator();
+        $this->iterator->append($this->text->getIterator());
+        $this->iterator->append($this->endMark->getIterator());
     }
 }

@@ -63,7 +63,7 @@ class DecodeTest extends BaseTest
         $this->endMarkMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface')
             ->getMock();
 
-        $this->decode = new Decode($this->secretTextFactoryMock, $this->decodeBitMock, $this->endMarkMock);
+        $this->decode = new Decode($this->decodeBitMock, $this->endMarkMock, $this->secretTextFactoryMock);
     }
 
     public function testDecode()

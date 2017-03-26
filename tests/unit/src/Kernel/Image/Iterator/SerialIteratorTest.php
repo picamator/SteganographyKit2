@@ -110,14 +110,9 @@ class SerialIteratorTest extends BaseTest
             ->method('getResource')
             ->willReturn($this->pngResource);
 
-        // image mock
-        $this->imageMock->expects($this->exactly(2))
+        $this->resourceMock->expects($this->exactly(2))
             ->method('getSize')
             ->willReturn($this->sizeMock);
-
-        $this->imageMock->expects($this->once())
-            ->method('getResource')
-            ->willReturn($this->resourceMock);
 
         // color index mock
         $this->colorIndexMock->expects($this->exactly($size))
@@ -134,7 +129,7 @@ class SerialIteratorTest extends BaseTest
             ->willReturn($this->pixelMock);
 
         $serialIterator = new SerialIterator(
-            $this->imageMock,
+            $this->resourceMock,
             $this->colorIndexMock,
             $this->pointFactoryMock,
             $this->pixelFactoryMock

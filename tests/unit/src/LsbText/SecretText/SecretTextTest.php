@@ -7,11 +7,6 @@ use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 class SecretTextTest extends BaseTest
 {
     /**
-     * @var SecretText
-     */
-    private $secretText;
-
-    /**
      * @var \Picamator\SteganographyKit2\Kernel\Text\Api\TextInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $textMock;
@@ -38,30 +33,48 @@ class SecretTextTest extends BaseTest
 
         $this->iteratorMock = $this->getMockBuilder('Iterator')
             ->getMock();
-
-        $this->secretText = new SecretText($this->textMock, $this->endMarkMock);
     }
 
     public function testGetResource()
     {
+        $secretText = $this->getSecretText();
+
         // text mock
         $this->textMock->expects($this->once())
             ->method('getText');
 
-        $this->secretText->getResource();
+        $secretText->getResource();
     }
 
     public function testGetCountBit()
     {
+        $textCount = 64;
+        $endMarkCount = 16;
+
+        $secretText = $this->getSecretText();
+
         // text mock
         $this->textMock->expects($this->once())
             ->method('getCountBit')
-            ->willReturn(0);
+            ->willReturn($textCount);
 
-        $this->secretText->getCountBit();
+        // end mark mock
+        $this->endMarkMock->expects($this->once())
+            ->method('count')
+            ->willReturn($endMarkCount);
+
+        $secretText->getCountBit();
+        $actual = $secretText->getCountBit(); // double run to test cache
+
+        $this->assertEquals($textCount + $endMarkCount, $actual);
     }
 
-    public function testGetIterator()
+    /**
+     * Gets secret text
+     *
+     * @return SecretText
+     */
+    private function getSecretText() : SecretText
     {
         // text mock
         $this->textMock->expects($this->once())
@@ -73,7 +86,6 @@ class SecretTextTest extends BaseTest
             ->method('getIterator')
             ->willReturn($this->iteratorMock);
 
-        $this->secretText->getIterator();
-        $this->secretText->getIterator(); // double run to test cache
+        return new SecretText($this->textMock, $this->endMarkMock);
     }
 }

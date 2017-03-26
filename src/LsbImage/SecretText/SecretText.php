@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\LsbImage\SecretText;
 
+use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
 
@@ -28,11 +29,30 @@ class SecretText implements SecretTextInterface
     private $image;
 
     /**
-     * @param ImageInterface $image
+     * @var ChannelInterface
      */
-    public function __construct(ImageInterface $image)
+    private $channel;
+
+    /**
+     * @var \Iterator
+     */
+    private $iterator;
+
+    /**
+     * @var int
+     */
+    private $countBit;
+
+    /**
+     * @param ImageInterface $image
+     * @param ChannelInterface $channel
+     */
+    public function __construct(ImageInterface $image, ChannelInterface $channel)
     {
         $this->image = $image;
+        $this->channel = $channel;
+
+        $this->iterator = $image->getIterator();
     }
 
     /**
@@ -48,16 +68,69 @@ class SecretText implements SecretTextInterface
      */
     public function getCountBit(): int
     {
-        $size = $this->image->getSize();
+        if (is_null($this->countBit)) {
+            $size = $this->image->getSize();
+            $this->countBit = $size->getHeight() * $size->getWidth() *  $this->channel->count() * 8;
+        }
 
-        return $size->getHeight() * $size->getWidth() *  3 * 8;
+        return $this->countBit;
     }
 
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function current()
     {
-        return $this->image->getIterator();
+        return $this->iterator->current();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function next()
+    {
+        return $this->iterator->next();
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @codeCoverageIgnore
+     */
+    public function key()
+    {
+        return $this->iterator->key();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function valid()
+    {
+        return $this->iterator->valid() && $this->hasChildren();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function rewind()
+    {
+        $this->iterator->rewind();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasChildren()
+    {
+        return (is_object($this->current()) && is_a($this->current(), 'IteratorAggregate'));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getChildren()
+    {
+        return $this->current()->getIterator();
     }
 }

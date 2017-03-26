@@ -18,7 +18,7 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
  *
  * Class type
  * ----------
- * Sharable helper service. The class is an namespace over methods.
+ * Sharable helper service. The class is a namespace over methods.
  *
  * Responsibility
  * --------------
@@ -87,7 +87,7 @@ class Encode implements EncodeInterface
         $iterator = new \MultipleIterator(\MultipleIterator::MIT_NEED_ALL | \MultipleIterator::MIT_KEYS_ASSOC);
 
         // secret text iterator
-        $secretIterator = new \CachingIterator($secretText->getIterator());
+        $secretIterator = new \CachingIterator(new \RecursiveIteratorIterator($secretText));
         $iterator->attachIterator($secretIterator, 'secretBit');
 
         // cover text iterator (0) PixelInterface -> (1) ByteInterface

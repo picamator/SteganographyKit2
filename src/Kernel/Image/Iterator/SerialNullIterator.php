@@ -5,15 +5,15 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Iterator;
 
 use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\SerialIteratorInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
 
 /**
- * Serial iterator
+ * Serial null iterator
  *
- * Iterate pixel-by-pixel, row-by-row form to the left top corner to the bottom right.
+ * Iterate pixel-by-pixel, row-by-row form to the left top corner to the bottom right over non exist resource with height & width.
  *
  * Class type
  * ----------
@@ -21,7 +21,7 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
  *
  * Responsibility
  * --------------
- * Iterate over ``Resource``
+ * Emulate iteration over ``Resource`` returning ``Pixel`` with null ``Color``
  *
  * State
  * -----
@@ -33,16 +33,16 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
  *
  * Dependency injection
  * --------------------
- * Cannot be injected in any class. Iterator owns only by ``Resource``.
+ * Can be injected only as constructor argument. It's not depend on any user's data.
  *
  * @package Kernel\Image\Iterator
  */
-class SerialIterator implements SerialIteratorInterface
+class SerialNullIterator implements SerialIteratorInterface
 {
     /**
-     * @var ColorIndexInterface
+     * @var ColorInterface
      */
-    private $colorIndex;
+    private $color;
 
     /**
      * @var PointFactoryInterface
@@ -53,11 +53,6 @@ class SerialIterator implements SerialIteratorInterface
      * @var PixelFactoryInterface
      */
     private $pixelFactory;
-
-    /**
-     * @var resource
-     */
-    private $resource;
 
     /**
      * Max value for X coordinate
@@ -95,24 +90,22 @@ class SerialIterator implements SerialIteratorInterface
     private $index = 0;
 
     /**
-     * @param ResourceInterface $resource
-     * @param ColorIndexInterface $colorIndex
+     * @param SizeInterface $size
+     * @param ColorInterface $color
      * @param PointFactoryInterface $pointFactory
      * @param PixelFactoryInterface $pixelFactory
      */
     public function __construct(
-        ResourceInterface $resource,
-        ColorIndexInterface $colorIndex,
+        SizeInterface $size,
+        ColorInterface $color,
         PointFactoryInterface $pointFactory,
         PixelFactoryInterface $pixelFactory
     ) {
-        $this->colorIndex = $colorIndex;
+        $this->xMax = $size->getWidth();
+        $this->yMax = $size->getHeight();
+        $this->color = $color;
         $this->pointFactory = $pointFactory;
         $this->pixelFactory = $pixelFactory;
-
-        $this->resource = $resource->getResource();
-        $this->xMax = $resource->getSize()->getWidth();
-        $this->yMax = $resource->getSize()->getHeight();
     }
 
     /**
@@ -122,12 +115,9 @@ class SerialIterator implements SerialIteratorInterface
      */
     public function current()
     {
-        $colorIndex = imagecolorat($this->resource, $this->x, $this->y);
-        // strict types will rise exception for false color index
-        $color = $this->colorIndex->getColor($colorIndex);
         $point = $this->pointFactory->create(['x' => $this->x, 'y' => $this->y]);
 
-        return $this->pixelFactory->create($point, $color);
+        return $this->pixelFactory->create($point, $this->color);
     }
 
     /**

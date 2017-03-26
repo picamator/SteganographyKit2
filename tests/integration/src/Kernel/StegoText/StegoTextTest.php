@@ -15,6 +15,7 @@ use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelI
 use Picamator\SteganographyKit2\Kernel\Image\Resource\JpegResource;
 use Picamator\SteganographyKit2\Kernel\Image\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\ByteFactory;
+use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
 use Picamator\SteganographyKit2\Kernel\Primitive\PointFactory;
 use Picamator\SteganographyKit2\Kernel\StegoText\StegoText;
 use Picamator\SteganographyKit2\Tests\Integration\Kernel\BaseTest;
@@ -51,7 +52,8 @@ class StegoTextTest extends BaseTest
 
         // color index
         $byteFactory = new ByteFactory($this->objectManager);
-        $colorFactory = new ColorFactory($this->objectManager);
+        $nullByte = new NullByte();
+        $colorFactory = new ColorFactory($this->objectManager, $nullByte);
         $this->colorIndex = new ColorIndex($byteFactory, $colorFactory);
 
         $this->pointFactory = new PointFactory($this->objectManager);
@@ -67,10 +69,10 @@ class StegoTextTest extends BaseTest
     public function testSerialBytewiseIteratorJpeg(string $path)
     {
         $path = $this->getPath($path);
-        $exportPath = $this->getPath('data' . DIRECTORY_SEPARATOR . 'tmp');
+        $exportPath = $this->getPath('tmp');
 
         // pixel factory
-        $channel = new Channel();
+        $channel = new Channel(['red', 'green', 'blue']);
         $iteratorFactory = new PixelIteratorFactory($this->objectManager, $channel);
         $pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 
@@ -123,12 +125,12 @@ class StegoTextTest extends BaseTest
     public function testSerialBitwiseIteratorJpeg(string $path)
     {
         $path = $this->getPath($path);
-        $exportPath = $this->getPath('data' . DIRECTORY_SEPARATOR . 'tmp');
+        $exportPath = $this->getPath('tmp');
 
         $expected = ['0', '1'];
 
         // pixel factory
-        $channel = new Channel();
+        $channel = new Channel(['red', 'green', 'blue']);
         $iteratorFactory = new PixelIteratorFactory(
             $this->objectManager,
             $channel,

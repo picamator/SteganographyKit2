@@ -109,7 +109,7 @@ class Image implements ImageInterface
     public function getIterator()
     {
         if (is_null($this->iterator)) {
-            $this->iterator = $this->iteratorFactory->create($this);
+            $this->iterator = $this->iteratorFactory->create($this->resource);
         }
 
         return $this->iterator;

@@ -43,7 +43,7 @@ class SerialBitwiseIteratorTest extends BaseTest
             ->getMock();
     }
 
-    public function testIterate()
+    public function testIterator()
     {
         $charBinary = '01110100';
         $text = 'a';

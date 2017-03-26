@@ -16,7 +16,7 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
  *
  * Class type
  * ----------
- * Sharable helper service. The class is an namespace over methods.
+ * Sharable helper service. The class is a namespace over methods.
  *
  * Responsibility
  * --------------

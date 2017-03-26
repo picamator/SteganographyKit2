@@ -6,7 +6,7 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
  *
  * @package Kernel\SecretText
  */
-interface SecretTextInterface extends \IteratorAggregate
+interface SecretTextInterface extends \RecursiveIterator
 {
     /**
      * Gets source

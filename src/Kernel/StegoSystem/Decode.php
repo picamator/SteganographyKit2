@@ -17,7 +17,7 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
  *
  * Class type
  * ----------
- * Sharable helper service. The class is an namespace over methods.
+ * Sharable helper service. The class is a namespace over methods.
  *
  * Responsibility
  * --------------
@@ -48,11 +48,6 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
 class Decode implements DecodeInterface
 {
     /**
-     * @var SecretTextFactoryInterface
-     */
-    private $secretTextFactory;
-
-    /**
      * @var DecodeBitInterface
      */
     private $decodeBit;
@@ -63,18 +58,23 @@ class Decode implements DecodeInterface
     private $endMark;
 
     /**
-     * @param SecretTextFactoryInterface $secretTextFactory
+     * @var SecretTextFactoryInterface
+     */
+    private $secretTextFactory;
+
+    /**
      * @param DecodeBitInterface $decodeBit
      * @param EndMarkInterface $endMark
+     * @param SecretTextFactoryInterface $secretTextFactory
      */
     public function __construct(
-        SecretTextFactoryInterface $secretTextFactory,
         DecodeBitInterface $decodeBit,
-        EndMarkInterface $endMark
+        EndMarkInterface $endMark,
+        SecretTextFactoryInterface $secretTextFactory
     ) {
-        $this->secretTextFactory = $secretTextFactory;
         $this->decodeBit = $decodeBit;
         $this->endMark = $endMark;
+        $this->secretTextFactory = $secretTextFactory;
     }
 
     /**

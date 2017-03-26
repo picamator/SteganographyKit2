@@ -113,9 +113,10 @@ class EncodeTest extends BaseTest
             ->willReturn($this->repositoryMock);
 
         // secret text mock
-        $this->secretTextMock->expects($this->once())
-            ->method('getIterator')
-            ->willReturn(new \ArrayIterator($secretText));
+        $secretTextMock = $this->recursiveIteratorHelper->getRecursiveIteratorMock(
+            'Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface',
+            $secretText
+        );
 
         // cover text mock
         $coverTextMock = $this->recursiveIteratorHelper
@@ -142,6 +143,6 @@ class EncodeTest extends BaseTest
             ->method('create')->with($this->equalTo($this->imageMock))
             ->willReturn($this->stegoTextMock);
 
-        $this->encode->encode($this->secretTextMock, $coverTextMock);
+        $this->encode->encode($secretTextMock, $coverTextMock);
     }
 }

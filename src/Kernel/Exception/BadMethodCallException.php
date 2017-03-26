@@ -2,12 +2,12 @@
 namespace Picamator\SteganographyKit2\Kernel\Exception;
 
 /**
- * Invalid argument exception
+ * Bad method call exception
  *
  * @package Kernel\Exception
  *
  * @codeCoverageIgnore
  */
-class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+class BadMethodCallException extends \BadMethodCallException implements ExceptionInterface
 {
 }

@@ -15,6 +15,7 @@ use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelI
 use Picamator\SteganographyKit2\Kernel\Image\Resource\JpegResource;
 use Picamator\SteganographyKit2\Kernel\Image\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\ByteFactory;
+use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
 use Picamator\SteganographyKit2\Kernel\Primitive\PointFactory;
 use Picamator\SteganographyKit2\Tests\Integration\Kernel\BaseTest;
 use Picamator\SteganographyKit2\Kernel\Util\ObjectManager;
@@ -42,7 +43,7 @@ class ImageTest extends BaseTest
     private $pixelFactory;
 
     /**
-     * @var PixelFactory
+     * @var SizeFactory
      */
     private $sizeFactory;
 
@@ -55,13 +56,14 @@ class ImageTest extends BaseTest
 
         // color index
         $byteFactory = new ByteFactory($this->objectManager);
-        $colorFactory = new ColorFactory($this->objectManager);
+        $nullByte = new NullByte();
+        $colorFactory = new ColorFactory($this->objectManager, $nullByte);
         $this->colorIndex = new ColorIndex($byteFactory, $colorFactory);
 
         $this->pointFactory = new PointFactory($this->objectManager);
 
         // pixel factory
-        $channel = new Channel();
+        $channel = new Channel(['red', 'green', 'blue']);
         $iteratorFactory = new PixelIteratoryFactory($this->objectManager, $channel);
         $this->pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
 
@@ -76,7 +78,7 @@ class ImageTest extends BaseTest
     public function testSerialBytewiseIteratorJpeg(string $path)
     {
         $path = $this->getPath($path);
-        $exportPath = $this->getPath('data' . DIRECTORY_SEPARATOR . 'tmp');
+        $exportPath = $this->getPath('tmp');
 
         // resource
         $infoFactory = new InfoFactory($this->objectManager, $this->sizeFactory);

@@ -17,6 +17,11 @@ class SecretTextTest extends BaseTest
     private $imageMock;
 
     /**
+     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $channelMock;
+
+    /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $sizeMock;
@@ -33,13 +38,16 @@ class SecretTextTest extends BaseTest
         $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface')
             ->getMock();
 
+        $this->channelMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\ChannelInterface')
+            ->getMock();
+
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
             ->getMock();
 
         $this->iteratorMock = $this->getMockBuilder('Iterator')
             ->getMock();
 
-        $this->secretText = new SecretText($this->imageMock);
+        $this->secretText = new SecretText($this->imageMock, $this->channelMock);
     }
 
     public function testGetResource()
@@ -73,17 +81,12 @@ class SecretTextTest extends BaseTest
             ->method('getHeight')
             ->willReturn($height);
 
+        // channel mock
+        $this->channelMock->expects($this->once())
+            ->method('count')
+            ->willReturn($channel);
+
         $actual = $this->secretText->getCountBit();
         $this->assertEquals($expected, $actual);
-    }
-
-    public function testGetIterator()
-    {
-        // image mock
-        $this->imageMock->expects($this->once())
-            ->method('getIterator')
-            ->willReturn($this->iteratorMock);
-
-        $this->secretText->getIterator();
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Integration\LsbText\Text;
+namespace Picamator\SteganographyKit2\Tests\Integration\LsbText\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\CoverText\CoverText;
 use Picamator\SteganographyKit2\Kernel\Entity\PixelFactory;
@@ -16,6 +16,7 @@ use Picamator\SteganographyKit2\Kernel\Image\RepositoryFactory;
 use Picamator\SteganographyKit2\Kernel\Image\Resource\JpegResource;
 use Picamator\SteganographyKit2\Kernel\Image\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\ByteFactory;
+use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
 use Picamator\SteganographyKit2\Kernel\Primitive\PointFactory;
 use Picamator\SteganographyKit2\Kernel\SecretText\EndMark;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Decode;
@@ -160,7 +161,8 @@ class StegoSystemTest extends BaseTest
 
         $this->encodeBit = new EncodeBit( $this->byteFactory);
 
-        $this->colorFactory = new ColorFactory($this->objectManager);
+        $nullByte = new NullByte();
+        $this->colorFactory = new ColorFactory($this->objectManager, $nullByte);
 
         $this->stegoTextFactory = new StegoTextFactory($this->objectManager);
 
@@ -192,7 +194,7 @@ class StegoSystemTest extends BaseTest
 
         $this->decodeBit = new DecodeBit();
 
-        $this->decode = new Decode($this->secretTextFactory, $this->decodeBit, $this->endMark);
+        $this->decode = new Decode($this->decodeBit, $this->endMark, $this->secretTextFactory);
 
         // stego system
         $this->stegoSystem = new StegoSystem($this->encode, $this->decode);
@@ -225,11 +227,11 @@ class StegoSystemTest extends BaseTest
      * @dataProvider providerEncode
      *
      * @param string $testToEncode
-     * @param string $imagePath
+     * @param string $coverPath
      */
-    public function testEncode(string $testToEncode, string $imagePath)
+    public function testEncode(string $testToEncode, string $coverPath)
     {
-        $imagePath = $this->getPath($imagePath);
+        $coverPath = $this->getPath($coverPath);
         $exportPath = $this->getPath('tmp');
 
         // secret text
@@ -240,9 +242,9 @@ class StegoSystemTest extends BaseTest
         $jpegFileExport = new JpegFile($writablePath, $this->nameGenerator);
 
         // image
-        $info = $this->infoFactory->create($imagePath);
+        $info = $this->infoFactory->create($coverPath);
 
-        $resource = new JpegResource($info->getSize(), $imagePath);
+        $resource = new JpegResource($info->getSize(), $coverPath);
 
         $image = new Image($resource, $this->imageIteratorFactory, $jpegFileExport);
 

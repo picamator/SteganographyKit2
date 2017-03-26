@@ -30,7 +30,7 @@ class Channel implements ChannelInterface
     /**
      * @param array $channels The channels order in array important for encode as well as for decode
      */
-    public function __construct(array $channels = [])
+    public function __construct(array $channels)
     {
         $this->channels = $channels;
         $this->setMethodChannels($this->channels);
