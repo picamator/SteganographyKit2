@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\CoverText\Api\CoverTextInterface;
-use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;

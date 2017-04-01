@@ -151,10 +151,6 @@ class InfoMark implements InfoMarkInterface
      */
     private function setBinary(SizeInterface $size)
     {
-        if (!is_null($this->binary)) {
-            return;
-        }
-
         $width = $size->getWidth();
         $height = $size->getHeight();
 

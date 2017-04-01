@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Image\Builder;
+namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\File\Builder;
 
 use Picamator\SteganographyKit2\Kernel\File\Builder\InfoFactory;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
@@ -70,6 +70,7 @@ class InfoFactoryTest extends BaseTest
             ->willReturn($this->infoMock);
 
         $this->infoFactory->create($path);
+        $this->infoFactory->create($path); // double run to check internal cache
     }
 
     public function providerCreate()

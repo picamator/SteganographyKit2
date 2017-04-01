@@ -107,6 +107,8 @@ final class StegoText implements StegoTextInterface
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
     public function getImage(): ImageInterface
     {
