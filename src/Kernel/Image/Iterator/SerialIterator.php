@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Iterator;
 
-use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\SerialIteratorInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface;
 
 /**
  * Serial iterator
@@ -37,12 +35,12 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
  *
  * @package Kernel\Image\Iterator
  */
-class SerialIterator implements SerialIteratorInterface
+final class SerialIterator implements IteratorInterface
 {
     /**
-     * @var ColorIndexInterface
+     * @var ImageInterface
      */
-    private $colorIndex;
+    private $image;
 
     /**
      * @var PointFactoryInterface
@@ -50,14 +48,9 @@ class SerialIterator implements SerialIteratorInterface
     private $pointFactory;
 
     /**
-     * @var PixelFactoryInterface
+     * @var RepositoryInterface
      */
-    private $pixelFactory;
-
-    /**
-     * @var resource
-     */
-    private $resource;
+    private $repository;
 
     /**
      * Max value for X coordinate
@@ -95,39 +88,33 @@ class SerialIterator implements SerialIteratorInterface
     private $index = 0;
 
     /**
-     * @param ResourceInterface $resource
-     * @param ColorIndexInterface $colorIndex
+     * @param ImageInterface $image
      * @param PointFactoryInterface $pointFactory
-     * @param PixelFactoryInterface $pixelFactory
      */
     public function __construct(
-        ResourceInterface $resource,
-        ColorIndexInterface $colorIndex,
-        PointFactoryInterface $pointFactory,
-        PixelFactoryInterface $pixelFactory
+        ImageInterface $image,
+        PointFactoryInterface $pointFactory
     ) {
-        $this->colorIndex = $colorIndex;
+        $this->image =  $image;
         $this->pointFactory = $pointFactory;
-        $this->pixelFactory = $pixelFactory;
 
-        $this->resource = $resource->getResource();
-        $this->xMax = $resource->getSize()->getWidth();
-        $this->yMax = $resource->getSize()->getHeight();
+        $this->repository = $image->getRepository();
+
+        $size = $image->getInfo()->getSize();
+        $this->xMax = $size->getWidth();
+        $this->yMax = $size->getHeight();
     }
 
     /**
      * @inheritDoc
      *
-     * @return PixelInterface
+     * @return \Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface
      */
     public function current()
     {
-        $colorIndex = imagecolorat($this->resource, $this->x, $this->y);
-        // strict types will rise exception for false color index
-        $color = $this->colorIndex->getColor($colorIndex);
-        $point = $this->pointFactory->create(['x' => $this->x, 'y' => $this->y]);
+        $point = $this->pointFactory->create($this->x, $this->y);
 
-        return $this->pixelFactory->create($point, $color);
+        return $this->repository->find($point);
     }
 
     /**

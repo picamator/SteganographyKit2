@@ -2,47 +2,41 @@
 namespace Picamator\SteganographyKit2\Tests\Integration\LsbText\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\CoverText\CoverText;
-use Picamator\SteganographyKit2\Kernel\Entity\PixelFactory;
-use Picamator\SteganographyKit2\Kernel\Entity\PixelRepositoryFactory;
+use Picamator\SteganographyKit2\Kernel\File\NameGenerator\PrefixTime;
 use Picamator\SteganographyKit2\Kernel\File\Data\WritablePath;
-use Picamator\SteganographyKit2\Kernel\File\NameGenerator\SourceIdentical;
-use Picamator\SteganographyKit2\Kernel\Image\ColorFactory;
-use Picamator\SteganographyKit2\Kernel\Image\ColorIndex;
-use Picamator\SteganographyKit2\Kernel\Image\Data\Channel;
 use Picamator\SteganographyKit2\Kernel\Image\Export\JpegFile;
-use Picamator\SteganographyKit2\Kernel\Image\Image;
-use Picamator\SteganographyKit2\Kernel\Image\InfoFactory;
-use Picamator\SteganographyKit2\Kernel\Image\RepositoryFactory;
-use Picamator\SteganographyKit2\Kernel\Image\Resource\JpegResource;
-use Picamator\SteganographyKit2\Kernel\Image\SizeFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\ByteFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
-use Picamator\SteganographyKit2\Kernel\Primitive\PointFactory;
-use Picamator\SteganographyKit2\Kernel\SecretText\EndMark;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
+use Picamator\SteganographyKit2\Kernel\SecretText\InfoMarkFactory;
+use Picamator\SteganographyKit2\Kernel\SecretText\SecretTextFactory;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Decode;
+use Picamator\SteganographyKit2\LsbText\SecretText\Decode as SecretDecode;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Encode;
+use Picamator\SteganographyKit2\LsbText\SecretText\Encode as SecretEncode;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\StegoSystem;
 use Picamator\SteganographyKit2\Kernel\StegoText\StegoTextFactory;
-use Picamator\SteganographyKit2\Kernel\Text\AsciiFactory;
+use Picamator\SteganographyKit2\Kernel\Text\Builder\AsciiFactory;
 use Picamator\SteganographyKit2\Kernel\Text\Filter\BinaryToTextFilter;
+use Picamator\SteganographyKit2\Kernel\Text\Filter\TextToBinaryFilter;
 use Picamator\SteganographyKit2\Kernel\Text\FilterManager;
-use Picamator\SteganographyKit2\Kernel\Text\Iterator\IteratorFactory as TextIteratorFactory;
-use Picamator\SteganographyKit2\Kernel\Image\Iterator\IteratorFactory as ImageIteratorFactory;
-use Picamator\SteganographyKit2\Kernel\Entity\Iterator\IteratorFactory as PixelIteratorFactory;
-use Picamator\SteganographyKit2\Kernel\Text\LengthFactory;
-use Picamator\SteganographyKit2\Kernel\Text\TextFactory;
+use Picamator\SteganographyKit2\Kernel\SecretText\Iterator\SerialIteratorFactory as SecretIteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Util\ObjectManager;
 use Picamator\SteganographyKit2\Lsb\StegoSystem\DecodeBit;
 use Picamator\SteganographyKit2\Lsb\StegoSystem\EncodeBit;
-use Picamator\SteganographyKit2\LsbText\SecretText\SecretTextFactory;
+use Picamator\SteganographyKit2\Tests\Helper\Kernel\Image\ImageHelper;
 use Picamator\SteganographyKit2\Tests\Integration\LsbText\BaseTest;
 
 class StegoSystemTest extends BaseTest
 {
     /**
-     * @var array of ['stegoText' => ..., 'secretText' => ...]
+     * @var array [['textToEncode' => ..., 'stegoText' => ...], ...]
      */
     private static $stegoTextContainer = [];
+
+    /**
+     * @var ImageHelper
+     */
+    private $imageHelper;
 
     /**
      * @var ObjectManager
@@ -58,12 +52,6 @@ class StegoSystemTest extends BaseTest
      * @var EncodeBit
      */
     private $encodeBit;
-
-    /**
-     * @var ColorFactory
-     */
-    private $colorFactory;
-
     /**
      * @var StegoTextFactory
      */
@@ -73,6 +61,36 @@ class StegoSystemTest extends BaseTest
      * @var Encode
      */
     private $encode;
+
+    /**
+     * @var DecodeBit
+     */
+    private $decodeBit;
+
+    /**
+     * @var SizeFactory
+     */
+    private $sizeFactory;
+
+    /**
+     * @var InfoMarkFactory
+     */
+    private $infoMarkFactory;
+
+    /**
+     * @var SecretIteratorFactory
+     */
+    private $secretIteratorFactory;
+
+    /**
+     * @var SecretTextFactory
+     */
+    private $secretTextFactory;
+
+    /**
+     * @var Decode
+     */
+    private $decode;
 
     /**
      * @var FilterManager
@@ -85,73 +103,41 @@ class StegoSystemTest extends BaseTest
     private $asciiFactory;
 
     /**
-     * @var TextIteratorFactory
+     * @var TextToBinaryFilter
      */
-    private $textIteratorFactory;
+    private $textToBinaryFilter;
 
     /**
-     * @var LengthFactory
+     * @var SecretEncode
      */
-    private $lengthFactory;
+    private $secretEncode;
 
     /**
-     * @var TextFactory
+     * @var PrefixTime
      */
-    private $textFactory;
+    private $nameGenerator;
 
     /**
-     * @var EndMark
+     * @var BinaryToTextFilter
      */
-    private $endMark;
+    private $binaryToTextFilter;
 
     /**
-     * @var SecretTextFactory
+     * @var SecretDecode
      */
-    private $secretTextFactory;
-
-    /**
-     * @var DecodeBit
-     */
-    private $decodeBit;
-
-    /**
-     * @var Decode
-     */
-    private $decode;
+    private $secretDecode;
 
     /**
      * @var StegoSystem
      */
     private $stegoSystem;
 
-    /**
-     * @var ColorIndex
-     */
-    private $colorIndex;
-
-    /**
-     * @var ImageIteratorFactory
-     */
-    private $imageIteratorFactory;
-
-    /**
-     * @var SizeFactory
-     */
-    private $sizeFactory;
-
-    /**
-     * @var InfoFactory
-     */
-    private $infoFactory;
-
-    /**
-     * @var SourceIdentical
-     */
-    private $nameGenerator;
-
     protected function setUp()
     {
         parent::setUp();
+
+        // helper
+        $this->imageHelper = new ImageHelper();
 
         // util
         $this->objectManager = new ObjectManager();
@@ -159,106 +145,77 @@ class StegoSystemTest extends BaseTest
         // encode
         $this->byteFactory = new ByteFactory($this->objectManager);
 
-        $this->encodeBit = new EncodeBit( $this->byteFactory);
-
-        $nullByte = new NullByte();
-        $this->colorFactory = new ColorFactory($this->objectManager, $nullByte);
+        $this->encodeBit = new EncodeBit($this->byteFactory);
 
         $this->stegoTextFactory = new StegoTextFactory($this->objectManager);
 
-        $this->colorIndex = new ColorIndex($this->byteFactory, $this->colorFactory);
-
-        $repositoryFactory = new PixelRepositoryFactory($this->objectManager, $this->colorIndex, $this->colorFactory);
-
-        $this->encode = new Encode($this->encodeBit, $repositoryFactory, $this->stegoTextFactory);
+        $this->encode = new Encode($this->encodeBit, $this->stegoTextFactory);
 
         // decode
+        $this->decodeBit = new DecodeBit();
+
+        $this->sizeFactory = new SizeFactory($this->objectManager);
+
+        $this->infoMarkFactory = new InfoMarkFactory($this->objectManager, $this->sizeFactory);
+
+        $this->secretIteratorFactory = new SecretIteratorFactory($this->objectManager);
+
+        $this->secretTextFactory = new SecretTextFactory($this->objectManager, $this->secretIteratorFactory);
+
+        $this->decode = new Decode($this->decodeBit,  $this->infoMarkFactory, $this->secretTextFactory);
+
+        // encode arguments
         $this->filterManager = new FilterManager();
 
         $this->asciiFactory = new AsciiFactory($this->objectManager, $this->byteFactory);
 
-        $this->textIteratorFactory = new TextIteratorFactory($this->objectManager, $this->asciiFactory);
+        $this->textToBinaryFilter = new TextToBinaryFilter($this->asciiFactory);
 
-        $this->lengthFactory = new LengthFactory($this->objectManager);
+        $this->secretEncode = new SecretEncode($this->filterManager, $this->infoMarkFactory, $this->secretTextFactory);
 
-        $this->textFactory = new TextFactory(
-            $this->objectManager,
-            $this->filterManager,
-            $this->textIteratorFactory,
-            $this->lengthFactory
-        );
+        $this->nameGenerator = new PrefixTime('lsb-text');
 
-        $this->endMark = new EndMark();
+        // decode arguments
+        $this->binaryToTextFilter = new BinaryToTextFilter();
 
-        $this->secretTextFactory = new SecretTextFactory($this->objectManager, $this->textFactory, $this->endMark);
+        $this->secretDecode = new SecretDecode($this->filterManager);
 
-        $this->decodeBit = new DecodeBit();
-
-        $this->decode = new Decode($this->decodeBit, $this->endMark, $this->secretTextFactory);
-
-        // stego system
         $this->stegoSystem = new StegoSystem($this->encode, $this->decode);
-
-        // encode arguments
-        $pointFactory = new PointFactory($this->objectManager);
-
-        $channel = new Channel(['red', 'green', 'blue']);
-
-        $iteratorFactory = new PixelIteratorFactory($this->objectManager, $channel);
-
-        $pixelFactory = new PixelFactory($this->objectManager, $iteratorFactory);
-
-        $this->imageIteratorFactory = new ImageIteratorFactory(
-            $this->objectManager,
-            $this->colorIndex,
-            $pointFactory,
-            $pixelFactory
-        );
-
-        $this->sizeFactory = new SizeFactory($this->objectManager);
-
-        $this->infoFactory = new InfoFactory($this->objectManager, $this->sizeFactory);
-
-        // export
-        $this->nameGenerator = new SourceIdentical();
     }
 
     /**
      * @dataProvider providerEncode
      *
-     * @param string $testToEncode
+     * @param string $textToEncode
      * @param string $coverPath
      */
-    public function testEncode(string $testToEncode, string $coverPath)
+    public function testEncode(string $textToEncode, string $coverPath)
     {
         $coverPath = $this->getPath($coverPath);
         $exportPath = $this->getPath('tmp');
 
         // secret text
-        $secretText = $this->secretTextFactory->create($testToEncode);
-
-        // export
-        $writablePath = new WritablePath($exportPath);
-        $jpegFileExport = new JpegFile($writablePath, $this->nameGenerator);
+        $this->filterManager->attach($this->textToBinaryFilter);
+        $secretText = $this->secretEncode->encode($textToEncode);
 
         // image
-        $info = $this->infoFactory->create($coverPath);
+        $image = $this->imageHelper->getJpegImage($coverPath);
 
-        $resource = new JpegResource($info->getSize(), $coverPath);
-
-        $image = new Image($resource, $this->imageIteratorFactory, $jpegFileExport);
-
-        // stego text
+        // cover text
         $coverText = new CoverText($image);
 
         // encode
         $stegoText = $this->stegoSystem->encode($secretText, $coverText);
 
-        $exportFilePath = $image->export();
+        // export
+        $writablePath = new WritablePath($exportPath);
+        $jpegFileExport = new JpegFile($writablePath, $this->nameGenerator);
+
+        $exportFilePath = $jpegFileExport->export($coverText->getImage()->getResource());
         $this->assertFileExists($exportFilePath);
 
         self::$stegoTextContainer[] = [
-            'secretText' => $secretText,
+            'textToEncode' => $textToEncode,
             'stegoText' => $stegoText,
         ];
     }
@@ -268,13 +225,13 @@ class StegoSystemTest extends BaseTest
      */
     public function testDecode()
     {
+        $this->filterManager->attach($this->binaryToTextFilter);
+
         foreach (self::$stegoTextContainer as $item) {
             $secretText = $this->stegoSystem->decode($item['stegoText']);
+            $actualText = $this->secretDecode->decode($secretText);
 
-            $binaryToTextFilter = new BinaryToTextFilter();
-            $actualText = $binaryToTextFilter->filter($secretText->getResource());
-
-            $this->assertEquals($item['secretText']->getResource(), $actualText);
+            $this->assertEquals($item['textToEncode'], $actualText);
         }
     }
 

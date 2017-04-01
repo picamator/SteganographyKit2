@@ -33,7 +33,7 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
  *
  * @package Kernel\Util
  */
-class ObjectManager implements ObjectManagerInterface
+final class ObjectManager implements ObjectManagerInterface
 {
     /**
      * @var array
@@ -49,11 +49,6 @@ class ObjectManager implements ObjectManagerInterface
             return new $className();
         }
 
-        // construction does not available
-        if (method_exists($className, '__construct') === false) {
-            throw new RuntimeException(sprintf('Class "%s" does not have __construct', $className));
-        }
-
         return $this->getReflection($className)
             ->newInstanceArgs($arguments);
     }
@@ -65,11 +60,18 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @return \ReflectionClass
      */
-    private function getReflection($className)
+    private function getReflection($className) : \ReflectionClass
     {
-        if (empty($this->reflectionContainer[$className])) {
-            $this->reflectionContainer[$className] = new \ReflectionClass($className);
+        if (isset($this->reflectionContainer[$className])) {
+            return $this->reflectionContainer[$className];
         }
+
+        // construction does not available
+        if (method_exists($className, '__construct') === false) {
+            throw new RuntimeException(sprintf('Class "%s" does not have __construct', $className));
+        }
+
+        $this->reflectionContainer[$className] = new \ReflectionClass($className);
 
         return $this->reflectionContainer[$className];
     }

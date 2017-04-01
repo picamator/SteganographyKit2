@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Export;
 
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
 
 /**
  * Export to png file
@@ -12,13 +12,26 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
  *
  * @codeCoverageIgnore
  */
-class PngFile extends AbstractFile
+final class PngFile extends AbstractFile
 {
+    /**
+     * @var string
+     */
+    private static $extension = 'png';
+
     /**
      * @inheritDoc
      */
-    final protected function saveImage(ResourceInterface $resource, string $path): bool
+    protected function saveImage(ResourceInterface $resource, string $path): bool
     {
         return imagepng($resource->getResource(), $path);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getExtension(): string
+    {
+        return self::$extension;
     }
 }

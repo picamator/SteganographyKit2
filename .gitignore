@@ -1,8 +1,2 @@
 vendor/
-.idea/
-nbproject/
-.settings/
-.buildpath
-.project
 *.*~
-*.phar

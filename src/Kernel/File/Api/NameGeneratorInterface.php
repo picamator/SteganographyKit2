@@ -12,8 +12,9 @@ interface NameGeneratorInterface
      * Generate
      *
      * @param string $sourceName
+     * @param string $extension
      *
      * @return string
      */
-    public function generate(string $sourceName) : string;
+    public function generate(string $sourceName, string $extension) : string;
 }

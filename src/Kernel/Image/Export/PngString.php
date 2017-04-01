@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Export;
 
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
 
 /**
  * Export to png base64encode string
@@ -12,12 +12,12 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
  *
  * @codeCoverageIgnore
  */
-class PngString extends AbstractString
+final class PngString extends AbstractString
 {
     /**
      * @inheritDoc
      */
-    final protected function displayImage(ResourceInterface $resource): bool
+    protected function displayImage(ResourceInterface $resource): bool
     {
         return imagepng($resource->getResource());
     }

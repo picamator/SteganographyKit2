@@ -2,8 +2,9 @@
 namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Encode;
+use Picamator\SteganographyKit2\Tests\Helper\Kernel\IteratorHelper;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
-use Picamator\SteganographyKit2\Tests\Helper\Kernel\Entity\PixelHelper;
+use Picamator\SteganographyKit2\Tests\Helper\Kernel\Pixel\PixelHelper;
 use Picamator\SteganographyKit2\Tests\Helper\Kernel\RecursiveIteratorHelper;
 
 class EncodeTest extends BaseTest
@@ -19,6 +20,11 @@ class EncodeTest extends BaseTest
     private $recursiveIteratorHelper;
 
     /**
+     * @var IteratorHelper
+     */
+    private $iteratorHelper;
+
+    /**
      * @var PixelHelper
      */
     private $pixelHelper;
@@ -29,12 +35,7 @@ class EncodeTest extends BaseTest
     private $encodeBitMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $repositoryFactoryMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $repositoryMock;
 
@@ -58,26 +59,19 @@ class EncodeTest extends BaseTest
      */
     private $imageMock;
 
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $resourceMock;
-
     protected function setUp()
     {
         parent::setUp();
 
         // helpers
         $this->recursiveIteratorHelper = new RecursiveIteratorHelper($this);
+        $this->iteratorHelper = new IteratorHelper($this);
         $this->pixelHelper = new PixelHelper($this);
 
         $this->encodeBitMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface')
             ->getMock();
 
-        $this->repositoryFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryFactoryInterface')
-            ->getMock();
-
-        $this->repositoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelRepositoryInterface')
+        $this->repositoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface')
             ->getMock();
 
         $this->stegoTextFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextFactoryInterface')
@@ -92,31 +86,33 @@ class EncodeTest extends BaseTest
         $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface')
             ->getMock();
 
-        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
-            ->getMock();
-
-        $this->encode = new Encode($this->encodeBitMock,  $this->repositoryFactoryMock, $this->stegoTextFactoryMock);
+        $this->encode = new Encode($this->encodeBitMock, $this->stegoTextFactoryMock);
     }
 
     public function testEncode()
     {
-        $secretText = [1, 1, 1, 1, 1, 1, 1, 1];
+        $secretText = ['1', '1', '1', '1', '1', '1', '1', '1'];
         $pixelCount = 3;
+
+        // image mock
+        $this->imageMock->expects($this->once())
+            ->method('getRepository')
+            ->willReturn($this->repositoryMock);
 
         // repository mock
         $this->repositoryMock->expects($this->exactly($pixelCount))
             ->method('update');
 
-        // repository factory mock
-        $this->repositoryFactoryMock->expects($this->once())
-            ->method('create')
-            ->willReturn($this->repositoryMock);
-
-        // secret text mock
-        $secretTextMock = $this->recursiveIteratorHelper->getRecursiveIteratorMock(
-            'Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface',
+        // secret text iterator mock
+        $secretTextIteratorMock = $this->iteratorHelper->getIteratorMock(
+            'Picamator\SteganographyKit2\Kernel\SecretText\Api\Iterator\IteratorInterface',
             $secretText
         );
+
+        // secret text mock
+        $this->secretTextMock->expects($this->once())
+            ->method('getIterator')
+            ->willReturn($secretTextIteratorMock);
 
         // cover text mock
         $coverTextMock = $this->recursiveIteratorHelper
@@ -129,11 +125,6 @@ class EncodeTest extends BaseTest
             ->method('getImage')
             ->willReturn($this->imageMock);
 
-        // image mock
-        $this->imageMock->expects($this->once())
-            ->method('getResource')
-            ->willReturn($this->resourceMock);
-
         // encode bit mock
         $this->encodeBitMock->expects($this->exactly(count($secretText)))
             ->method('encode');
@@ -143,6 +134,6 @@ class EncodeTest extends BaseTest
             ->method('create')->with($this->equalTo($this->imageMock))
             ->willReturn($this->stegoTextMock);
 
-        $this->encode->encode($secretTextMock, $coverTextMock);
+        $this->encode->encode($this->secretTextMock, $coverTextMock);
     }
 }

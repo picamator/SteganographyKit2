@@ -13,7 +13,7 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
  *
  * @codeCoverageIgnore
  */
-class Ascii implements AsciiInterface
+final class Ascii implements AsciiInterface
 {
     /**
      * @var ByteInterface

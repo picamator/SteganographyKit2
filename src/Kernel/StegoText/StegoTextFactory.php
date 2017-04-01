@@ -35,7 +35,7 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
  *
  * @codeCoverageIgnore
  */
-class StegoTextFactory implements StegoTextFactoryInterface
+final class StegoTextFactory implements StegoTextFactoryInterface
 {
     /**
      * @var ObjectManagerInterface

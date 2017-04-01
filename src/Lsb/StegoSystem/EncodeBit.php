@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Lsb\StegoSystem;
 
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\ByteFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 
@@ -42,7 +42,7 @@ use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
  *
  * @package Lsb\StegoSystem
  */
-class EncodeBit implements EncodeBitInterface
+final class EncodeBit implements EncodeBitInterface
 {
     /**
      * @var ByteFactoryInterface
@@ -60,8 +60,17 @@ class EncodeBit implements EncodeBitInterface
     /**
      * @inheritDoc
      */
-    public function encode(int $secretBit, ByteInterface $coverByte): ByteInterface
+    public function encode(string $secretBit, ByteInterface $coverByte): ByteInterface
     {
+        // skip creating new object if nothing to update
+        // it's 60% faster then substr($stegoByte->getBinary(), -1, 1) === $secretBit; Tested on 10000000 iterations.
+        $coverBit = $coverByte->getInt() & 1;
+        if($coverBit === (int) $secretBit) {
+            return $coverByte;
+        }
+
+        // it's 15% faster then ``$secretByte = (($coverByte->getInt() >> 1) << 1) + $secretBit; $secretByte = decbin($secretByte);``
+        // the same as ``$secretByte = decbin($coverByte->getInt() >> 1) . $secretBit;``
         $secretByte = substr_replace($coverByte->getBinary(), $secretBit, -1);
 
         return $this->byteFactory->create($secretByte);

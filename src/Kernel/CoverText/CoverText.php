@@ -40,7 +40,7 @@ use Picamator\SteganographyKit2\Kernel\CoverText\Api\CoverTextInterface;
  *
  * @package Kernel\CoverText
  */
-class CoverText implements CoverTextInterface
+final class CoverText implements CoverTextInterface
 {
     /**
      * @var \Iterator

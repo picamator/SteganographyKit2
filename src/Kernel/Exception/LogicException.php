@@ -8,6 +8,6 @@ namespace Picamator\SteganographyKit2\Kernel\Exception;
  *
  * @codeCoverageIgnore
  */
-class LogicException extends \LogicException implements ExceptionInterface
+final class LogicException extends \LogicException implements ExceptionInterface
 {
 }

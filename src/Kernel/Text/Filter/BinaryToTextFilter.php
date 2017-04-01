@@ -10,7 +10,7 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
  *
  * @package Kernel\Text\Filter
  */
-class BinaryToTextFilter implements FilterInterface
+final class BinaryToTextFilter implements FilterInterface
 {
     /**
      * @var array
@@ -45,7 +45,7 @@ class BinaryToTextFilter implements FilterInterface
      */
     private function getChar(string $charByte) : string
     {
-        if (!array_key_exists($charByte, $this->charContainer)) {
+        if (!isset($this->charContainer[$charByte])) {
             $charCode = bindec($charByte);
             $this->charContainer[$charByte] = chr($charCode);
         }

@@ -1,5 +1,5 @@
-PHP Documentator
-================
+PHPDocumentator
+===============
 To generate documentation it's used [PHPDocumentator](https://phpdoc.org/)
 
 Generation

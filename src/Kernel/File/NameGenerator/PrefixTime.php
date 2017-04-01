@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\File\NameGenerator;
 
-use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
-
 /**
  * Strategy to generate file name
  *
@@ -28,7 +26,7 @@ use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
  *
  * @package Kernel\File
  */
-class PrefixTime implements NameGeneratorInterface
+final class PrefixTime extends AbstractGenerator
 {
     /**
      * @var string
@@ -46,11 +44,11 @@ class PrefixTime implements NameGeneratorInterface
     /**
      * @inheritDoc
      */
-    public function generate(string $sourceName) : string
+    protected function getFileName(string $sourceName) : string
     {
         $name = $this->prefix === '' ? '' : $this->prefix . '-';
         $name .= time() . '-';
-        $name .= pathinfo($sourceName, PATHINFO_BASENAME);
+        $name .= $sourceName;
 
         return $name;
     }

@@ -7,6 +7,18 @@ use Picamator\SteganographyKit2\Kernel\Text\Filter\BinaryToTextFilter;
 class BinaryToTextFilterTest extends BaseTest
 {
     /**
+     * @var BinaryToTextFilter
+     */
+    private $filter;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->filter = new BinaryToTextFilter();
+    }
+
+    /**
      * @dataProvider providerFilter
      *
      * @param string $text
@@ -19,8 +31,7 @@ class BinaryToTextFilterTest extends BaseTest
             $binaryText .= sprintf('%08d',  decbin(ord($item)));
         }
 
-        $filter = new BinaryToTextFilter();
-        $actual = $filter->filter($binaryText);
+        $actual = $this->filter->filter($binaryText);
 
         $this->assertEquals($text, $actual);
     }

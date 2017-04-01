@@ -1,7 +1,7 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\Image\Api\Iterator;
 
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 
 /**
  * Create Iterator object
@@ -13,11 +13,11 @@ interface IteratorFactoryInterface
     /**
      * Create
      *
-     * @param ResourceInterface $resource
+     * @param ImageInterface $image
      *
-     * @return \Iterator
+     * @return IteratorInterface
      *
      * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
-    public function create(ResourceInterface $resource) : \Iterator;
+    public function create(ImageInterface $image) : IteratorInterface;
 }

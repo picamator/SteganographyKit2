@@ -26,16 +26,28 @@ class DencodeBitTest extends BaseTest
         $this->decodeBit = new DecodeBit();
     }
 
-    public function testDecode()
+    /**
+     * @dataProvider providerDecode
+     *
+     * @param int $data
+     * @param string $expected
+     */
+    public function testDecode(int $data, string $expected)
     {
-        $binary = str_repeat(0, 8);
-
         // byte mock
         $this->byteMock->expects($this->once())
-            ->method('getBinary')
-            ->willReturn($binary);
+            ->method('getInt')
+            ->willReturn($data);
 
         $actual = $this->decodeBit->decode($this->byteMock);
-        $this->assertEquals(0, $actual);
+        $this->assertSame($expected, $actual);
+    }
+
+    public function providerDecode()
+    {
+        return [
+            [190, '0'],
+            [191, '1']
+        ];
     }
 }

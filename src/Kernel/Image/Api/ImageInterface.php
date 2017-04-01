@@ -1,7 +1,9 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\Image\Api;
 
-use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
 
 /**
  * Image
@@ -11,6 +13,13 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
 interface ImageInterface extends \IteratorAggregate
 {
     /**
+     * Gets repository
+     *
+     * @return RepositoryInterface
+     */
+    public function getRepository() : RepositoryInterface;
+
+    /**
      * Gets resource
      *
      * @return ResourceInterface
@@ -18,16 +27,9 @@ interface ImageInterface extends \IteratorAggregate
     public function getResource() : ResourceInterface;
 
     /**
-     * Gets size
+     * Gets info
      *
-     * @return SizeInterface
+     * @return InfoInterface
      */
-    public function getSize() : SizeInterface;
-
-    /**
-     * Export
-     *
-     * @return string
-     */
-    public function export() : string;
+    public function getInfo() : InfoInterface;
 }

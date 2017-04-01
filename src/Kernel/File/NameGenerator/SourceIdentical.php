@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\File\NameGenerator;
 
-use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
-
 /**
  * Strategy to generate file name
  *
@@ -29,14 +27,16 @@ use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
  * Only as constructor argument.
  *
  * @package Kernel\File
+ *
+ * @codeCoverageIgnore
  */
-class SourceIdentical implements NameGeneratorInterface
+final class SourceIdentical extends AbstractGenerator
 {
     /**
      * @inheritDoc
      */
-    public function generate(string $sourceName) : string
+    public function getFileName(string $sourceName) : string
     {
-        return pathinfo($sourceName, PATHINFO_BASENAME);
+        return $sourceName;
     }
 }

@@ -15,7 +15,7 @@ interface DecodeBitInterface
      *
      * @param ByteInterface $stegoByte
      *
-     * @return int
+     * @return string
      */
-    public function decode(ByteInterface $stegoByte) : int;
+    public function decode(ByteInterface $stegoByte) : string;
 }

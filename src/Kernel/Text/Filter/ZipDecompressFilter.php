@@ -11,7 +11,7 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
  *
  * @package Kernel\Text\Filter
  */
-class ZipDecompressFilter implements FilterInterface
+final class ZipDecompressFilter implements FilterInterface
 {
     /**
      * @inheritDoc

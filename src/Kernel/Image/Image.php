@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image;
 
-use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
 
 /**
  * Image
@@ -18,12 +18,11 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
  *
  * Responsibility
  * --------------
- * * Create image iterator
- * * Delegate export
+ * Create image iterator
  *
  * State
  * -----
- * * Export result as an internal cache
+ * * Iteration over image
  *
  * Immutability
  * ------------
@@ -35,7 +34,7 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
  *
  * Check list
  * ----------
- * * Single responsibility ``-``
+ * * Single responsibility ``+``
  * * Tell don't ask ``+``
  * * No logic leak ``+``
  * * Object is ready after creation ``+``
@@ -46,9 +45,9 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
 class Image implements ImageInterface
 {
     /**
-     * @var ResourceInterface
+     * @var RepositoryInterface
      */
-    private $resource;
+    private $repository;
 
     /**
      * @var IteratorFactoryInterface
@@ -56,33 +55,28 @@ class Image implements ImageInterface
     private $iteratorFactory;
 
     /**
-     * @var ExportInterface
-     */
-    private $exportStrategy;
-
-    /**
      * @var \Iterator
      */
     private $iterator;
 
     /**
-     * @var string
-     */
-    private $exportResult;
-
-    /**
-     * @param ResourceInterface $resource
+     * @param RepositoryInterface $repository
      * @param IteratorFactoryInterface $iteratorFactory
-     * @param ExportInterface $exportStrategy
      */
     public function __construct(
-        ResourceInterface $resource,
-        IteratorFactoryInterface $iteratorFactory,
-        ExportInterface $exportStrategy
+        RepositoryInterface $repository,
+        IteratorFactoryInterface $iteratorFactory
     ) {
-        $this->resource = $resource;
+        $this->repository = $repository;
         $this->iteratorFactory = $iteratorFactory;
-        $this->exportStrategy = $exportStrategy;
+    }
+
+    /**
+     * Cloning object with iterator might be tricky,
+     * Especially when iterator instance are internally caching
+     */
+    private function __clone()
+    {
     }
 
     /**
@@ -90,17 +84,29 @@ class Image implements ImageInterface
      *
      * @codeCoverageIgnore
      */
-    public function getResource() : ResourceInterface
+    public function getRepository(): RepositoryInterface
     {
-        return $this->resource;
+        return $this->repository;
     }
 
     /**
      * @inheritDoc
+     *
+     * @codeCoverageIgnore
      */
-    public function getSize(): SizeInterface
+    public function getResource(): ResourceInterface
     {
-        return $this->resource->getSize();
+        return $this->repository->getResource();
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @codeCoverageIgnore
+     */
+    public function getInfo(): InfoInterface
+    {
+        return $this->repository->getResource()->getInfo();
     }
 
     /**
@@ -109,21 +115,9 @@ class Image implements ImageInterface
     public function getIterator()
     {
         if (is_null($this->iterator)) {
-            $this->iterator = $this->iteratorFactory->create($this->resource);
+            $this->iterator = $this->iteratorFactory->create($this);
         }
 
         return $this->iterator;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function export(): string
-    {
-        if (is_null($this->exportResult)) {
-            $this->exportResult = $this->exportStrategy->export($this->resource);
-        }
-
-        return $this->exportResult;
     }
 }

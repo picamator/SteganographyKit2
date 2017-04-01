@@ -12,44 +12,34 @@ class SerialIteratorTest extends BaseTest
     private $imageMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
-    private $colorIndexMock;
+    private $repositoryMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $pointFactoryMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\PointInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $pointMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Entity\Api\PixelFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $pixelFactoryMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $pixelMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $infoMock;
+
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $sizeMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $resourceMock;
-
-    /**
-     * @var resource
-     */
-    private $pngResource;
 
     protected function setUp()
     {
@@ -58,35 +48,23 @@ class SerialIteratorTest extends BaseTest
         $this->imageMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface')
             ->getMock();
 
-        $this->colorIndexMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ColorIndexInterface')
+        $this->repositoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface')
             ->getMock();
 
-        $this->pointFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface')
+        $this->pointFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface')
             ->getMock();
 
         $this->pointMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface')
             ->getMock();
 
-        $this->pixelFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelFactoryInterface')
+        $this->pixelMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface')
             ->getMock();
 
-        $this->pixelMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface')
+        $this->infoMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface')
             ->getMock();
 
-        $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
+        $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface')
             ->getMock();
-
-        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
-            ->getMock();
-
-        $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel-1x1px.png'));
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        imagedestroy($this->pngResource);
     }
 
     public function testIterator()
@@ -95,6 +73,26 @@ class SerialIteratorTest extends BaseTest
         $height = 1;
 
         $size = $width * $height;
+
+        // image mock
+        $this->imageMock->expects($this->once())
+            ->method('getRepository')
+            ->willReturn($this->repositoryMock);
+
+        $this->imageMock->expects($this->once())
+            ->method('getInfo')
+            ->willReturn($this->infoMock);
+
+        // repository mock
+        $this->repositoryMock->expects($this->exactly($size))
+            ->method('find')
+            ->with($this->equalTo($this->pointMock))
+            ->willReturn($this->pixelMock);
+
+        // info mock
+        $this->infoMock->expects($this->once())
+            ->method('getSize')
+            ->willReturn($this->sizeMock);
 
         // size mock
         $this->sizeMock->expects($this->once())
@@ -105,39 +103,19 @@ class SerialIteratorTest extends BaseTest
             ->method('getHeight')
             ->willReturn($height);
 
-        // resource mock
-        $this->resourceMock->expects($this->once())
-            ->method('getResource')
-            ->willReturn($this->pngResource);
-
-        $this->resourceMock->expects($this->exactly(2))
-            ->method('getSize')
-            ->willReturn($this->sizeMock);
-
-        // color index mock
-        $this->colorIndexMock->expects($this->exactly($size))
-            ->method('getColor');
-
         // point factory mock
         $this->pointFactoryMock->expects($this->exactly($size))
             ->method('create')
             ->willReturn($this->pointMock);
 
-        // pixel factory mock
-        $this->pixelFactoryMock->expects($this->exactly($size))
-            ->method('create')
-            ->willReturn($this->pixelMock);
-
         $serialIterator = new SerialIterator(
-            $this->resourceMock,
-            $this->colorIndexMock,
-            $this->pointFactoryMock,
-            $this->pixelFactoryMock
+            $this->imageMock,
+            $this->pointFactoryMock
         );
 
         $i = 0;
         foreach ($serialIterator as $item) {
-            $this->assertInstanceOf('Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface', $item);
+            $this->assertInstanceOf('Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface', $item);
             $i ++;
         }
         $this->assertEquals($size, $i);

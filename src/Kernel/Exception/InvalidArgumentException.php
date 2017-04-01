@@ -8,6 +8,6 @@ namespace Picamator\SteganographyKit2\Kernel\Exception;
  *
  * @codeCoverageIgnore
  */
-class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+final class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
 }

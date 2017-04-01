@@ -14,10 +14,12 @@ class PrefixTimeTest extends BaseTest
      */
     public function testGenerate(string $prefix = '')
     {
-        $generator = new PrefixTime($prefix);
-        $actual = $generator->generate(__FILE__);
+        $extension = 'jpg';
 
-        $expected = pathinfo(__FILE__, PATHINFO_BASENAME);
+        $generator = new PrefixTime($prefix);
+        $actual = $generator->generate(__FILE__, $extension);
+
+        $expected = pathinfo(__FILE__, PATHINFO_FILENAME) . '.' . $extension;
 
         $this->assertContains($expected, $actual);
         if (!empty(trim($prefix))) {

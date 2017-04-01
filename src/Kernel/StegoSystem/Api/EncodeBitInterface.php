@@ -13,10 +13,10 @@ interface EncodeBitInterface
     /**
      * Encode
      *
-     * @param int $secretBit
+     * @param string $secretBit
      * @param ByteInterface $coverByte
      *
      * @return ByteInterface
      */
-    public function encode(int $secretBit, ByteInterface $coverByte) : ByteInterface;
+    public function encode(string $secretBit, ByteInterface $coverByte) : ByteInterface;
 }

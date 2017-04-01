@@ -11,24 +11,27 @@ class AbstractStringTest extends BaseTest
     private $stringMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $imageMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $resourceMock;
+
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $infoMock;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
+        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface')
             ->getMock();
 
         $this->stringMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Export\AbstractString')
             ->getMockForAbstractClass();
+
+        $this->infoMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface')
+            ->getMock();
     }
 
     public function testExport()
@@ -48,9 +51,13 @@ class AbstractStringTest extends BaseTest
     {
         // resource mock
         $this->resourceMock->expects($this->once())
-            ->method('getName')
-            ->willReturn('');
+            ->method('getInfo')
+            ->willReturn($this->infoMock);
 
+        // info mock
+        $this->infoMock->expects($this->once())
+            ->method('getName')
+            ->willReturn(' ');
         // string mock
         $this->stringMock->expects($this->once())
             ->method('displayImage')

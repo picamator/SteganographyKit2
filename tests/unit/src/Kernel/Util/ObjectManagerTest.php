@@ -28,6 +28,7 @@ class ObjectManagerTest extends BaseTest
         $className = '\DateTime';
 
         $actual = $this->objectManager->create($className, $arguments);
+        $this->objectManager->create($className, $arguments); // double run to check internal cache
         $this->assertInstanceOf($className, $actual);
     }
 

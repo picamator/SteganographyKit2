@@ -41,15 +41,16 @@ use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\DecodeBitInterface;
  *
  * @package Lsb\StegoSystem
  */
-class DecodeBit implements DecodeBitInterface
+final class DecodeBit implements DecodeBitInterface
 {
     /**
      * @inheritDoc
      */
-    public function decode(ByteInterface $stegoByte): int
+    public function decode(ByteInterface $stegoByte): string
     {
-        $secretBit = substr($stegoByte->getBinary(), -1, 1);
+        // it's 60% faster then substr($stegoByte->getBinary(), -1, 1); Tested on 10000000 iterations.
+        $lastBit = $stegoByte->getInt() & 1;
 
-        return intval($secretBit);
+        return (string) $lastBit;
     }
 }

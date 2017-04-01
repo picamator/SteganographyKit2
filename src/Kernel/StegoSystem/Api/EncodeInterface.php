@@ -21,6 +21,8 @@ interface EncodeInterface
      * @param CoverTextInterface $coverText
      *
      * @return StegoTextInterface
+     *
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
     public function encode(SecretTextInterface $secretText, CoverTextInterface $coverText) : StegoTextInterface;
 }

@@ -12,7 +12,7 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
  *
  * @package Kernel\Text\Filter
  */
-class ZipCompressFilter implements FilterInterface
+final class ZipCompressFilter implements FilterInterface
 {
     /**
      * @var array

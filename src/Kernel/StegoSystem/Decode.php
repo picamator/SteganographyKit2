@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\StegoSystem;
 
-use Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface;
+use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\DecodeBitInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\DecodeInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextFactoryInterface;
@@ -53,9 +55,9 @@ class Decode implements DecodeInterface
     private $decodeBit;
 
     /**
-     * @var EndMarkInterface
+     * @var InfoMarkFactoryInterface
      */
-    private $endMark;
+    private $infoMarkFactory;
 
     /**
      * @var SecretTextFactoryInterface
@@ -64,16 +66,16 @@ class Decode implements DecodeInterface
 
     /**
      * @param DecodeBitInterface $decodeBit
-     * @param EndMarkInterface $endMark
+     * @param InfoMarkFactoryInterface $infoMarkFactory
      * @param SecretTextFactoryInterface $secretTextFactory
      */
     public function __construct(
         DecodeBitInterface $decodeBit,
-        EndMarkInterface $endMark,
+        InfoMarkFactoryInterface $infoMarkFactory,
         SecretTextFactoryInterface $secretTextFactory
     ) {
         $this->decodeBit = $decodeBit;
-        $this->endMark = $endMark;
+        $this->infoMarkFactory = $infoMarkFactory;
         $this->secretTextFactory = $secretTextFactory;
     }
 
@@ -83,20 +85,44 @@ class Decode implements DecodeInterface
     public function decode(StegoTextInterface $stegoText): SecretTextInterface
     {
         $iterator = new \RecursiveIteratorIterator($stegoText); // item is a ByteInterface
-        $iterator->rewind();
+        $infoMark = $this->getInfoMark($iterator);
+        $maxIndex = $infoMark->countText();
 
-        $endMark = $this->endMark->getBinary();
-        $endMarkPos = -1 * $this->endMark->count();
+        $limitIterator = new \LimitIterator($iterator, InfoMarkInterface::MARK_COUNT, $maxIndex);
 
         $secretText = '';
-        while (substr($secretText, $endMarkPos) !== $endMark && $iterator->valid()) {
-            $secretText .= $this->decodeBit->decode($iterator->current());
-            $iterator->next();
+        foreach($limitIterator as $item) {
+            $secretText .= $this->decodeBit->decode($item);
         };
 
-        // remove end text mark
-        $secretText = substr($secretText, 0, strlen($secretText) - $this->endMark->count());
+        return $this->secretTextFactory->create($infoMark, $secretText);
+    }
 
-        return $this->secretTextFactory->create($secretText);
+    /**
+     * Gets info mark
+     *
+     * @param \RecursiveIteratorIterator $iterator
+     *
+     * @return InfoMarkInterface
+     */
+    private function getInfoMark(\RecursiveIteratorIterator $iterator) : InfoMarkInterface
+    {
+        $iterator = new \LimitIterator($iterator, 0, InfoMarkInterface::MARK_COUNT);
+
+        $binaryString = '';
+        foreach ($iterator as $item) {
+            $binaryString .= $this->decodeBit->decode($item);
+        }
+
+        if (strlen($binaryString) < InfoMarkInterface::MARK_COUNT) {
+            throw new RuntimeException(
+                sprintf('Failed create InfoMark object from binary string "%s". Binary string is shorter then 32 bits.', $binaryString)
+            );
+        }
+
+        $infoDoubleByte = str_split($binaryString, InfoMarkInterface::MARK_COUNT / 2);
+        $infoDoubleByte = array_map('bindec', $infoDoubleByte);
+
+        return $this->infoMarkFactory->create($infoDoubleByte[0], $infoDoubleByte[1]);
     }
 }

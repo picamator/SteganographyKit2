@@ -8,6 +8,6 @@ namespace Picamator\SteganographyKit2\Kernel\Exception;
  *
  * @codeCoverageIgnore
  */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+final class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }

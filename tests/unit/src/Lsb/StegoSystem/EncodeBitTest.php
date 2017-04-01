@@ -12,7 +12,7 @@ class EncodeBitTest extends BaseTest
     private $encodeBit;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\ByteFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $byteFactoryMock;
 
@@ -25,7 +25,7 @@ class EncodeBitTest extends BaseTest
     {
         parent::setUp();
 
-        $this->byteFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\ByteFactoryInterface')
+        $this->byteFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface')
             ->getMock();
 
         $this->byteMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface')
@@ -37,11 +37,16 @@ class EncodeBitTest extends BaseTest
     public function testEncode()
     {
         $binary = str_repeat(0, 8);
+        $data = bindec($binary);
 
-        $secretBit = 1;
+        $secretBit = '1';
         $stegoByte = substr_replace($binary, $secretBit, -1);
 
         // byte mock
+        $this->byteMock->expects($this->once())
+            ->method('getInt')
+            ->willReturn($data);
+
         $this->byteMock->expects($this->once())
             ->method('getBinary')
             ->willReturn($binary);
@@ -52,6 +57,27 @@ class EncodeBitTest extends BaseTest
             ->with($this->equalTo($stegoByte))
             ->willReturn($this->byteMock);
 
-        $this->encodeBit->encode(1, $this->byteMock);
+        $this->encodeBit->encode($secretBit, $this->byteMock);
+    }
+
+    public function testSkipEncode()
+    {
+        $data = 0;
+        $secretBit = '0';
+
+        // byte mock
+        $this->byteMock->expects($this->once())
+            ->method('getInt')
+            ->willReturn($data);
+
+        // never
+        $this->byteMock->expects($this->never())
+            ->method('getBinary');
+
+        $this->byteFactoryMock->expects($this->never())
+            ->method('create');
+
+        $actual = $this->encodeBit->encode($secretBit, $this->byteMock);
+        $this->assertSame($this->byteMock, $actual);
     }
 }

@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Iterator;
 
-use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Entity\Api\PixelInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\Data\ColorInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\SerialIteratorInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
+use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface;
 
 /**
  * Serial null iterator
@@ -37,13 +36,8 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\PointFactoryInterface;
  *
  * @package Kernel\Image\Iterator
  */
-class SerialNullIterator implements SerialIteratorInterface
+final class SerialNullIterator implements IteratorInterface
 {
-    /**
-     * @var ColorInterface
-     */
-    private $color;
-
     /**
      * @var PointFactoryInterface
      */
@@ -91,19 +85,16 @@ class SerialNullIterator implements SerialIteratorInterface
 
     /**
      * @param SizeInterface $size
-     * @param ColorInterface $color
      * @param PointFactoryInterface $pointFactory
      * @param PixelFactoryInterface $pixelFactory
      */
     public function __construct(
         SizeInterface $size,
-        ColorInterface $color,
         PointFactoryInterface $pointFactory,
         PixelFactoryInterface $pixelFactory
     ) {
         $this->xMax = $size->getWidth();
         $this->yMax = $size->getHeight();
-        $this->color = $color;
         $this->pointFactory = $pointFactory;
         $this->pixelFactory = $pixelFactory;
     }
@@ -115,9 +106,9 @@ class SerialNullIterator implements SerialIteratorInterface
      */
     public function current()
     {
-        $point = $this->pointFactory->create(['x' => $this->x, 'y' => $this->y]);
+        $point = $this->pointFactory->create($this->x, $this->y);
 
-        return $this->pixelFactory->create($point, $this->color);
+        return $this->pixelFactory->create($point);
     }
 
     /**

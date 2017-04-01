@@ -19,6 +19,8 @@ interface DecodeInterface
      * @param StegoTextInterface $stegoText
      *
      * @return SecretTextInterface
+     *
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
     public function decode(StegoTextInterface $stegoText) : SecretTextInterface;
 }

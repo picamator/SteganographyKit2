@@ -21,9 +21,14 @@ class AbstractFileTest extends BaseTest
     private $nameGenertorMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $resourceMock;
+
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $infoMock;
 
     protected function setUp()
     {
@@ -35,7 +40,10 @@ class AbstractFileTest extends BaseTest
         $this->nameGenertorMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface')
             ->getMock();
 
-        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
+        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface')
+            ->getMock();
+
+        $this->infoMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface')
             ->getMock();
 
         $this->fileMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Export\AbstractFile')
@@ -47,14 +55,23 @@ class AbstractFileTest extends BaseTest
     {
         // resource mock
         $this->resourceMock->expects($this->once())
+            ->method('getInfo')
+            ->willReturn($this->infoMock);
+
+        // info mock
+        $this->infoMock->expects($this->once())
             ->method('getName')
-            ->willReturn('');
+            ->willReturn(' ');
 
         // name generator mock
         $this->nameGenertorMock->expects($this->once())
             ->method('generate');
 
         // file mock
+        $this->fileMock->expects($this->once())
+            ->method('getExtension')
+            ->willReturn('jpg');
+
         $this->fileMock->expects($this->once())
             ->method('saveImage')
             ->willReturn(true);
@@ -69,14 +86,23 @@ class AbstractFileTest extends BaseTest
     {
         // resource mock
         $this->resourceMock->expects($this->once())
+            ->method('getInfo')
+            ->willReturn($this->infoMock);
+
+        // info mock
+        $this->infoMock->expects($this->once())
             ->method('getName')
-            ->willReturn('');
+            ->willReturn(' ');
 
         // name generator mock
         $this->nameGenertorMock->expects($this->once())
             ->method('generate');
 
         // file mock
+        $this->fileMock->expects($this->once())
+            ->method('getExtension')
+            ->willReturn('jpg');
+
         $this->fileMock->expects($this->once())
             ->method('saveImage')
             ->willReturn(false);

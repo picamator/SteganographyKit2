@@ -3,7 +3,7 @@ namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Decode;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
-use Picamator\SteganographyKit2\Tests\Helper\Kernel\Entity\PixelHelper;
+use Picamator\SteganographyKit2\Tests\Helper\Kernel\Pixel\PixelHelper;
 use Picamator\SteganographyKit2\Tests\Helper\Kernel\RecursiveIteratorHelper;
 
 class DecodeTest extends BaseTest
@@ -39,9 +39,14 @@ class DecodeTest extends BaseTest
     private $decodeBitMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
-    private $endMarkMock;
+    private $infoMarkFactoryMock;
+
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $infoMarkMock;
 
     protected function setUp()
     {
@@ -60,16 +65,18 @@ class DecodeTest extends BaseTest
         $this->decodeBitMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\StegoSystem\Api\DecodeBitInterface')
             ->getMock();
 
-        $this->endMarkMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\SecretText\Api\EndMarkInterface')
+        $this->infoMarkFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkFactoryInterface')
             ->getMock();
 
-        $this->decode = new Decode($this->decodeBitMock, $this->endMarkMock, $this->secretTextFactoryMock);
+        $this->infoMarkMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface')
+            ->getMock();
+
+        $this->decode = new Decode($this->decodeBitMock, $this->infoMarkFactoryMock, $this->secretTextFactoryMock);
     }
 
     public function testDecode()
     {
         $pixelCount = 50;
-        $endMark = '000000000000';
 
         // stego text mock
         $stegoTextMock = $this->recursiveIteratorHelper->getRecursiveIteratorMock(
@@ -77,14 +84,15 @@ class DecodeTest extends BaseTest
             $this->pixelHelper->getPixelList($pixelCount)
         );
 
-        // end mark mock
-        $this->endMarkMock->expects($this->once())
-            ->method('getBinary')
-            ->willReturn($endMark);
+        // info mark mock
+        $this->infoMarkFactoryMock->expects($this->once())
+            ->method('create')
+            ->willReturn($this->infoMarkMock);
 
-        $this->endMarkMock->expects($this->exactly(2))
-            ->method('count')
-            ->willReturn(strlen($endMark));
+        // info mark mock
+        $this->infoMarkMock->expects($this->once())
+            ->method('countText')
+            ->willReturn($pixelCount * 3 - 32);
 
         // decode bit mock
         $this->decodeBitMock->expects($this->exactly($pixelCount * 3))
@@ -95,6 +103,37 @@ class DecodeTest extends BaseTest
         $this->secretTextFactoryMock->expects($this->once())
             ->method('create')
             ->willReturn($this->secretTextMock);
+
+        $this->decode->decode($stegoTextMock);
+    }
+
+    /**
+     * @expectedException \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
+     */
+    public function testFailDecode()
+    {
+        $pixelCount = 10;
+
+        // stego text mock
+        $stegoTextMock = $this->recursiveIteratorHelper->getRecursiveIteratorMock(
+            'Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface',
+            $this->pixelHelper->getPixelList($pixelCount)
+        );
+
+        // decode bit mock
+        $this->decodeBitMock->expects($this->exactly($pixelCount * 3))
+            ->method('decode')
+            ->willReturn(1);
+
+        // never
+        $this->infoMarkFactoryMock->expects($this->never())
+            ->method('create');
+
+        $this->infoMarkMock->expects($this->never())
+            ->method('countText');
+
+        $this->secretTextFactoryMock->expects($this->never())
+            ->method('create');
 
         $this->decode->decode($stegoTextMock);
     }

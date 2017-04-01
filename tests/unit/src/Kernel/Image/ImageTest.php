@@ -2,6 +2,7 @@
 namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Image;
 
 use Picamator\SteganographyKit2\Kernel\Image\Image;
+use Picamator\SteganographyKit2\Tests\Helper\Kernel\IteratorHelper;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 
 class ImageTest extends BaseTest
@@ -12,9 +13,14 @@ class ImageTest extends BaseTest
     private $image;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var IteratorHelper
      */
-    private $resourceMock;
+    private $iteratorHelper;
+
+    /**
+     * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $repositoryMock;
 
     /**
      * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -26,50 +32,25 @@ class ImageTest extends BaseTest
      */
     private $iteratorMock;
 
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $exportMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $sizeMock;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->resourceMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface')
+        // helpers
+        $this->iteratorHelper = new IteratorHelper($this);
+
+        $this->repositoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface')
             ->getMock();
 
         $this->iteratorFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface')
             ->getMock();
 
-        $this->iteratorMock = $this->getMockBuilder('Iterator')
-            ->getMock();
-
-        $this->exportMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface')
-            ->getMock();
-
-        $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Image\Api\Data\SizeInterface')
-            ->getMock();
+        $this->iteratorMock = $this->iteratorHelper->getIteratorMock('Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface', []);
 
         $this->image = new Image(
-            $this->resourceMock,
-            $this->iteratorFactoryMock,
-            $this->exportMock
+            $this->repositoryMock,
+            $this->iteratorFactoryMock
         );
-    }
-
-    public function testGetSize()
-    {
-        // resource mock
-        $this->resourceMock->expects($this->once())
-            ->method('getSize')
-            ->willReturn($this->sizeMock);
-
-        $this->image->getSize();
     }
 
     public function testGetIterator()
@@ -81,17 +62,5 @@ class ImageTest extends BaseTest
 
         $this->image->getIterator();
         $this->image->getIterator(); // double runt to test cache
-    }
-
-    public function testExport()
-    {
-        // iterator factory mock
-        $this->exportMock->expects($this->once())
-            ->method('export')
-            ->with($this->equalTo($this->resourceMock))
-            ->willReturn('');
-
-        $this->image->export();
-        $this->image->export(); // double run to test cache
     }
 }

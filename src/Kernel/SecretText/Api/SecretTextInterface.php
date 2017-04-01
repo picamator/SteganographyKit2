@@ -1,24 +1,26 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
 
+use Picamator\SteganographyKit2\Kernel\SecretText\Api\Data\SizeInterface;
+
 /**
  * SecretText is an information for hide or protection signature
  *
  * @package Kernel\SecretText
  */
-interface SecretTextInterface extends \RecursiveIterator
+interface SecretTextInterface extends \IteratorAggregate
 {
     /**
-     * Gets source
+     * Gets binary text
      *
-     * @return string | resource
+     * @return string
      */
-    public function getResource();
+    public function getBinaryText();
 
     /**
-     * Gets bit count
+     * Gets info mark
      *
-     * @return int
+     * @return InfoMarkInterface
      */
-    public function getCountBit() : int;
+    public function getInfoMark() : InfoMarkInterface;
 }

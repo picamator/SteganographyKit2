@@ -23,7 +23,7 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterManagerInterface;
  *
  * Immutability
  * ------------
- * Object is immutable.
+ * Object is mutable.
  *
  * Dependency injection
  * --------------------
@@ -34,18 +34,80 @@ use Picamator\SteganographyKit2\Kernel\Text\Api\FilterManagerInterface;
 class FilterManager implements FilterManagerInterface
 {
     /**
-     * @var array
+     * @var \SplObjectStorage
      */
-    private $filterContainer = [];
+    private $container;
+
+    public function __construct()
+    {
+        $this->container = new \SplObjectStorage();
+    }
 
     /**
      * @inheritDoc
      */
-    public function addFilter(FilterInterface $filter): FilterManagerInterface
+    public function attach(FilterInterface $filter): FilterManagerInterface
     {
-        $this->filterContainer[] = $filter;
+        if ($this->container->contains($filter)) {
+            return $this;
+        }
+
+        $this->container->attach($filter);
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function attachAll(array $filterList): FilterManagerInterface
+    {
+        foreach ($filterList as $item) {
+            $this->attach($item);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function detach(FilterInterface $filter): FilterManagerInterface
+    {
+        $this->container->detach($filter);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeAll(): FilterManagerInterface
+    {
+        $this->container->removeAll($this->container);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count()
+    {
+        return $this->container->count();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getList() : array
+    {
+        $filterList = [];
+        foreach ($this->container as $item) {
+            $filterList[] = $item;
+        }
+
+        return $filterList;
     }
 
     /**
@@ -54,7 +116,7 @@ class FilterManager implements FilterManagerInterface
     public function apply(string $text): string
     {
         /** @var FilterInterface $item */
-        foreach ($this->filterContainer as $item) {
+        foreach ($this->container as $item) {
             $text = $item->filter($text);
         }
 

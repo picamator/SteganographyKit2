@@ -40,7 +40,7 @@ use Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface;
  *
  * @package Kernel\StegoText
  */
-class StegoText implements StegoTextInterface
+final class StegoText implements StegoTextInterface
 {
     /**
      * @var \Iterator

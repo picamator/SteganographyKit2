@@ -8,7 +8,7 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\NameGeneratorInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ExportInterface;
-use Picamator\SteganographyKit2\Kernel\Image\Api\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
 
 /**
  * Export image to file string
@@ -69,8 +69,10 @@ abstract class AbstractFile implements ExportInterface
      */
     final public function export(ResourceInterface $resource): string
     {
-        $resourceName = $resource->getName();
-        $savePath = rtrim($this->path->getPath(), '/\\') . DIRECTORY_SEPARATOR . $this->nameGenerator->generate($resourceName);
+        $resourceName = $resource->getInfo()->getName();
+        $savePath = $this->path->getPath()
+            . DIRECTORY_SEPARATOR
+            . $this->nameGenerator->generate($resourceName, $this->getExtension());
 
         $result = $this->saveImage($resource, $savePath);
         if ($result === false) {
@@ -81,6 +83,13 @@ abstract class AbstractFile implements ExportInterface
 
         return $savePath;
     }
+
+    /**
+     * Gets extension
+     *
+     * @return string
+     */
+    abstract protected function getExtension() : string;
 
     /**
      * Save image

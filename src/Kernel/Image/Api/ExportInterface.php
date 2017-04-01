@@ -1,7 +1,7 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\Image\Api;
 
-use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
 
 /**
  * Export Image
@@ -17,7 +17,7 @@ interface ExportInterface
      *
      * @return string base64encode or path etc
      *
-     * @throws RuntimeException
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
     public function export(ResourceInterface $resource) : string;
 }
