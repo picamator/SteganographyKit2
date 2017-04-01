@@ -82,6 +82,8 @@ final class SecretText implements SecretTextInterface
     /**
      * Cloning object with iterator might be tricky,
      * Especially when iterator instance are internally caching
+     *
+     * @codeCoverageIgnore
      */
     final private function __clone()
     {

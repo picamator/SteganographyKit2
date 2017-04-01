@@ -74,6 +74,8 @@ class Image implements ImageInterface
     /**
      * Cloning object with iterator might be tricky,
      * Especially when iterator instance are internally caching
+     *
+     * @codeCoverageIgnore
      */
     private function __clone()
     {
