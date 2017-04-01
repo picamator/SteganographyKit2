@@ -38,11 +38,6 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterfa
 final class SerialIterator implements IteratorInterface
 {
     /**
-     * @var ImageInterface
-     */
-    private $image;
-
-    /**
      * @var PointFactoryInterface
      */
     private $pointFactory;
@@ -95,7 +90,6 @@ final class SerialIterator implements IteratorInterface
         ImageInterface $image,
         PointFactoryInterface $pointFactory
     ) {
-        $this->image =  $image;
         $this->pointFactory = $pointFactory;
 
         $this->repository = $image->getRepository();

@@ -1,8 +1,6 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
 
-use Picamator\SteganographyKit2\Kernel\SecretText\Api\Data\SizeInterface;
-
 /**
  * SecretText is an information for hide or protection signature
  *

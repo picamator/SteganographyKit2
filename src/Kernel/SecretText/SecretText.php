@@ -6,7 +6,6 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
-use Picamator\SteganographyKit2\Kernel\Text\Api\TextInterface;
 
 /**
  * SecretText is an information for hide or protection signature
