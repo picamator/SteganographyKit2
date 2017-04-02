@@ -27,20 +27,20 @@ What's new
 4. Split integration and unit tests
 5. Support PHP 7.0
 6. Documentation: examples, diagrams, manual
-7. Backward compatibility for decoding StegoText
+7. Backward compatibility for decoding StegoText (planned for v0.9.0)
 8. Development environment: Docker
 9. Changed License from BSD-3-Clause to MIT
 
 What's stay
 -----------
-1. Algorithms: Text LSB, Text Random LSB
+1. Algorithms: Text LSB, Text Random LSB (planned v0.9.0)
 2. All algorithms are based on scientific research
 3. Detailed documentation
 
 What're the goals
 -----------------
 1. Make possible easy integrate to modern frameworks
-2. Create API for easy implementation new algorithms
+2. Create API for simple implementation new algorithms
 3. Quick start by clear documentation
 4. Popularize using hidden watermark instead of visible one for picture protection
 
