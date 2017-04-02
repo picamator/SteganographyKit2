@@ -3,35 +3,37 @@ Kernel: Introduction
 
 Kernel's components can be divided to several groups by functionality:
 
-* Utilities
-..* Exception
-..* Primitive
-..* Util
-* Model
-..* File
-..* Image
-..* Pixel
-..* Text
 * Domain
-..* CoverText
-..* SecretText
-..* StegoText
-..* StegoSystem 
+  * CoverText
+  * SecretText
+  * StegoText
+  * StegoSystem 
+* Model
+  * File
+  * Image
+  * Pixel
+  * Text
+* Utilities
+  * Exception
+  * Primitive
+  * Util
+
+Here Domain, Model are [Domain Drive Development](https://en.wikipedia.org/wiki/Domain-driven_design#Building_blocks) context.
 
 File naming
 -----------
 Kernel was built following several rules for naming classes:
 
 * Suffixes
-..* For factories - ``Factory``
-..* For exceptions - ``Exception`` 
-..* For iterators - ``Iterator``
-..* For facades - ``Facade``
-..* For filters - ``Filter``
-..* For validators - ``Validator`` 
+  * For factories - ``Factory``
+  * For exceptions - ``Exception`` 
+  * For iterators - ``Iterator``
+  * For facades - ``Facade``
+  * For filters - ``Filter``
+  * For validators - ``Validator`` 
 * Without suffixes
-..* Converters
-..* Exports
+  * Converters
+  * Exports
 
 Directory Structure
 -------------------
@@ -51,7 +53,6 @@ Api is a location for interfaces. It's moved to separate directory to make easie
 
 * Api\Data - interfaces for value objects
 * Ap\Builder - factory interfaces for creating value objects
-
 
 ### Data
 Data contain value object implementation. All value objects are immutable. Immutability is implemented partially for performance reason.
