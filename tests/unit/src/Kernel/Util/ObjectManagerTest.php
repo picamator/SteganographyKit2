@@ -37,7 +37,7 @@ class ObjectManagerTest extends BaseTest
      */
     public function testFailCreate()
     {
-        $this->objectManager->create('Picamator\SteganographyKit2\Kernel\ObjectManager', [1, 2]);
+        $this->objectManager->create('NonExistedClass', [1, 2]);
     }
 
     public function providerCreate()

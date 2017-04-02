@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Util;
 
+use Picamator\ObjectManager\Api\ObjectManagerInterface as VendorObjectManagerInterface;
+use Picamator\ObjectManager\Exception\RuntimeException as VendorRuntimeException;
+use Picamator\ObjectManager\ObjectManagerSingleton;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 
@@ -10,6 +13,7 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
  * Creates objects, the main usage inside factories.
  *
  * All objects are unshared, for shared objects please use DI service libraries.
+ * It's a delegate Picamator\ObjectManager class with transforming vendors exception to own one.
  *
  * Class type
  * ----------
@@ -36,43 +40,26 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 final class ObjectManager implements ObjectManagerInterface
 {
     /**
-     * @var array
+     * @var VendorObjectManagerInterface
      */
-    private $reflectionContainer;
+    private $objectManager;
+
+    public function __construct()
+    {
+        $this->objectManager = ObjectManagerSingleton::getInstance();
+    }
 
     /**
      * {@inheritdoc}
      */
     public function create(string $className, array $arguments = [])
     {
-        if (empty($arguments)) {
-            return new $className();
+        try {
+            return $this->objectManager->create($className, $arguments);
+        } catch(VendorRuntimeException $e) {
+            throw new RuntimeException(
+                sprintf('Cannot instantiate "%s" with arguments ["%s"]', $className, implode(', ', $arguments)), 0, $e
+            );
         }
-
-        return $this->getReflection($className)
-            ->newInstanceArgs($arguments);
-    }
-
-    /**
-     * Retrieve reflection.
-     *
-     * @param string $className
-     *
-     * @return \ReflectionClass
-     */
-    private function getReflection($className) : \ReflectionClass
-    {
-        if (isset($this->reflectionContainer[$className])) {
-            return $this->reflectionContainer[$className];
-        }
-
-        // construction does not available
-        if (method_exists($className, '__construct') === false) {
-            throw new RuntimeException(sprintf('Class "%s" does not have __construct', $className));
-        }
-
-        $this->reflectionContainer[$className] = new \ReflectionClass($className);
-
-        return $this->reflectionContainer[$className];
     }
 }
