@@ -13,12 +13,20 @@ Kernel's components can be divided to several groups by functionality:
   * Image
   * Pixel
   * Text
-* Utilities
+* Utility
   * Exception
   * Primitive
   * Util
+* Facade
 
 Here Domain, Model are [Domain Drive Development](https://en.wikipedia.org/wiki/Domain-driven_design#Building_blocks) context.
+
+Components interaction
+----------------------
+
+Diagram bellow shows how Kernels components links together.
+
+![Kernel's components](../../diagram/kernel-component.jpg "Kernel's components interaction diagram")
 
 File naming
 -----------
