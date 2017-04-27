@@ -188,7 +188,6 @@ class BinaryToImageTest extends BaseTest
     public function testConvertJpeg(int $width, int $height, string $path)
     {
         $exportPath = $this->getPath('tmp');
-        $name = pathinfo($path, PATHINFO_BASENAME);
 
         // convert
         $size = $this->sizeFactory->create($width, $height);

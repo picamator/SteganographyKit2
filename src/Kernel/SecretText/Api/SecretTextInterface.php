@@ -13,7 +13,7 @@ interface SecretTextInterface extends \IteratorAggregate
      *
      * @return string
      */
-    public function getBinaryText();
+    public function getBinaryText() : string;
 
     /**
      * Gets info mark

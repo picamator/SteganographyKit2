@@ -70,6 +70,9 @@ class PixelHelper
         $pixelMock->method('getColor')
             ->willReturn($colorMock);
 
+        $pixelMock->method('setColor')
+            ->willReturnSelf();
+
         return $pixelMock;
     }
 

@@ -94,7 +94,7 @@ final class SecretText implements SecretTextInterface
      *
      * @codeCoverageIgnore
      */
-    public function getBinaryText()
+    public function getBinaryText(): string
     {
         return $this->binaryText;
     }

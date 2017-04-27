@@ -21,5 +21,5 @@ interface PixelFactoryInterface
      *
      * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
-    public function create( PointInterface $point, ColorInterface $color = null) : PixelInterface;
+    public function create(PointInterface $point, ColorInterface $color = null) : PixelInterface;
 }

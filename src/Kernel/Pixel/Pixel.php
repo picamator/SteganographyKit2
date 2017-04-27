@@ -137,7 +137,7 @@ final class Pixel implements PixelInterface
     /**
      * @inheritDoc
      */
-    public function setColor(ColorInterface $color)
+    public function setColor(ColorInterface $color) : PixelInterface
     {
         // color could be the same object if nothing to change
         if ($color !== $this->color
@@ -147,6 +147,8 @@ final class Pixel implements PixelInterface
         }
 
         $this->color = $color;
+
+        return $this;
     }
 
     /**

@@ -41,7 +41,7 @@ interface PixelInterface extends \IteratorAggregate
      *
      * @return PixelInterface
      */
-    public function setColor(ColorInterface $color);
+    public function setColor(ColorInterface $color): PixelInterface;
 
     /**
      * Has pixel changed
