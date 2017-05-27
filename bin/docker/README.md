@@ -21,7 +21,7 @@ Installation
 Containers
 ----------
 
-### stego-php
+### stego2-php
 
 #### SSH
 SSH credentials:

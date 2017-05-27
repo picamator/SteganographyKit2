@@ -45,7 +45,7 @@ final class ColorFactory implements ColorFactoryInterface
     /**
      * @var ByteInterface
      */
-    private $byte;
+    private $nullByte;
 
     /**
      * @var string
@@ -63,7 +63,7 @@ final class ColorFactory implements ColorFactoryInterface
         $className = 'Picamator\SteganographyKit2\Kernel\Pixel\Data\Color'
     ) {
         $this->objectManager = $objectManager;
-        $this->byte = $byte;
+        $this->nullByte = $byte;
         $this->className = $className;
     }
 
@@ -72,10 +72,10 @@ final class ColorFactory implements ColorFactoryInterface
      */
     public function create(array $data) : ColorInterface
     {
-        $red = $data['red'] ?? $this->byte;
-        $green = $data['green'] ?? $this->byte;
-        $blue = $data['blue'] ?? $this->byte;
-        $alpha = $data['alpha'] ?? $this->byte;
+        $red = $data['red'] ?? $this->nullByte;
+        $green = $data['green'] ?? $this->nullByte;
+        $blue = $data['blue'] ?? $this->nullByte;
+        $alpha = $data['alpha'] ?? $this->nullByte;
 
         return $this->objectManager->create($this->className, [$red, $green, $blue, $alpha]);
     }

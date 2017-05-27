@@ -49,7 +49,7 @@ final class SerialIteratorFactory implements IteratorFactoryInterface
     private $objectManager;
 
     /**
-     * @var Channel
+     * @var ChannelInterface
      */
     private $channel;
 
