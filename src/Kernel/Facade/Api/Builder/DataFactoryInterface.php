@@ -1,7 +1,7 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\Facade\Api\Builder;
 
-use Picamator\SteganographyKit2\Kernel\File\Api\Data\DataInterface;
+use Picamator\SteganographyKit2\Kernel\Facade\Api\Data\DataInterface;
 
 /**
  * Create Data object

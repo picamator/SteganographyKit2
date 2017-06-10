@@ -1,5 +1,5 @@
 <?php
-namespace Picamator\SteganographyKit2\Kernel\File\Api;
+namespace Picamator\SteganographyKit2\Kernel\Facade\Api;
 
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\CoverInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\SecretInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Facade\Builder;
 
 use Picamator\SteganographyKit2\Kernel\Facade\Api\Builder\DataFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\File\Api\Data\DataInterface;
+use Picamator\SteganographyKit2\Kernel\Facade\Api\Data\DataInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**

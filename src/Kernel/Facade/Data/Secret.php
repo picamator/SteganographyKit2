@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Picamator\SteganographyKit2\Kernel\File\Data;
+namespace Picamator\SteganographyKit2\Kernel\Facade\Data;
 
-use Picamator\SteganographyKit2\Kernel\File\Api\Data\SecretInterface;
+use Picamator\SteganographyKit2\Kernel\Facade\Api\Data\SecretInterface;
 
 /**
  * Secret value object

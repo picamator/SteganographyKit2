@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Facade;
 
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
-use Picamator\SteganographyKit2\Kernel\File\Api\DependencyProviderInterface;
+use Picamator\SteganographyKit2\Kernel\Facade\Api\DependencyProviderInterface;
 use Picamator\SteganographyKit2\Kernel\File\Builder\InfoFactory;
 use Picamator\SteganographyKit2\Kernel\File\Builder\InfoPaletteFactory;
 use Picamator\SteganographyKit2\Kernel\File\Builder\WritablePathFactory;
