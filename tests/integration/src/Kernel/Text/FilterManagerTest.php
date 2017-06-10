@@ -40,9 +40,8 @@ class FilterManagerTest extends BaseTest
     public function testApply(string $data)
     {
         $objectManager = new ObjectManager();
-        $byteFactory = new ByteFactory($objectManager);
 
-        $asciiFactory = new AsciiFactory($objectManager, $byteFactory);
+        $asciiFactory = new AsciiFactory($objectManager);
 
         $filterList = [
             new ZipCompressFilter(),

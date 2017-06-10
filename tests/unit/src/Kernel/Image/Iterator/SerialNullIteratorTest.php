@@ -12,11 +12,6 @@ class SerialNullIteratorTest extends BaseTest
     private $sizeMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $pointFactoryMock;
-
-    /**
      * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $pointMock;
@@ -25,7 +20,6 @@ class SerialNullIteratorTest extends BaseTest
      * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $pixelFactoryMock;
-
 
     /**
      * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -37,9 +31,6 @@ class SerialNullIteratorTest extends BaseTest
         parent::setUp();
 
         $this->sizeMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface')
-            ->getMock();
-
-        $this->pointFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface')
             ->getMock();
 
         $this->pointMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface')
@@ -68,17 +59,12 @@ class SerialNullIteratorTest extends BaseTest
             ->method('getHeight')
             ->willReturn($height);
 
-        // point factory mock
-        $this->pointFactoryMock->expects($this->exactly($size))
-            ->method('create')
-            ->willReturn($this->pointMock);
-
         // pixel factory mock
         $this->pixelFactoryMock->expects($this->exactly($size))
             ->method('create')
             ->willReturn($this->pixelMock);
 
-        $serialIterator = new SerialNullIterator($this->sizeMock, $this->pointFactoryMock, $this->pixelFactoryMock);
+        $serialIterator = new SerialNullIterator($this->sizeMock, $this->pixelFactoryMock);
 
         $i = 0;
         foreach ($serialIterator as $item) {

@@ -27,9 +27,6 @@ use Picamator\SteganographyKit2\Kernel\Pixel\Data\NullColor;
 use Picamator\SteganographyKit2\Kernel\Pixel\Iterator\SerialIteratorFactory as PixelSerialIteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Pixel\PixelFactory;
 use Picamator\SteganographyKit2\Kernel\Pixel\RepositoryFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\PointFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
 use Picamator\SteganographyKit2\Kernel\Text\Builder\AsciiFactory;
 use Picamator\SteganographyKit2\Kernel\Text\Filter\Base64decodeFilter;
@@ -75,9 +72,6 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
     const UTIL_OBJECT_MANAGER = 'UTIL_OBJECT_MANAGER';
 
     // primitive
-    const PRIMITIVE_BYTE_FACTORY = 'PRIMITIVE_BYTE_FACTORY';
-    const PRIMITIVE_POINT_FACTORY = 'PRIMITIVE_POINT_FACTORY';
-    const PRIMITIVE_SIZE_FACTORY = 'PRIMITIVE_SIZE_FACTORY';
     const PRIMITIVE_NULL_BYTE = 'PRIMITIVE_NULL_BYTE';
 
     // file
@@ -177,25 +171,13 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
         });
 
         // primitive
-        $this->container[static::PRIMITIVE_BYTE_FACTORY] = $this->container->share(function ($c) {
-            return new ByteFactory($c[static::UTIL_OBJECT_MANAGER]);
-        });
-
-        $this->container[static::PRIMITIVE_POINT_FACTORY] = $this->container->share(function ($c) {
-            return new PointFactory($c[static::UTIL_OBJECT_MANAGER]);
-        });
-
-        $this->container[static::PRIMITIVE_SIZE_FACTORY] = $this->container->share(function ($c) {
-            return new SizeFactory($c[static::UTIL_OBJECT_MANAGER]);
-        });
-
         $this->container[static::PRIMITIVE_NULL_BYTE] = $this->container->share(function () {
             return new NullByte();
         });
 
         // file
         $this->container[static::FILE_INFO_FACTORY] = $this->container->share(function ($c) {
-            return new InfoFactory($c[static::UTIL_OBJECT_MANAGER], $c[static::PRIMITIVE_SIZE_FACTORY]);
+            return new InfoFactory($c[static::UTIL_OBJECT_MANAGER]);
         });
 
         $this->container[static::FILE_INFO_PALETTE_FACTORY] = $this->container->share(function ($c) {
@@ -246,7 +228,7 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
         });
 
         $this->container[static::PIXEL_COLOR_INDEX] = $this->container->share(function ($c) {
-            return new ColorIndex($c[static::PRIMITIVE_BYTE_FACTORY], $c[static::PIXEL_COLOR_FACTORY]);
+            return new ColorIndex($c[static::PIXEL_COLOR_FACTORY]);
         });
 
         $this->container[static::PIXEL_NULL_COLOR] = $this->container->share(function ($c) {
@@ -283,13 +265,12 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
 
         // image
         $this->container[static::IMAGE_ITERATOR_FACTORY] = $this->container->share(function ($c) {
-            return new ImageSerialIteratorFactory($c[static::UTIL_OBJECT_MANAGER], $c[static::PRIMITIVE_POINT_FACTORY]);
+            return new ImageSerialIteratorFactory($c[static::UTIL_OBJECT_MANAGER]);
         });
 
         $this->container[static::IMAGE_ITERATOR_NULL_FACTORY] = $this->container->share(function ($c) {
             return new ImageSerialNullIteratorFactory(
                 $c[static::UTIL_OBJECT_MANAGER],
-                $c[static::PRIMITIVE_POINT_FACTORY],
                 $c[static::PIXEL_FACTORY]
             );
         });
@@ -324,7 +305,6 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
         $this->container[static::IMAGE_CONVERTER_BINARY_TO_JPEG] = $this->container->share(function ($c) {
             return new BinaryToImage(
                 $c[static::PIXEL_CHANNEL],
-                $c[static::PRIMITIVE_BYTE_FACTORY],
                 $c[static::PIXEL_COLOR_FACTORY],
                 $c[static::FILE_INFO_FACTORY],
                 $c[static::IMAGE_JPEG_FACTORY]
@@ -353,10 +333,7 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
 
         // text
         $this->container[static::TEXT_ASCII_FACTORY] = $this->container->share(function ($c) {
-            return new AsciiFactory(
-                $c[static::UTIL_OBJECT_MANAGER],
-                $c[static::PRIMITIVE_BYTE_FACTORY]
-            );
+            return new AsciiFactory($c[static::UTIL_OBJECT_MANAGER]);
         });
 
         $this->container[static::TEXT_FILTER_BASE_64_DECODE] = $this->container->share(function () {

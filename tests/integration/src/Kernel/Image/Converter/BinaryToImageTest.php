@@ -20,7 +20,6 @@ use Picamator\SteganographyKit2\Kernel\Pixel\Iterator\SerialIteratorFactory as P
 use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\PointFactory;
 use Picamator\SteganographyKit2\Tests\Helper\Kernel\Image\ImageHelper;
 use Picamator\SteganographyKit2\Tests\Integration\Kernel\BaseTest;
 use Picamator\SteganographyKit2\Kernel\Util\ObjectManager;
@@ -53,11 +52,6 @@ class BinaryToImageTest extends BaseTest
     private $channel;
 
     /**
-     * @var ByteFactory
-     */
-    private $byteFactory;
-
-    /**
      * @var ColorFactory
      */
     private $colorFactory;
@@ -88,11 +82,6 @@ class BinaryToImageTest extends BaseTest
     private $repositoryFactory;
 
     /**
-     * @var PointFactory
-     */
-    private $pointFactory;
-
-    /**
      * @var SerialNullIteratorFactory
      */
     private $imageIteratorFactory;
@@ -101,11 +90,6 @@ class BinaryToImageTest extends BaseTest
      * @var ImageFactory
      */
     private $imageFactory;
-
-    /**
-     * @var SizeFactory
-     */
-    private $sizeFactory;
 
     protected function setUp()
     {
@@ -142,7 +126,7 @@ class BinaryToImageTest extends BaseTest
         $this->pixelFactory = new PixelFactory($this->objectManager, $nullColor, $iteratorFactory);
 
         // repository factory
-        $this->colorIndex = new ColorIndex($this->byteFactory, $this->colorFactory);
+        $this->colorIndex = new ColorIndex($this->colorFactory);
 
         $this->repositoryFactory = new RepositoryFactory(
             $this->objectManager,
@@ -152,11 +136,8 @@ class BinaryToImageTest extends BaseTest
         );
 
         // image iterator factory
-        $this->pointFactory = new PointFactory($this->objectManager);
-
         $this->imageIteratorFactory = new SerialNullIteratorFactory(
             $this->objectManager,
-            $this->pointFactory,
             $this->pixelFactory
         );
 
@@ -167,11 +148,8 @@ class BinaryToImageTest extends BaseTest
             $this->imageIteratorFactory
         );
 
-        $this->sizeFactory = new SizeFactory($this->objectManager);
-
         $this->converter = new BinaryToImage(
             $this->channel,
-            $this->byteFactory,
             $this->colorFactory,
             $this->infoFactory,
             $this->imageFactory
@@ -190,7 +168,7 @@ class BinaryToImageTest extends BaseTest
         $exportPath = $this->getPath('tmp');
 
         // convert
-        $size = $this->sizeFactory->create($width, $height);
+        $size = SizeFactory::create($width, $height);
         $binaryText = $this->getBinaryFromImage($path);
         $image = $this->converter->convert($size, $binaryText);
 

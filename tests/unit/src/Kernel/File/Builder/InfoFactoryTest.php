@@ -17,11 +17,6 @@ class InfoFactoryTest extends BaseTest
     private $objectManagerMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\SizeFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $sizeFactoryMock;
-
-    /**
      * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $sizeMock;
@@ -47,7 +42,7 @@ class InfoFactoryTest extends BaseTest
         $this->infoMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface')
             ->getMock();
 
-        $this->infoFactory = new InfoFactory($this->objectManagerMock, $this->sizeFactoryMock);
+        $this->infoFactory = new InfoFactory($this->objectManagerMock);
     }
 
     /**
@@ -58,11 +53,6 @@ class InfoFactoryTest extends BaseTest
     public function testCreate(string $path)
     {
         $path = $this->getPath($path);
-
-        // size factory mock
-        $this->sizeFactoryMock->expects($this->once())
-            ->method('create')
-            ->willReturn($this->sizeMock);
 
         // object manager mock
         $this->objectManagerMock->expects($this->once())

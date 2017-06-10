@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\SecretText;
 
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\SizeFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
@@ -41,27 +41,19 @@ final class InfoMarkFactory implements InfoMarkFactoryInterface
     private $objectManager;
 
     /**
-     * @var SizeFactoryInterface
-     */
-    private $sizeFactory;
-
-    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param SizeFactoryInterface $sizeFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        SizeFactoryInterface $sizeFactory,
         string $className = 'Picamator\SteganographyKit2\Kernel\SecretText\InfoMark'
     ) {
         $this->objectManager = $objectManager;
-        $this->sizeFactory = $sizeFactory;
         $this->className = $className;
     }
 
@@ -70,7 +62,7 @@ final class InfoMarkFactory implements InfoMarkFactoryInterface
      */
     public function create(int $width, int $height) : InfoMarkInterface
     {
-        $size = $this->sizeFactory->create($width, $height);
+        $size = SizeFactory::create($width, $height);
 
         return $this->objectManager->create($this->className, [$size]);
     }

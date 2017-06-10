@@ -2,6 +2,7 @@
 namespace Picamator\SteganographyKit2\Tests\Unit\Kernel\Pixel\Builder;
 
 use Picamator\SteganographyKit2\Kernel\Pixel\Builder\ColorIndex;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 
 class ColorIndexTest extends BaseTest
@@ -10,16 +11,6 @@ class ColorIndexTest extends BaseTest
      * @var ColorIndex
      */
     private $colorIndex;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $byteFactoryMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $byteMock;
 
     /**
      * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -35,19 +26,13 @@ class ColorIndexTest extends BaseTest
     {
         parent::setUp();
 
-        $this->byteFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface')
-            ->getMock();
-
-        $this->byteMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface')
-            ->getMock();
-
         $this->colorFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface')
             ->getMock();
 
         $this->colorMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface')
             ->getMock();
 
-        $this->colorIndex = new ColorIndex( $this->byteFactoryMock, $this->colorFactoryMock);
+        $this->colorIndex = new ColorIndex($this->colorFactoryMock);
     }
 
     public function testGetColor()
@@ -62,11 +47,6 @@ class ColorIndexTest extends BaseTest
             ->method('create')
             ->willReturn($this->colorMock);
 
-        // byte factory mock
-        $this->byteFactoryMock->expects($this->exactly(4))
-            ->method('create')
-            ->willReturn($this->byteMock);
-
         $actual = $this->colorIndex->getColor($colorIndex);
         $this->assertInstanceOf('Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface', $actual);
 
@@ -75,23 +55,18 @@ class ColorIndexTest extends BaseTest
 
     public function testGetColorallocate()
     {
-        // byte mock
-        $this->byteMock->expects($this->exactly(3))
-            ->method('getInt')
-            ->willReturn(0);
-
         // color mock
         $this->colorMock->expects($this->once())
             ->method('getRed')
-            ->willReturn($this->byteMock);
+            ->willReturn(ByteFactory::create('0'));
 
         $this->colorMock->expects($this->once())
             ->method('getGreen')
-            ->willReturn($this->byteMock);
+            ->willReturn(ByteFactory::create('0'));
 
         $this->colorMock->expects($this->once())
             ->method('getBlue')
-            ->willReturn($this->byteMock);
+            ->willReturn(ByteFactory::create('0'));
 
         $this->colorIndex->getColorallocate($this->colorMock);
     }

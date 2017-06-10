@@ -10,9 +10,9 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ChannelInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 
 /**
  * Convert binary string to image
@@ -47,11 +47,6 @@ final class BinaryToImage implements BinaryToImageInterface
     private $channel;
 
     /**
-     * @var ByteFactoryInterface
-     */
-    private $byteFactory;
-
-    /**
      * @var ColorFactoryInterface
      */
     private $colorFactory;
@@ -68,20 +63,17 @@ final class BinaryToImage implements BinaryToImageInterface
 
     /**
      * @param ChannelInterface $channel
-     * @param ByteFactoryInterface $byteFactory
      * @param ColorFactoryInterface $colorFactory
      * @param InfoPaletteFactoryInterface $infoFactory
      * @param ImageFactoryInterface $imageFactory
      */
     public function __construct(
         ChannelInterface $channel,
-        ByteFactoryInterface $byteFactory,
         ColorFactoryInterface $colorFactory,
         InfoPaletteFactoryInterface $infoFactory,
         ImageFactoryInterface $imageFactory
     ) {
         $this->channel = $channel;
-        $this->byteFactory = $byteFactory;
         $this->colorFactory = $colorFactory;
         $this->infoFactory = $infoFactory;
         $this->imageFactory = $imageFactory;
@@ -137,7 +129,7 @@ final class BinaryToImage implements BinaryToImageInterface
         while ($i < $binaryLength) {
 
             $byteBinary = substr($binaryText, $i, 8);
-            $container[$iterator->current()] = $this->byteFactory->create($byteBinary);
+            $container[$iterator->current()] = ByteFactory::create($byteBinary);
 
             if (count($container) === $this->channel->count()) {
                 $color = $this->colorFactory->create($container);

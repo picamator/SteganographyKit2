@@ -2,7 +2,6 @@
 namespace Picamator\SteganographyKit2\Tests\Integration\Kernel\File;
 
 use Picamator\SteganographyKit2\Kernel\File\Builder\InfoFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Util\ObjectManager;
 use Picamator\SteganographyKit2\Tests\Integration\Kernel\BaseTest;
 
@@ -18,20 +17,13 @@ class InfoFactoryTest extends BaseTest
      */
     private $objectManager;
 
-    /**
-     * @var SizeFactory
-     */
-    private $sizeFactory;
-
     protected function setUp()
     {
         parent::setUp();
 
         $this->objectManager = new ObjectManager();
 
-        $this->sizeFactory = new SizeFactory($this->objectManager);
-
-        $this->infoFactory = new InfoFactory($this->objectManager, $this->sizeFactory);
+        $this->infoFactory = new InfoFactory($this->objectManager);
     }
 
     /**

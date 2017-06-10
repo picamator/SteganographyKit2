@@ -5,8 +5,6 @@ use Picamator\SteganographyKit2\Kernel\CoverText\CoverText;
 use Picamator\SteganographyKit2\Kernel\File\NameGenerator\PrefixTime;
 use Picamator\SteganographyKit2\Kernel\File\Data\WritablePath;
 use Picamator\SteganographyKit2\Kernel\Image\Export\JpegFile;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Kernel\SecretText\InfoMarkFactory;
 use Picamator\SteganographyKit2\Kernel\SecretText\SecretTextFactory;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Decode;
@@ -44,11 +42,6 @@ class StegoSystemTest extends BaseTest
     private $objectManager;
 
     /**
-     * @var ByteFactory
-     */
-    private $byteFactory;
-
-    /**
      * @var EncodeBit
      */
     private $encodeBit;
@@ -66,11 +59,6 @@ class StegoSystemTest extends BaseTest
      * @var DecodeBit
      */
     private $decodeBit;
-
-    /**
-     * @var SizeFactory
-     */
-    private $sizeFactory;
 
     /**
      * @var InfoMarkFactory
@@ -143,9 +131,7 @@ class StegoSystemTest extends BaseTest
         $this->objectManager = new ObjectManager();
 
         // encode
-        $this->byteFactory = new ByteFactory($this->objectManager);
-
-        $this->encodeBit = new EncodeBit($this->byteFactory);
+        $this->encodeBit = new EncodeBit();
 
         $this->stegoTextFactory = new StegoTextFactory($this->objectManager);
 
@@ -154,9 +140,7 @@ class StegoSystemTest extends BaseTest
         // decode
         $this->decodeBit = new DecodeBit();
 
-        $this->sizeFactory = new SizeFactory($this->objectManager);
-
-        $this->infoMarkFactory = new InfoMarkFactory($this->objectManager, $this->sizeFactory);
+        $this->infoMarkFactory = new InfoMarkFactory($this->objectManager);
 
         $this->secretIteratorFactory = new SecretIteratorFactory($this->objectManager);
 
@@ -167,7 +151,7 @@ class StegoSystemTest extends BaseTest
         // encode arguments
         $this->filterManager = new FilterManager();
 
-        $this->asciiFactory = new AsciiFactory($this->objectManager, $this->byteFactory);
+        $this->asciiFactory = new AsciiFactory($this->objectManager);
 
         $this->textToBinaryFilter = new TextToBinaryFilter($this->asciiFactory);
 

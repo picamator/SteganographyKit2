@@ -6,7 +6,7 @@ namespace Picamator\SteganographyKit2\Kernel\File\Builder;
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\Builder\InfoFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\SizeFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
@@ -51,11 +51,6 @@ final class InfoFactory implements InfoFactoryInterface
     private $objectManager;
 
     /**
-     * @var SizeFactoryInterface
-     */
-    private $sizeFactory;
-
-    /**
      * @var string
      */
     private $className;
@@ -67,16 +62,13 @@ final class InfoFactory implements InfoFactoryInterface
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param SizeFactoryInterface $sizeFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        SizeFactoryInterface $sizeFactory,
         string $className = 'Picamator\SteganographyKit2\Kernel\File\Data\Info'
     ) {
         $this->objectManager = $objectManager;
-        $this->sizeFactory = $sizeFactory;
         $this->className = $className;
     }
 
@@ -98,7 +90,7 @@ final class InfoFactory implements InfoFactoryInterface
         }
         // @codeCoverageIgnoreEnd
 
-        $size = $this->sizeFactory->create($imageSize[0], $imageSize[1]);
+        $size = SizeFactory::create($imageSize[0], $imageSize[1]);
         $data = [
             'type'          => $imageSize[2],
             'attr'          => $imageSize[3],

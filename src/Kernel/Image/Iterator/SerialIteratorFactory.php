@@ -6,7 +6,6 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Iterator;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
@@ -47,27 +46,19 @@ final class SerialIteratorFactory implements IteratorFactoryInterface
     private $objectManager;
 
     /**
-     * @var PointFactoryInterface
-     */
-    private $pointFactory;
-
-    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param PointFactoryInterface $pointFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        PointFactoryInterface $pointFactory,
         string $className = 'Picamator\SteganographyKit2\Kernel\Image\Iterator\SerialIterator'
     ) {
         $this->objectManager = $objectManager;
-        $this->pointFactory = $pointFactory;
         $this->className = $className;
     }
 
@@ -76,6 +67,6 @@ final class SerialIteratorFactory implements IteratorFactoryInterface
      */
     public function create(ImageInterface $image) : IteratorInterface
     {
-        return $this->objectManager->create($this->className, [$image, $this->pointFactory]);
+        return $this->objectManager->create($this->className, [$image]);
     }
 }

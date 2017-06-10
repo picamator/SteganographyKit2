@@ -6,8 +6,8 @@ namespace Picamator\SteganographyKit2\Kernel\Pixel\Builder;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorIndexInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 
 /**
  * Color index
@@ -48,24 +48,15 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 final class ColorIndex implements ColorIndexInterface
 {
     /**
-     * @var ByteFactoryInterface
-     */
-    private $byteFactory;
-
-    /**
      * @var ColorFactoryInterface
      */
     private $colorFactory;
 
     /**
-     * @param ByteFactoryInterface $byteFactory
      * @param ColorFactoryInterface $colorFactory
      */
-    public function __construct(
-        ByteFactoryInterface $byteFactory,
-        ColorFactoryInterface $colorFactory
-    ) {
-        $this->byteFactory = $byteFactory;
+    public function __construct(ColorFactoryInterface $colorFactory)
+    {
         $this->colorFactory = $colorFactory;
     }
 
@@ -106,6 +97,6 @@ final class ColorIndex implements ColorIndexInterface
      */
     private function createByteCallback(int $colorItem) : ByteInterface
     {
-        return $this->byteFactory->create(decbin($colorItem));
+        return ByteFactory::create(decbin($colorItem));
     }
 }

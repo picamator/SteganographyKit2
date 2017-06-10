@@ -6,7 +6,7 @@ namespace Picamator\SteganographyKit2\Kernel\Image\Iterator;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\PointFactory;
 
 /**
  * Serial iterator
@@ -37,11 +37,6 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterfa
  */
 final class SerialIterator implements IteratorInterface
 {
-    /**
-     * @var PointFactoryInterface
-     */
-    private $pointFactory;
-
     /**
      * @var RepositoryInterface
      */
@@ -84,14 +79,9 @@ final class SerialIterator implements IteratorInterface
 
     /**
      * @param ImageInterface $image
-     * @param PointFactoryInterface $pointFactory
      */
-    public function __construct(
-        ImageInterface $image,
-        PointFactoryInterface $pointFactory
-    ) {
-        $this->pointFactory = $pointFactory;
-
+    public function __construct(ImageInterface $image)
+    {
         $this->repository = $image->getRepository();
 
         $size = $image->getInfo()->getSize();
@@ -106,7 +96,7 @@ final class SerialIterator implements IteratorInterface
      */
     public function current()
     {
-        $point = $this->pointFactory->create($this->x, $this->y);
+        $point = PointFactory::create($this->x, $this->y);
 
         return $this->repository->find($point);
     }

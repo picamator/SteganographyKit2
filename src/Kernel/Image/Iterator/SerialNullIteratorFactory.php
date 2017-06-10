@@ -7,7 +7,6 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
@@ -48,11 +47,6 @@ final class SerialNullIteratorFactory implements IteratorFactoryInterface
     private $objectManager;
 
     /**
-     * @var PointFactoryInterface
-     */
-    private $pointFactory;
-
-    /**
      * @var PixelFactoryInterface
      */
     private $pixelFactory;
@@ -64,18 +58,15 @@ final class SerialNullIteratorFactory implements IteratorFactoryInterface
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param PointFactoryInterface $pointFactory
      * @param PixelFactoryInterface $pixelFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        PointFactoryInterface $pointFactory,
         PixelFactoryInterface $pixelFactory,
         string $className = 'Picamator\SteganographyKit2\Kernel\Image\Iterator\SerialNullIterator'
     ) {
         $this->objectManager = $objectManager;
-        $this->pointFactory = $pointFactory;
         $this->pixelFactory = $pixelFactory;
         $this->className = $className;
     }
@@ -87,7 +78,6 @@ final class SerialNullIteratorFactory implements IteratorFactoryInterface
     {
         return $this->objectManager->create($this->className, [
             $image->getInfo()->getSize(),
-            $this->pointFactory,
             $this->pixelFactory,
         ]);
     }

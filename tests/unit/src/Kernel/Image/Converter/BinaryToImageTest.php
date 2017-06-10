@@ -8,7 +8,7 @@ use Picamator\SteganographyKit2\Tests\Unit\Kernel\BaseTest;
 class BinaryToImageTest extends BaseTest
 {
     /**
-     * @var BinaryToPaletteConverter
+     * @var BinaryToImage
      */
     private $converter;
 
@@ -21,16 +21,6 @@ class BinaryToImageTest extends BaseTest
      * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ChannelInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $channelMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $byteFactoryMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $byteMock;
 
     /**
      * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -82,12 +72,6 @@ class BinaryToImageTest extends BaseTest
         $this->channelMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ChannelInterface')
             ->getMock();
 
-        $this->byteFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface')
-            ->getMock();
-
-        $this->byteMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface')
-            ->getMock();
-
         $this->colorFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface')
             ->getMock();
 
@@ -114,7 +98,6 @@ class BinaryToImageTest extends BaseTest
 
         $this->converter = new BinaryToImage(
             $this->channelMock,
-            $this->byteFactoryMock,
             $this->colorFactoryMock,
             $this->infoFactoryMock,
             $this->imageFactoryMock
@@ -180,11 +163,6 @@ class BinaryToImageTest extends BaseTest
             ->method('create')
             ->willReturn($this->colorMock);
 
-        // byte factory mock
-        $this->byteFactoryMock->expects($this->exactly($binaryTextByte))
-            ->method('create')
-            ->willReturn($this->byteMock);
-
         // pixel mock
         /** @var \PHPUnit_Framework_MockObject_MockObject $item */
         foreach($pixelList as $item) {
@@ -240,9 +218,6 @@ class BinaryToImageTest extends BaseTest
             ->method('insert');
 
         $this->colorFactoryMock->expects($this->never())
-            ->method('create');
-
-        $this->byteFactoryMock->expects($this->never())
             ->method('create');
 
         /** @var  $item \PHPUnit_Framework_MockObject_MockObject */

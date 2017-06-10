@@ -4,74 +4,22 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Primitive\Builder;
 
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\SizeFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Data\Size;
 
 /**
  * Create Size object
- *
- * Class type
- * ----------
- * Sharable service.
- *
- * Responsibility
- * --------------
- * * Validate width and height data
- * * Create ``Size``
- *
- * State
- * -----
- * * No state
- *
- * Immutability
- * ------------
- * Object is immutable.
- *
- * Dependency injection
- * --------------------
- * Only as a constructor argument.
- *
- * Check list
- * ----------
- * * Single responsibility ``-``
- * * Tell don't ask ``+``
- * * No logic leak ``+``
- * * Object is ready after creation ``+``
- * * Constructor depends on less then 5 classes ``+``
  *
  * @package Kernel\Image
  *
  * @codeCoverageIgnore
  */
-final class SizeFactory implements SizeFactoryInterface
+final class SizeFactory
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
-     * @param string $className
-     */
-    public function __construct(
-        ObjectManagerInterface $objectManager,
-        string $className = 'Picamator\SteganographyKit2\Kernel\Primitive\Data\Size'
-    ) {
-        $this->objectManager = $objectManager;
-        $this->className = $className;
-    }
-
     /**
      * @inheritDoc
      */
-    public function create(int $width, int $height) : SizeInterface
+    public static function create(int $width, int $height) : SizeInterface
     {
-        return $this->objectManager->create($this->className, [$width, $height]);
+        return new Size($width, $height);
     }
 }

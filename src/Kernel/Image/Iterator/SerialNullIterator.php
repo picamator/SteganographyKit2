@@ -7,7 +7,7 @@ use Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorInterface;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\PointFactory;
 
 /**
  * Serial null iterator
@@ -38,11 +38,6 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\PointFactoryInterfa
  */
 final class SerialNullIterator implements IteratorInterface
 {
-    /**
-     * @var PointFactoryInterface
-     */
-    private $pointFactory;
-
     /**
      * @var PixelFactoryInterface
      */
@@ -85,17 +80,14 @@ final class SerialNullIterator implements IteratorInterface
 
     /**
      * @param SizeInterface $size
-     * @param PointFactoryInterface $pointFactory
      * @param PixelFactoryInterface $pixelFactory
      */
     public function __construct(
         SizeInterface $size,
-        PointFactoryInterface $pointFactory,
         PixelFactoryInterface $pixelFactory
     ) {
         $this->xMax = $size->getWidth();
         $this->yMax = $size->getHeight();
-        $this->pointFactory = $pointFactory;
         $this->pixelFactory = $pixelFactory;
     }
 
@@ -106,7 +98,7 @@ final class SerialNullIterator implements IteratorInterface
      */
     public function current()
     {
-        $point = $this->pointFactory->create($this->x, $this->y);
+        $point = PointFactory::create($this->x, $this->y);
 
         return $this->pixelFactory->create($point);
     }

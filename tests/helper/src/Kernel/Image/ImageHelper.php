@@ -17,11 +17,8 @@ use Picamator\SteganographyKit2\Kernel\File\Builder\InfoFactory;
 use Picamator\SteganographyKit2\Kernel\Image\Iterator\SerialIteratorFactory;
 use Picamator\SteganographyKit2\Kernel\Pixel\Iterator\SerialIteratorFactory as PixelSerialIteratorFactory;
 use Picamator\SteganographyKit2\Kernel\File\Resource\JpegResource;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\Pixel\RepositoryFactory;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\Data\NullByte;
-use Picamator\SteganographyKit2\Kernel\Primitive\Builder\PointFactory;
 use Picamator\SteganographyKit2\Kernel\Util\ObjectManager;
 
 /**
@@ -40,11 +37,6 @@ class ImageHelper
     private $colorIndex;
 
     /**
-     * @var PointFactory
-     */
-    private $pointFactory;
-
-    /**
      * @var Channel
      */
     private $channel;
@@ -53,11 +45,6 @@ class ImageHelper
      * @var PixelFactory
      */
     private $pixelFactory;
-
-    /**
-     * @var SizeFactory
-     */
-    private $sizeFactory;
 
     /**
      * @var SerialIteratorFactory
@@ -86,22 +73,17 @@ class ImageHelper
         $nullColor = new NullColor();
 
         // color index
-        $byteFactory = new ByteFactory($this->objectManager);
         $nullByte = new NullByte();
         $colorFactory = new ColorFactory($this->objectManager, $nullByte);
-        $this->colorIndex = new ColorIndex($byteFactory, $colorFactory);
-
-        $this->pointFactory = new PointFactory($this->objectManager);
+        $this->colorIndex = new ColorIndex($colorFactory);
 
         // pixel factory
         $this->channel = new Channel($channelList);
         $iteratorFactory = new PixelSerialIteratorFactory($this->objectManager, $this->channel, $pixelIterator);
         $this->pixelFactory = new PixelFactory($this->objectManager, $nullColor, $iteratorFactory);
 
-        $this->sizeFactory = new SizeFactory($this->objectManager);
-
         // image iterator
-        $this->imageIteratorFactory =  new SerialIteratorFactory($this->objectManager, $this->pointFactory, $imageIterator);
+        $this->imageIteratorFactory =  new SerialIteratorFactory($this->objectManager, $imageIterator);
 
         // repository
         $this->repositoryFactory = new RepositoryFactory(
@@ -122,7 +104,7 @@ class ImageHelper
     public function getJpegImage(string $path) : ImageInterface
     {
         // resource
-        $infoFactory = new InfoFactory($this->objectManager, $this->sizeFactory);
+        $infoFactory = new InfoFactory($this->objectManager);
         $info = $infoFactory->create($path);
 
         $resource = new JpegResource($info, $path);
@@ -143,7 +125,6 @@ class ImageHelper
 
         $imageIteratorFactory = new SerialNullIteratorFactory(
             $this->objectManager,
-            $this->pointFactory,
             $this->pixelFactory
         );
 

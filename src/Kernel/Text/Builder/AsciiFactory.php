@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Text\Builder;
 
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Kernel\Text\Api\Builder\AsciiFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
@@ -56,27 +56,19 @@ final class AsciiFactory implements AsciiFactoryInterface
     private $objectManager;
 
     /**
-     * @var ByteFactoryInterface
-     */
-    private $byteFactory;
-
-    /**
      * @var string
      */
     private $className;
 
     /**
      * @param ObjectManagerInterface $objectManager
-     * @param ByteFactoryInterface $byteFactory
      * @param string $className
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
-        ByteFactoryInterface $byteFactory,
         $className = 'Picamator\SteganographyKit2\Kernel\Text\Data\Ascii'
     ) {
         $this->objectManager = $objectManager;
-        $this->byteFactory = $byteFactory;
         $this->className = $className;
     }
 
@@ -96,7 +88,7 @@ final class AsciiFactory implements AsciiFactoryInterface
         }
 
         $charCode = decbin(ord($char));
-        $byte = $this->byteFactory->create($charCode);
+        $byte = ByteFactory::create($charCode);
 
         $this->asciiContainer[$char] = $this->objectManager->create($this->className, [$byte, $char]);
 

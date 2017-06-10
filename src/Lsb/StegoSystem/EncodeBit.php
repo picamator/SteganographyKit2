@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Lsb\StegoSystem;
 
-use Picamator\SteganographyKit2\Kernel\Primitive\Api\Builder\ByteFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 
 /**
@@ -45,19 +45,6 @@ use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\EncodeBitInterface;
 final class EncodeBit implements EncodeBitInterface
 {
     /**
-     * @var ByteFactoryInterface
-     */
-    private $byteFactory;
-
-    /**
-     * @param ByteFactoryInterface $byteFactory
-     */
-    public function __construct(ByteFactoryInterface $byteFactory)
-    {
-       $this->byteFactory = $byteFactory;
-    }
-
-    /**
      * @inheritDoc
      */
     public function encode(string $secretBit, ByteInterface $coverByte): ByteInterface
@@ -73,6 +60,6 @@ final class EncodeBit implements EncodeBitInterface
         // the same as ``$secretByte = decbin($coverByte->getInt() >> 1) . $secretBit;``
         $secretByte = substr_replace($coverByte->getBinary(), $secretBit, -1);
 
-        return $this->byteFactory->create($secretByte);
+        return ByteFactory::create($secretByte);
     }
 }
