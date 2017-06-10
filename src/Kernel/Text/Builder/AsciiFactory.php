@@ -5,8 +5,8 @@ namespace Picamator\SteganographyKit2\Kernel\Text\Builder;
 
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
-use Picamator\SteganographyKit2\Kernel\Text\Api\Builder\AsciiFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
+use Picamator\SteganographyKit2\Kernel\Text\Data\Ascii;
 use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
@@ -43,42 +43,20 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
  *
  * @package Kernel\Text
  */
-final class AsciiFactory implements AsciiFactoryInterface
+final class AsciiFactory
 {
     /**
      * @var array
      */
-    private $asciiContainer = [];
-
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
-     * @param string $className
-     */
-    public function __construct(
-        ObjectManagerInterface $objectManager,
-        $className = 'Picamator\SteganographyKit2\Kernel\Text\Data\Ascii'
-    ) {
-        $this->objectManager = $objectManager;
-        $this->className = $className;
-    }
+    private static $asciiContainer = [];
 
     /**
      * @inheritDoc
      */
-    public function create(string $char): AsciiInterface
+    public static function create(string $char): AsciiInterface
     {
-        if (isset($this->asciiContainer[$char])) {
-            return $this->asciiContainer[$char];
+        if (isset(self::$asciiContainer[$char])) {
+            return self::$asciiContainer[$char];
         }
 
         if (strlen($char) !== 1) {
@@ -90,8 +68,8 @@ final class AsciiFactory implements AsciiFactoryInterface
         $charCode = decbin(ord($char));
         $byte = ByteFactory::create($charCode);
 
-        $this->asciiContainer[$char] = $this->objectManager->create($this->className, [$byte, $char]);
+        self::$asciiContainer[$char] = new Ascii($byte, $char);
 
-        return $this->asciiContainer[$char];
+        return self::$asciiContainer[$char];
     }
 }
