@@ -1,7 +1,7 @@
 <?php
 namespace Picamator\SteganographyKit2\Kernel\Facade\Api;
 
-use Picamator\SteganographyKit2\Kernel\File\Api\Data\DataInterface;
+use Picamator\SteganographyKit2\Kernel\Facade\Api\Data\DataInterface;
 
 /**
  * Resolve abstract data
