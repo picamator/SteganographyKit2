@@ -7,39 +7,9 @@ use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
 use Picamator\SteganographyKit2\Kernel\Text\Data\Ascii;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create ascii value object
- *
- * Class type
- * ----------
- * Sharable service.
- *
- * Responsibility
- * --------------
- * * Validate ``char``
- * * Create ``Ascii``
- *
- * State
- * -----
- * * Ascii code container
- *
- * Immutability
- * ------------
- * Object is immutable.
- *
- * Dependency injection
- * --------------------
- * Only as a constructor argument.
- *
- * Check list
- * ----------
- * * Single responsibility ``-``
- * * Tell don't ask ``+``
- * * No logic leak ``+``
- * * Object is ready after creation ``+``
- * * Constructor depends on less then 5 classes ``+``
  *
  * @package Kernel\Text
  */
@@ -51,7 +21,11 @@ final class AsciiFactory
     private static $asciiContainer = [];
 
     /**
-     * @inheritDoc
+     * @param string $char
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return AsciiInterface
      */
     public static function create(string $char): AsciiInterface
     {

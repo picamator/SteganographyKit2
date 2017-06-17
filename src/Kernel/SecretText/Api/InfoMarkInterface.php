@@ -10,10 +10,6 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
  */
 interface InfoMarkInterface extends \IteratorAggregate
 {
-    const MAX_SIZE_VALUE = 65535;
-
-    const MARK_COUNT = 32;
-
     /**
      * Gets size
      *

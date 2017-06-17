@@ -17,24 +17,5 @@ use Picamator\SteganographyKit2\Kernel\Facade\Api\Data\SecretInterface;
  */
 final class Secret implements SecretInterface
 {
-    /**
-     * @var mixed
-     */
-    private $data;
 
-    /**
-     * @param string $data
-     */
-    public function __construct(string $data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getData() : string
-    {
-        return $this->data;
-    }
 }

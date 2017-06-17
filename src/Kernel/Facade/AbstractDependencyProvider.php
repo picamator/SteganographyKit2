@@ -36,7 +36,6 @@ use Picamator\SteganographyKit2\Kernel\Text\Filter\TextToBinaryFilter;
 use Picamator\SteganographyKit2\Kernel\Text\Filter\ZipCompressFilter;
 use Picamator\SteganographyKit2\Kernel\Text\Filter\ZipDecompressFilter;
 use Picamator\SteganographyKit2\Kernel\Text\FilterManager;
-use Picamator\SteganographyKit2\Kernel\Util\ObjectManager;
 use Pimple;
 
 /**
@@ -165,11 +164,6 @@ abstract class AbstractDependencyProvider implements DependencyProviderInterface
      */
     private function registryDefaultDependency()
     {
-        // util
-        $this->container[static::UTIL_OBJECT_MANAGER] = $this->container->share(function () {
-            return new ObjectManager();
-        });
-
         // primitive
         $this->container[static::PRIMITIVE_NULL_BYTE] = $this->container->share(function () {
             return new NullByte();

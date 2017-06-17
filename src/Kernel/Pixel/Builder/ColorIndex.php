@@ -48,19 +48,6 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
 final class ColorIndex implements ColorIndexInterface
 {
     /**
-     * @var ColorFactoryInterface
-     */
-    private $colorFactory;
-
-    /**
-     * @param ColorFactoryInterface $colorFactory
-     */
-    public function __construct(ColorFactoryInterface $colorFactory)
-    {
-        $this->colorFactory = $colorFactory;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getColor(int $colorIndex): ColorInterface
@@ -73,7 +60,7 @@ final class ColorIndex implements ColorIndexInterface
         ];
         $data = array_map([$this, 'createByteCallback'], $data);
 
-        return $this->colorFactory->create($data);
+        return $this->createColor($data);
     }
 
     /**
@@ -98,5 +85,17 @@ final class ColorIndex implements ColorIndexInterface
     private function createByteCallback(int $colorItem) : ByteInterface
     {
         return ByteFactory::create(decbin($colorItem));
+    }
+
+    /**
+     * Create color
+     *
+     * @param array $data
+     *
+     * @return ColorInterface
+     */
+    public function createColor(array $data)
+    {
+        return ColorFactory::create($data);
     }
 }

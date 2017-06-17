@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\StegoSystem;
 
 use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
+use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
+use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextConstant;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\DecodeBitInterface;
 use Picamator\SteganographyKit2\Kernel\StegoSystem\Api\DecodeInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextFactoryInterface;
@@ -85,10 +87,11 @@ class Decode implements DecodeInterface
     public function decode(StegoTextInterface $stegoText): SecretTextInterface
     {
         $iterator = new \RecursiveIteratorIterator($stegoText); // item is a ByteInterface
-        $infoMark = $this->getInfoMark($iterator);
+
+        $infoMark = $this->createInfoMark($iterator);
         $maxIndex = $infoMark->countText();
 
-        $limitIterator = new \LimitIterator($iterator, InfoMarkInterface::MARK_COUNT, $maxIndex);
+        $limitIterator = new \LimitIterator($iterator, SecretTextConstant::INFO_MARK_LENGTH, $maxIndex);
 
         $secretText = '';
         foreach($limitIterator as $item) {
@@ -99,30 +102,21 @@ class Decode implements DecodeInterface
     }
 
     /**
-     * Gets info mark
+     * Creates info mark
      *
      * @param \RecursiveIteratorIterator $iterator
      *
      * @return InfoMarkInterface
      */
-    private function getInfoMark(\RecursiveIteratorIterator $iterator) : InfoMarkInterface
+    private function createInfoMark(\RecursiveIteratorIterator $iterator) : InfoMarkInterface
     {
-        $iterator = new \LimitIterator($iterator, 0, InfoMarkInterface::MARK_COUNT);
+        $iterator = new \LimitIterator($iterator, 0, SecretTextConstant::INFO_MARK_LENGTH);
 
         $binaryString = '';
         foreach ($iterator as $item) {
             $binaryString .= $this->decodeBit->decode($item);
         }
 
-        if (strlen($binaryString) < InfoMarkInterface::MARK_COUNT) {
-            throw new RuntimeException(
-                sprintf('Failed create InfoMark object from binary string "%s". Binary string is shorter then 32 bits.', $binaryString)
-            );
-        }
-
-        $infoDoubleByte = str_split($binaryString, InfoMarkInterface::MARK_COUNT / 2);
-        $infoDoubleByte = array_map('bindec', $infoDoubleByte);
-
-        return $this->infoMarkFactory->create($infoDoubleByte[0], $infoDoubleByte[1]);
+        return $this->infoMarkFactory->create($binaryString);
     }
 }

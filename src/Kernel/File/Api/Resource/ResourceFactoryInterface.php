@@ -11,13 +11,29 @@ use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
 interface ResourceFactoryInterface
 {
     /**
-     * Create
+     * Create jpeg resource
      *
      * @param InfoInterface $info
      *
      * @return ResourceInterface
-     *
-     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
-    public function create(InfoInterface $info) : ResourceInterface;
+    public function createJpegResource(InfoInterface $info) : ResourceInterface;
+
+    /**
+     * Create png resource
+     *
+     * @param InfoInterface $info
+     *
+     * @return ResourceInterface
+     */
+    public function createPngResource(InfoInterface $info) : ResourceInterface;
+
+    /**
+     * Create palette resource
+     *
+     * @param InfoInterface $info
+     *
+     * @return ResourceInterface
+     */
+    public function createPaletteResource(InfoInterface $info) : ResourceInterface;
 }

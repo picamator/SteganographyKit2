@@ -16,7 +16,11 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Data\Byte;
 final class ByteFactory
 {
     /**
-     * @inheritDoc
+     * Create
+     *
+     * @param string $byte
+     *
+     * @return ByteInterface
      */
     public static function create(string $byte) : ByteInterface
     {

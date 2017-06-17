@@ -16,7 +16,12 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Data\Size;
 final class SizeFactory
 {
     /**
-     * @inheritDoc
+     * Create
+     *
+     * @param int $width
+     * @param int $height
+     *
+     * @return SizeInterface
      */
     public static function create(int $width, int $height) : SizeInterface
     {

@@ -17,24 +17,5 @@ use Picamator\SteganographyKit2\Kernel\Facade\Api\Data\CoverInterface;
  */
 final class Cover implements CoverInterface
 {
-    /**
-     * @var mixed
-     */
-    private $data;
 
-    /**
-     * @param string $data
-     */
-    public function __construct(string $data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getData() : string
-    {
-        return $this->data;
-    }
 }

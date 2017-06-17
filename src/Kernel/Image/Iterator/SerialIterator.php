@@ -96,7 +96,7 @@ final class SerialIterator implements IteratorInterface
      */
     public function current()
     {
-        $point = PointFactory::create($this->x, $this->y);
+        $point = $this->createPoint($this->x, $this->y);
 
         return $this->repository->find($point);
     }
@@ -141,5 +141,18 @@ final class SerialIterator implements IteratorInterface
         $this->x = 0;
         $this->y = 0;
         $this->index = 0;
+    }
+
+    /**
+     * Create point
+     *
+     * @param int $x
+     * @param int $y
+     *
+     * @return \Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface
+     */
+    private function createPoint(int $x, int $y)
+    {
+        return PointFactory::create($x, $y);
     }
 }

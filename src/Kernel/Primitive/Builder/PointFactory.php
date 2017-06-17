@@ -16,7 +16,12 @@ use Picamator\SteganographyKit2\Kernel\Primitive\Data\Point;
 final class PointFactory
 {
     /**
-     * @inheritDoc
+     * Create
+     *
+     * @param int $x
+     * @param int $y
+     *
+     * @return PointInterface
      */
     public static function create(int $x, int $y) : PointInterface
     {

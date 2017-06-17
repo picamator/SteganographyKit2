@@ -6,6 +6,7 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText;
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
+use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextConstant;
 
 /**
  * Information marker contains technical details such as size
@@ -154,14 +155,19 @@ class InfoMark implements InfoMarkInterface
         $width = $size->getWidth();
         $height = $size->getHeight();
 
-        if ($width > self::MAX_SIZE_VALUE
+        if ($width > SecretTextConstant::MAX_WIDTH
             || $width <= 0
-            || $height > self::MAX_SIZE_VALUE
+            || $height > SecretTextConstant::MAX_HEIGHT
             || $height < 0
         ) {
             throw new InvalidArgumentException(
-                sprintf('Invalid dimension parameters width "%s", height "%s". Width should be in range (0, %s], height [0, %s].',
-                    $width, $height, self::MAX_SIZE_VALUE, self::MAX_SIZE_VALUE)
+                sprintf(
+                    'Invalid dimension parameters width "%s", height "%s". Width should be in range (0, %s], height [0, %s].',
+                    $width,
+                    $height,
+                    SecretTextConstant::MAX_WIDTH,
+                    SecretTextConstant::MAX_HEIGHT
+                )
             );
         }
 

@@ -9,30 +9,9 @@ use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create Image object
- *
- * Class type
- * ----------
- * Sharable service.
- *
- * Responsibility
- * --------------
- * Create ``Image``.
- *
- * State
- * -----
- * No state
- *
- * Immutability
- * ------------
- * Object is immutable.
- *
- * Dependency injection
- * --------------------
- * Only as a constructor argument.
  *
  * @package Kernel\Image
  *
@@ -40,11 +19,6 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
  */
 final class ImageFactory implements ImageFactoryInterface
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
     /**
      * @var ResourceFactoryInterface
      */
@@ -66,24 +40,18 @@ final class ImageFactory implements ImageFactoryInterface
     private $className;
 
     /**
-     * @param ObjectManagerInterface $objectManager
      * @param ResourceFactoryInterface $resourceFactory
      * @param RepositoryFactoryInterface $repositoryFactory
      * @param IteratorFactoryInterface $iteratorFactory
-     * @param string $className
      */
     public function __construct(
-        ObjectManagerInterface $objectManager,
         ResourceFactoryInterface $resourceFactory,
         RepositoryFactoryInterface $repositoryFactory,
-        IteratorFactoryInterface $iteratorFactory,
-        $className = 'Picamator\SteganographyKit2\Kernel\Image\Image'
+        IteratorFactoryInterface $iteratorFactory
     ) {
-        $this->objectManager = $objectManager;
         $this->resourceFactory = $resourceFactory;
         $this->repositoryFactory = $repositoryFactory;
         $this->iteratorFactory = $iteratorFactory;
-        $this->className = $className;
     }
 
     /**
@@ -94,6 +62,6 @@ final class ImageFactory implements ImageFactoryInterface
         $resource = $this->resourceFactory->create($info);
         $repository = $this->repositoryFactory->create($resource);
 
-        return $this->objectManager->create($this->className, [$repository, $this->iteratorFactory]);
+        return new Image($repository, $this->iteratorFactory);
     }
 }

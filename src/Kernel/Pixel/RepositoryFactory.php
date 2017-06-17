@@ -9,7 +9,6 @@ use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorIndexInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create Pixel repository object
@@ -41,11 +40,6 @@ use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 final class RepositoryFactory implements RepositoryFactoryInterface
 {
     /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
      * @var ColorIndexInterface
      */
     private $colorIndex;
@@ -61,29 +55,18 @@ final class RepositoryFactory implements RepositoryFactoryInterface
     private $pixelFactory;
 
     /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
      * @param ColorIndexInterface $colorIndex
      * @param ColorFactoryInterface $colorFactory
      * @param PixelFactoryInterface $pixelFactory
-     * @param string $className
      */
     public function __construct(
-        ObjectManagerInterface $objectManager,
         ColorIndexInterface $colorIndex,
         ColorFactoryInterface $colorFactory,
-        PixelFactoryInterface $pixelFactory,
-        $className = 'Picamator\SteganographyKit2\Kernel\Pixel\Repository'
+        PixelFactoryInterface $pixelFactory
     ) {
-        $this->objectManager = $objectManager;
         $this->colorIndex = $colorIndex;
         $this->colorFactory = $colorFactory;
         $this->pixelFactory = $pixelFactory;
-        $this->className = $className;
     }
 
     /**
@@ -91,11 +74,11 @@ final class RepositoryFactory implements RepositoryFactoryInterface
      */
     public function create(ResourceInterface $resource) : RepositoryInterface
     {
-        return $this->objectManager->create($this->className, [
+        return new Repository(
             $resource,
             $this->colorIndex,
             $this->colorFactory,
             $this->pixelFactory
-        ]);
+        );
     }
 }

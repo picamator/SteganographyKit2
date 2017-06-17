@@ -20,7 +20,7 @@ interface DecodeInterface
      *
      * @return SecretTextInterface
      *
-     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException
      */
     public function decode(StegoTextInterface $stegoText) : SecretTextInterface;
 }

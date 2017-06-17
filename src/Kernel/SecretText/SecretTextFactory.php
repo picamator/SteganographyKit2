@@ -8,63 +8,25 @@ use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\Iterator\IteratorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextInterface;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
 
 /**
  * Create SecretText object
- *
- * Class type
- * ----------
- * Sharable service.
- *
- * Responsibility
- * --------------
- * Create ``SecretText``.
- *
- * State
- * -----
- * No state
- *
- * Immutability
- * ------------
- * Object is immutable.
- *
- * Dependency injection
- * --------------------
- * Only as a constructor argument.
  *
  * @package Kernel\SecretText
  */
 final class SecretTextFactory implements SecretTextFactoryInterface
 {
     /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
      * @var IteratorFactoryInterface
      */
     private $iteratorFactory;
 
     /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
      * @param IteratorFactoryInterface $iteratorFactory,
-     * @param string $className
      */
-    public function __construct(
-        ObjectManagerInterface $objectManager,
-        IteratorFactoryInterface $iteratorFactory,
-        string $className = 'Picamator\SteganographyKit2\Kernel\SecretText\SecretText'
-    ) {
-        $this->objectManager = $objectManager;
+    public function __construct(IteratorFactoryInterface $iteratorFactory)
+    {
         $this->iteratorFactory = $iteratorFactory;
-        $this->className = $className;
     }
 
     /**
@@ -76,6 +38,7 @@ final class SecretTextFactory implements SecretTextFactoryInterface
             throw new InvalidArgumentException('Invalid binaryText. BinaryText should contain 0 or 1.');
         }
 
-        return $this->objectManager->create($this->className, [$infoMark, $this->iteratorFactory, $binaryText]);
+
+        return new SecretText($infoMark, $this->iteratorFactory, $binaryText);
     }
 }

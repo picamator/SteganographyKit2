@@ -9,14 +9,18 @@ namespace Picamator\SteganographyKit2\Kernel\SecretText\Api;
 interface InfoMarkFactoryInterface
 {
     /**
+     * Mark length in bits
+     */
+    const MARK_LENGTH = 32;
+
+    /**
      * Create
      *
-     * @param int $width
-     * @param int $height
+     * @param string $binaryString
      *
      * @return InfoMarkInterface
      *
-     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException
      */
-    public function create(int $width, int $height) : InfoMarkInterface;
+    public function create(string $binaryString) : InfoMarkInterface;
 }

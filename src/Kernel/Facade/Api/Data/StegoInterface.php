@@ -6,6 +6,6 @@ namespace Picamator\SteganographyKit2\Kernel\Facade\Api\Data;
  *
  * @package Kernel\Facade
  */
-interface StegoInterface extends DataInterface
+interface StegoInterface
 {
 }

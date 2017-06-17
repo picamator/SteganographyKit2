@@ -6,6 +6,6 @@ namespace Picamator\SteganographyKit2\Kernel\Facade\Api\Data;
  *
  * @package Kernel\Facade
  */
-interface SecretInterface extends DataInterface
+interface SecretInterface
 {
 }

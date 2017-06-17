@@ -36,11 +36,9 @@ To make connection via console simple run `ssh root@0.0.0.0 -p 2232`.
 Usefull commands
 ----------------
 
-* go to shell inside container `sudo docker-compose -f ./bin/docker/docker-compose.yml exec {{container-name}} bash`
-* build container `sudo docker-compose -f ./bin/docker/docker-compose.yml build {{container-name}}`
-* build container without caching `sudo docker-compose -f ./bin/docker/docker-compose.yml build --no-cache {{container-name}}`
-
-_Note_: please substitute `{{container-name}}` by `stego-php`.
+* go to shell inside container `sudo docker-compose -f ./bin/docker/docker-compose.yml exec stego2-php bash`
+* build container `sudo docker-compose -f ./bin/docker/docker-compose.yml build stego2-php`
+* build container without caching `sudo docker-compose -f ./bin/docker/docker-compose.yml build --no-cache stego2-php`
 
 For more information please visit [Docker Compose Command-line Reference](https://docs.docker.com/compose/reference/).
 

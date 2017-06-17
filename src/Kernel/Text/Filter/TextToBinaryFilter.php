@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Text\Filter;
 
+use Picamator\SteganographyKit2\Kernel\Text\Api\Data\AsciiInterface;
 use Picamator\SteganographyKit2\Kernel\Text\Api\FilterInterface;
 use Picamator\SteganographyKit2\Kernel\Text\Builder\AsciiFactory;
 
@@ -24,7 +25,7 @@ final class TextToBinaryFilter implements FilterInterface
         $result = '';
         while ($i < $textLength) {
             $charByte = substr($text, $i, 1);
-            $ascii = AsciiFactory::create($charByte);
+            $ascii = $this->createAscii($charByte);
 
             $result .= $ascii->getByte()->getBinary();
 
@@ -32,5 +33,17 @@ final class TextToBinaryFilter implements FilterInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Create ascii
+     *
+     * @param string $charByte
+     *
+     * @return AsciiInterface
+     */
+    private function createAscii(string $charByte)
+    {
+        return AsciiFactory::create($charByte);
     }
 }

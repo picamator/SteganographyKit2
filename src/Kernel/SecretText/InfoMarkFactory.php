@@ -3,67 +3,49 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\SecretText;
 
+use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
+use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Builder\SizeFactory;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\SecretText\Api\InfoMarkInterface;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Kernel\SecretText\Api\SecretTextConstant;
 
 /**
  * Create InfoMark object
- *
- * Class type
- * ----------
- * Sharable service.
- *
- * Responsibility
- * --------------
- * Create ``InfoMark``.
- *
- * State
- * -----
- * No state
- *
- * Immutability
- * ------------
- * Object is immutable.
- *
- * Dependency injection
- * --------------------
- * Only as a constructor argument.
  *
  * @package Kernel\SecretText
  */
 final class InfoMarkFactory implements InfoMarkFactoryInterface
 {
     /**
-     * @var ObjectManagerInterface
+     * @inheritDoc
      */
-    private $objectManager;
+    public function create(string $binaryString) : InfoMarkInterface
+    {
+        if (strlen($binaryString) < SecretTextConstant::INFO_MARK_LENGTH) {
+            throw new InvalidArgumentException(
+                sprintf('Failed create InfoMark object from binary string "%s". Binary string is shorter then "%s" bits.', $binaryString, self::MARK_COUNT)
+            );
+        }
 
-    /**
-     * @var string
-     */
-    private $className;
+        $infoDoubleByte = str_split($binaryString, SecretTextConstant::INFO_MARK_LENGTH / 2);
+        $infoDoubleByte = array_map('bindec', $infoDoubleByte);
 
-    /**
-     * @param ObjectManagerInterface $objectManager
-     * @param string $className
-     */
-    public function __construct(
-        ObjectManagerInterface $objectManager,
-        string $className = 'Picamator\SteganographyKit2\Kernel\SecretText\InfoMark'
-    ) {
-        $this->objectManager = $objectManager;
-        $this->className = $className;
+        $size = $this->createSize($infoDoubleByte[0], $infoDoubleByte[1]);
+
+        return new InfoMark($size);
     }
 
     /**
-     * @inheritDoc
+     * Create size
+     *
+     * @param int $width
+     * @param int $height
+     *
+     * @return SizeInterface
      */
-    public function create(int $width, int $height) : InfoMarkInterface
+    private function createSize(int $width, int $height) : SizeInterface
     {
-        $size = SizeFactory::create($width, $height);
-
-        return $this->objectManager->create($this->className, [$size]);
+        return SizeFactory::create($width, $height);
     }
 }

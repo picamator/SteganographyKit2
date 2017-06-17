@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Picamator\SteganographyKit2\Kernel\Image\Converter;
 
-use Picamator\SteganographyKit2\Kernel\File\Api\Builder\InfoPaletteFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\File\Builder\InfoPaletteFactory;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Converter\BinaryToImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
-use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ChannelInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Builder\ColorFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\ByteInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\SizeInterface;
 use Picamator\SteganographyKit2\Kernel\Primitive\Builder\ByteFactory;
@@ -47,35 +47,19 @@ final class BinaryToImage implements BinaryToImageInterface
     private $channel;
 
     /**
-     * @var ColorFactoryInterface
-     */
-    private $colorFactory;
-
-    /**
-     * @var InfoPaletteFactoryInterface
-     */
-    private $infoFactory;
-
-    /**
      * @var ImageFactoryInterface
      */
     private $imageFactory;
 
     /**
      * @param ChannelInterface $channel
-     * @param ColorFactoryInterface $colorFactory
-     * @param InfoPaletteFactoryInterface $infoFactory
      * @param ImageFactoryInterface $imageFactory
      */
     public function __construct(
         ChannelInterface $channel,
-        ColorFactoryInterface $colorFactory,
-        InfoPaletteFactoryInterface $infoFactory,
         ImageFactoryInterface $imageFactory
     ) {
         $this->channel = $channel;
-        $this->colorFactory = $colorFactory;
-        $this->infoFactory = $infoFactory;
         $this->imageFactory = $imageFactory;
     }
 
@@ -96,7 +80,7 @@ final class BinaryToImage implements BinaryToImageInterface
             );
         }
 
-        $info = $this->infoFactory->create($size);
+        $info = $this->createInfo($size);
         $image = $this->imageFactory->create($info);
 
         $iterator = new \MultipleIterator(\MultipleIterator::MIT_NEED_ALL|\MultipleIterator::MIT_KEYS_ASSOC);
@@ -129,10 +113,10 @@ final class BinaryToImage implements BinaryToImageInterface
         while ($i < $binaryLength) {
 
             $byteBinary = substr($binaryText, $i, 8);
-            $container[$iterator->current()] = ByteFactory::create($byteBinary);
+            $container[$iterator->current()] = $this->createByte($byteBinary);
 
             if (count($container) === $this->channel->count()) {
-                $color = $this->colorFactory->create($container);
+                $color = $this->createColor($container);
                 // reset
                 $container = [];
 
@@ -142,5 +126,35 @@ final class BinaryToImage implements BinaryToImageInterface
             $iterator->next();
             $i += 8;
         }
+    }
+
+    /**
+     * @param string $byteBinary
+     *
+     * @return ByteInterface
+     */
+    private function createByte(string $byteBinary)
+    {
+        return ByteFactory::create($byteBinary);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface
+     */
+    private function createColor(array $data)
+    {
+        return ColorFactory::create($data);
+    }
+
+    /**
+     * @param SizeInterface $size
+     *
+     * @return \Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface
+     */
+    private function createInfo(SizeInterface $size)
+    {
+        return InfoPaletteFactory::create($size);
     }
 }

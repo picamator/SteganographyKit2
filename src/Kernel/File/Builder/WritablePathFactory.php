@@ -5,70 +5,21 @@ namespace Picamator\SteganographyKit2\Kernel\File\Builder;
 
 use Picamator\SteganographyKit2\Kernel\Exception\InvalidArgumentException;
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\WritablePathInterface;
-use Picamator\SteganographyKit2\Kernel\File\Api\Builder\WritablePathFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\Util\Api\ObjectManagerInterface;
+use Picamator\SteganographyKit2\Kernel\File\Data\WritablePath;
 
 /**
  * Create Writable path value object
- *
- * Class type
- * ----------
- * Sharable service.
- *
- * Responsibility
- * --------------
- * * Validate ``$path``
- * * Create sub directory if needed
- * * Create ``WritablePath``
- *
- * Immutability
- * ------------
- * Object is immutable.
- *
- * Dependency injection
- * --------------------
- * Only as constructor argument.
- *
- * Check list
- * ----------
- * * Single responsibility ``-``
- * * Tell don't ask ``+``
- * * No logic leak ``+``
- * * Object is ready after creation ``+``
- * * Constructor depends on less then 5 classes ``+``
  *
  * @package Kernel\File
  *
  * @codeCoverageIgnore
  */
-final class WritablePathFactory implements WritablePathFactoryInterface
+final class WritablePathFactory
 {
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
-     * @param string $className
-     */
-    public function __construct(
-        ObjectManagerInterface $objectManager,
-        $className = 'Picamator\SteganographyKit2\Kernel\File\Data\WritablePath'
-    ) {
-        $this->objectManager = $objectManager;
-        $this->className = $className;
-    }
-
     /**
      * @inheritDoc
      */
-    public function create(string $path) : WritablePathInterface
+    public static function create(string $path) : WritablePathInterface
     {
         $path = rtrim($path, '/\\');
 
@@ -84,6 +35,6 @@ final class WritablePathFactory implements WritablePathFactoryInterface
             );
         }
 
-        return $this->objectManager->create($this->className, [$path]);
+        return new WritablePath($path);
     }
 }

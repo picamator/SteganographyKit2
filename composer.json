@@ -33,7 +33,6 @@
         "php": "~7.0",
         "ext-gd": "*",
         "ext-zip": "*",
-        "picamator/object-manager": "~1.0",
         "pimple/pimple": "~1.0"
     },
     "require-dev": {
