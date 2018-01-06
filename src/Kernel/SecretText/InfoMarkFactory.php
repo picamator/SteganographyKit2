@@ -24,7 +24,7 @@ final class InfoMarkFactory implements InfoMarkFactoryInterface
     {
         if (strlen($binaryString) < SecretTextConstant::INFO_MARK_LENGTH) {
             throw new InvalidArgumentException(
-                sprintf('Failed create InfoMark object from binary string "%s". Binary string is shorter then "%s" bits.', $binaryString, self::MARK_COUNT)
+                sprintf('Failed create InfoMark object from binary string "%s". Binary string is shorter then "%s" bits.', $binaryString, SecretTextConstant::INFO_MARK_LENGTH)
             );
         }
 

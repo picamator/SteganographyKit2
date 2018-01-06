@@ -2,6 +2,7 @@
 namespace Picamator\SteganographyKit2\Kernel\Image\Api;
 
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
 
 /**
  * Create image object
@@ -11,7 +12,18 @@ use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
 interface ImageFactoryInterface
 {
     /**
-     * Create
+     * Create image
+     *
+     * @param RepositoryInterface $repository
+     *
+     * @return ImageInterface
+     *
+     * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
+     */
+    public function createImage(RepositoryInterface $repository) : ImageInterface;
+
+    /**
+     * Create palette image
      *
      * @param InfoInterface $info
      *
@@ -19,5 +31,5 @@ interface ImageFactoryInterface
      *
      * @throws \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
      */
-    public function create(InfoInterface $info) : ImageInterface;
+    public function createPaletteImage(InfoInterface $info) : ImageInterface;
 }

@@ -106,35 +106,4 @@ class DecodeTest extends BaseTest
 
         $this->decode->decode($stegoTextMock);
     }
-
-    /**
-     * @expectedException \Picamator\SteganographyKit2\Kernel\Exception\RuntimeException
-     */
-    public function testFailDecode()
-    {
-        $pixelCount = 10;
-
-        // stego text mock
-        $stegoTextMock = $this->recursiveIteratorHelper->getRecursiveIteratorMock(
-            'Picamator\SteganographyKit2\Kernel\StegoText\Api\StegoTextInterface',
-            $this->pixelHelper->getPixelList($pixelCount)
-        );
-
-        // decode bit mock
-        $this->decodeBitMock->expects($this->exactly($pixelCount * 3))
-            ->method('decode')
-            ->willReturn(1);
-
-        // never
-        $this->infoMarkFactoryMock->expects($this->never())
-            ->method('create');
-
-        $this->infoMarkMock->expects($this->never())
-            ->method('countText');
-
-        $this->secretTextFactoryMock->expects($this->never())
-            ->method('create');
-
-        $this->decode->decode($stegoTextMock);
-    }
 }

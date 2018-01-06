@@ -6,7 +6,6 @@ namespace Picamator\SteganographyKit2\Kernel\Pixel;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
-use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorIndexInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
 
@@ -45,27 +44,19 @@ final class RepositoryFactory implements RepositoryFactoryInterface
     private $colorIndex;
 
     /**
-     * @var ColorFactoryInterface
-     */
-    private $colorFactory;
-
-    /**
      * @var PixelFactoryInterface
      */
     private $pixelFactory;
 
     /**
      * @param ColorIndexInterface $colorIndex
-     * @param ColorFactoryInterface $colorFactory
      * @param PixelFactoryInterface $pixelFactory
      */
     public function __construct(
         ColorIndexInterface $colorIndex,
-        ColorFactoryInterface $colorFactory,
         PixelFactoryInterface $pixelFactory
     ) {
         $this->colorIndex = $colorIndex;
-        $this->colorFactory = $colorFactory;
         $this->pixelFactory = $pixelFactory;
     }
 
@@ -77,7 +68,6 @@ final class RepositoryFactory implements RepositoryFactoryInterface
         return new Repository(
             $resource,
             $this->colorIndex,
-            $this->colorFactory,
             $this->pixelFactory
         );
     }

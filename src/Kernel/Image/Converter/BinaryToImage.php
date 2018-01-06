@@ -81,7 +81,7 @@ final class BinaryToImage implements BinaryToImageInterface
         }
 
         $info = $this->createInfo($size);
-        $image = $this->imageFactory->create($info);
+        $image = $this->imageFactory->createPaletteImage($info);
 
         $iterator = new \MultipleIterator(\MultipleIterator::MIT_NEED_ALL|\MultipleIterator::MIT_KEYS_ASSOC);
         $iterator->attachIterator($this->getBinaryTextGenerator($binaryText), 'color');

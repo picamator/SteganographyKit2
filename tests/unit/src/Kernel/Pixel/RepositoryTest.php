@@ -17,16 +17,6 @@ class RepositoryTest extends BaseTest
     private $colorIndexMock;
 
     /**
-     * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $colorFactoryMock;
-
-    /**
-     * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $colorMock;
-
-    /**
      * @var \Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $pixelFactoryMock;
@@ -61,12 +51,6 @@ class RepositoryTest extends BaseTest
         $this->colorIndexMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorIndexInterface')
             ->getMock();
 
-        $this->colorFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface')
-            ->getMock();
-
-        $this->colorMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface')
-            ->getMock();
-
         $this->pixelFactoryMock = $this->getMockBuilder('Picamator\SteganographyKit2\Kernel\Pixel\Api\PixelFactoryInterface')
             ->getMock();
 
@@ -78,7 +62,7 @@ class RepositoryTest extends BaseTest
 
         $this->pngResource = imagecreatefrompng($this->getPath('secret' . DIRECTORY_SEPARATOR . 'black-pixel-1x1px.png'));
 
-        $this->repository = new Repository($this->resourceMock, $this->colorIndexMock, $this->colorFactoryMock, $this->pixelFactoryMock);
+        $this->repository = new Repository($this->resourceMock, $this->colorIndexMock, $this->pixelFactoryMock);
     }
 
     protected function tearDown()

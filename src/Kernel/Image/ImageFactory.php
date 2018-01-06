@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Picamator\SteganographyKit2\Kernel\Image;
 
 use Picamator\SteganographyKit2\Kernel\File\Api\Data\InfoInterface;
+use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\ImageInterface;
 use Picamator\SteganographyKit2\Kernel\Image\Api\Iterator\IteratorFactoryInterface;
-use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryFactoryInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\RepositoryInterface;
 
 /**
  * Create Image object
@@ -35,11 +36,6 @@ final class ImageFactory implements ImageFactoryInterface
     private $iteratorFactory;
 
     /**
-     * @var string
-     */
-    private $className;
-
-    /**
      * @param ResourceFactoryInterface $resourceFactory
      * @param RepositoryFactoryInterface $repositoryFactory
      * @param IteratorFactoryInterface $iteratorFactory
@@ -57,9 +53,17 @@ final class ImageFactory implements ImageFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(InfoInterface $info) : ImageInterface
+    public function createImage(RepositoryInterface $repository) : ImageInterface
     {
-        $resource = $this->resourceFactory->create($info);
+        return new Image($repository, $this->iteratorFactory);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createPaletteImage(InfoInterface $info): ImageInterface
+    {
+        $resource = $this->resourceFactory->createPaletteResource($info);
         $repository = $this->repositoryFactory->create($resource);
 
         return new Image($repository, $this->iteratorFactory);

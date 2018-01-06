@@ -10,7 +10,9 @@ use Picamator\SteganographyKit2\Kernel\Exception\RuntimeException;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorFactoryInterface;
 use Picamator\SteganographyKit2\Kernel\Pixel\Api\Builder\ColorIndexInterface;
 use Picamator\SteganographyKit2\Kernel\File\Api\Resource\ResourceInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Builder\ColorFactory;
 use Picamator\SteganographyKit2\Kernel\Primitive\Api\Data\PointInterface;
+use Picamator\SteganographyKit2\Kernel\Pixel\Api\Data\ColorInterface;
 
 /**
  * Pixel Repository
@@ -61,11 +63,6 @@ class Repository implements RepositoryInterface
     private $colorIndex;
 
     /**
-     * @var ColorFactoryInterface
-     */
-    private $colorFactory;
-
-    /**
      * @var PixelFactoryInterface
      */
     private $pixelFactory;
@@ -75,18 +72,15 @@ class Repository implements RepositoryInterface
      *
      * @param ResourceInterface $resource
      * @param ColorIndexInterface $colorIndex
-     * @param ColorFactoryInterface $colorFactory
      * @param PixelFactoryInterface $pixelFactory
      */
     public function __construct(
         ResourceInterface $resource,
         ColorIndexInterface $colorIndex,
-        ColorFactoryInterface $colorFactory,
         PixelFactoryInterface $pixelFactory
     ) {
         $this->resource = $resource;
         $this->colorIndex = $colorIndex;
-        $this->colorFactory = $colorFactory;
         $this->pixelFactory = $pixelFactory;
     }
 
@@ -103,7 +97,7 @@ class Repository implements RepositoryInterface
             return;
         }
 
-        $color = $this->colorFactory->create($data);
+        $color = $this->createColor($data);
         $pixel->setColor($color);
 
         // in case when data elements not the same but could have the same properties
@@ -150,5 +144,17 @@ class Repository implements RepositoryInterface
     public function getResource(): ResourceInterface
     {
         return $this->resource;
+    }
+
+    /**
+     * Create color
+     *
+     * @param array $data
+     *
+     * @return ColorInterface
+     */
+    private function createColor(array $data)
+    {
+        return ColorFactory::create($data);
     }
 }
